@@ -1,0 +1,57 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<VBox>
+		<items>
+			<Table width="100%" growing="true" growingScrollToLoad="true" growingThreshold="25" mode="None" itemPress="_onFioriListReportTableItemPress"
+				updateFinished="_onFioriListReportTableUpdateFinished"
+				items="{path:'/DS_ENITIES',templateShareable:false}">
+				<headerToolbar>
+					<OverflowToolbar design="Transparent">
+						<content>
+							<ToolbarSpacer/>
+							<Button icon="sap-icon://add" iconFirst="true" type="Transparent" enabled="true" visible="{authorization>/manageconfig}" press="_onAddKeyword">
+							</Button>
+						</content>
+					</OverflowToolbar>
+				</headerToolbar>
+				<columns>
+					<Column width="auto" minScreenWidth="Tablet" demandPopin="true">
+						<header>
+							<Text text="{i18n>KEYWORD_GROUP}" width="auto"/>
+						</header>
+					</Column>
+					<Column width="auto" minScreenWidth="Phone">
+						<header>
+							<Text text="{i18n>KEYWORDS}" width="auto"/>
+						</header>
+					</Column>
+					<Column width="5rem" minScreenWidth="Phone">
+						<header>
+							<Text width="auto"/>
+						</header>
+					</Column>
+					<Column width="5rem" minScreenWidth="Phone">
+						<header>
+							<Text width="auto"/>
+						</header>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem >
+						<cells>
+							<Text text="{ENTITY_GROUP}"/>
+							<Tokenizer class="ngTokenizerDisplayMode" width="100%" tokens="{path:'TO_ENTITIES',templateShareable:false}">
+								<Token text="{ENTITY_NAME}" editable="false"/>
+							</Tokenizer>
+							<Button icon="sap-icon://edit" type="Ghost" press="_onEditKeyword" visible="{authorization>/manageconfig}"/>
+							<Button icon="sap-icon://delete" type="Ghost" press="_onDelete" visible="{authorization>/manageconfig}">
+								<customData>
+									<core:CustomData key="entityName" value="DS_ENTITY_DETAILS"/>
+								</customData>
+							</Button>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</items>
+	</VBox>
+</core:FragmentDefinition>

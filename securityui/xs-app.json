@@ -1,0 +1,26 @@
+{
+	"welcomeFile": "/securityui/index.html",
+	"sessionTimeout": 15,
+	"authenticationMethod": "route",
+	"logout": {
+		"logoutEndpoint": "/do/logout",
+		"logoutPage": "logout.html"
+	},
+	"routes": [{
+		"source": "^/securityui/(.*)$",
+		"target": "$1",
+		"scope": "$XSAPPNAME.SecurityAdmin",
+		"localDir": "webapp",
+		"cacheControl": "no-cache, no-store, must-revalidate"
+	}, {
+		"source": "^/admin/(.*)$",
+		"target": "$1",
+		"authenticationType": "xsuaa",
+		"scope": "$XSAPPNAME.SecurityAdmin",
+		"destination": "core-backend"
+	}, {
+		"source": "/logout.html",
+		"localDir": "webapp",
+		"authenticationType": "none"
+	}]
+}

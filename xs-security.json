@@ -1,0 +1,61 @@
+{
+	"xsappname": "datascrubautomation",
+	"tenant-mode": "dedicated",
+	"description": "Security profile of called application",
+	"scopes": [{
+		"name": "$XSAPPNAME.DataScrub",
+		"description": "View Config - All"
+	}, {
+		"name": "$XSAPPNAME.Admin",
+		"description": "Manage Config - DS Admin"
+	}, {
+		"name": "$XSAPPNAME.ManageConfig",
+		"description": "Load Config - DS Admin"
+	}, {
+		"name": "$XSAPPNAME.CreateDataScrub",
+		"description": "Creating Data Scrub"
+	}, {
+		"name": "$XSAPPNAME.CompleteDataScrub",
+		"description": "ReComplete Data Scrub"
+	}, {
+		"name": "$XSAPPNAME.SetReportStatus",
+		"description": "Set Data Scrub Report Status"
+	}, {
+		"name": "$XSAPPNAME.AddManualComments",
+		"description": "Display Data Scrub Concur Reports"
+	}, {
+		"name": "$XSAPPNAME.SecurityAdmin",
+		"description": "Security Administration for Users"
+	}, {
+		"name": "xs_authorization.read",
+		"description": "Read authorization information from UAA"
+	}, {
+		"name": "xs_authorization.write",
+		"description": "Write authorization information to UAA"
+	}],
+	"role-templates": [{
+		"name": "datascrub_admin",
+		"description": "Data Scrub Admin",
+		"scope-references": [
+			"$XSAPPNAME.Admin",
+			"$XSAPPNAME.ManageConfig",
+			"$XSAPPNAME.DataScrub",
+			"$XSAPPNAME.CreateDataScrub",
+			"$XSAPPNAME.CompleteDataScrub"
+		]
+	}, {
+		"name": "datascrub_scrubber_reviewer",
+		"description": "Data Scrub Scrubber and Reviewer",
+		"scope-references": [
+			"$XSAPPNAME.DataScrub",
+			"$XSAPPNAME.SetReportStatus",
+			"$XSAPPNAME.AddManualComments"
+		]
+	}, {
+		"name": "datascrub_security_admin",
+		"description": "Data Scrub Scrubber and Reviewer",
+		"scope-references": [
+			"$XSAPPNAME.SecurityAdmin"
+		]
+	}]
+}

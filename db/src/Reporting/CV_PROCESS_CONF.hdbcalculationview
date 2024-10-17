@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_PROCESS_CONF" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" outputViewType="Projection" cacheInvalidationPeriod="HOURLY" enforceSqlExecution="false">
+<descriptions defaultDescription="CV_PROCESS"/>
+<localVariables>
+  <variable id="IP_PRC_ID" parameter="true">
+    <descriptions defaultDescription=""/>
+    <variableProperties datatype="BIGINT" mandatory="true">
+      <valueDomain type="empty"/>
+      <selection multiLine="true" type="SingleValue"/>
+    </variableProperties>
+  </variable>
+</localVariables>
+<variableMappings/>
+<dataSources>
+  <DataSource id="CDS_DS.T_DS_PROCESSES">
+    <resourceUri>CDS_DS.T_DS_PROCESSES</resourceUri>
+  </DataSource>
+  <DataSource id="CDS_DS.V_CONFIG_ENTITY_RULES">
+    <resourceUri>CDS_DS.V_CONFIG_ENTITY_RULES</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_1">
+    <viewAttributes>
+      <viewAttribute id="PRC_ID"/>
+      <viewAttribute id="DATA_SCRUB_NAME"/>
+      <viewAttribute id="DATA_SCRUB_DESC"/>
+      <viewAttribute id="COMPANY_CODE"/>
+      <viewAttribute id="START_DATE"/>
+      <viewAttribute id="END_DATE"/>
+      <viewAttribute id="STATUS_ID"/>
+      <viewAttribute id="CREATED_AT"/>
+      <viewAttribute id="OWNER"/>
+      <viewAttribute id="CONFIGURATION_NAME"/>
+      <viewAttribute id="USER_GROUP"/>
+      <viewAttribute id="ITEM_SET"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CDS_DS.T_DS_PROCESSES"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_2" filterExpressionLanguage="COLUMN_ENGINE">
+    <viewAttributes>
+      <viewAttribute id="PRC_ID"/>
+      <viewAttribute id="CONFIGURATION_NAME"/>
+      <viewAttribute id="RULESET_NAME"/>
+      <viewAttribute id="ENTITY_GROUP"/>
+      <viewAttribute id="ENTITY_NAME"/>
+      <viewAttribute id="RULE_NAME"/>
+      <viewAttribute id="RULE_DESCRIPTION"/>
+      <viewAttribute id="RULE_EXPRESSION"/>
+      <viewAttribute id="RULE_PRIORITY"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CDS_DS.V_CONFIG_ENTITY_RULES"/>
+    <filter>IN (&quot;PRC_ID&quot;,$$IP_PRC_ID$$)</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1" cardinality="C1_N" joinType="leftOuter" optimizeJoinColumns="false">
+    <viewAttributes>
+      <viewAttribute id="PRC_ID"/>
+      <viewAttribute id="DATA_SCRUB_NAME"/>
+      <viewAttribute id="DATA_SCRUB_DESC"/>
+      <viewAttribute id="COMPANY_CODE"/>
+      <viewAttribute id="START_DATE"/>
+      <viewAttribute id="END_DATE"/>
+      <viewAttribute id="STATUS_ID"/>
+      <viewAttribute id="CREATED_AT"/>
+      <viewAttribute id="OWNER"/>
+      <viewAttribute id="CONFIGURATION_NAME"/>
+      <viewAttribute id="USER_GROUP"/>
+      <viewAttribute id="ITEM_SET"/>
+      <viewAttribute id="CONFIGURATION_NAME_1"/>
+      <viewAttribute id="RULESET_NAME"/>
+      <viewAttribute id="ENTITY_GROUP"/>
+      <viewAttribute id="ENTITY_NAME"/>
+      <viewAttribute id="RULE_NAME"/>
+      <viewAttribute id="RULE_DESCRIPTION"/>
+      <viewAttribute id="RULE_EXPRESSION"/>
+      <viewAttribute id="RULE_PRIORITY"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Projection_1">
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRC_ID" source="PRC_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATA_SCRUB_NAME" source="DATA_SCRUB_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATA_SCRUB_DESC" source="DATA_SCRUB_DESC"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COMPANY_CODE" source="COMPANY_CODE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="START_DATE" source="START_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="END_DATE" source="END_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_ID" source="STATUS_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CREATED_AT" source="CREATED_AT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="OWNER" source="OWNER"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CONFIGURATION_NAME" source="CONFIGURATION_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="USER_GROUP" source="USER_GROUP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ITEM_SET" source="ITEM_SET"/>
+    </input>
+    <input node="Projection_2">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CONFIGURATION_NAME_1" source="CONFIGURATION_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULESET_NAME" source="RULESET_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ENTITY_GROUP" source="ENTITY_GROUP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ENTITY_NAME" source="ENTITY_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_NAME" source="RULE_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_DESCRIPTION" source="RULE_DESCRIPTION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_EXPRESSION" source="RULE_EXPRESSION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_PRIORITY" source="RULE_PRIORITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRC_ID" source="PRC_ID"/>
+    </input>
+    <joinAttribute name="PRC_ID"/>
+  </calculationView>
+</calculationViews>
+<logicalModel id="Join_1">
+  <attributes>
+    <attribute id="PRC_ID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PRC_ID"/>
+      <keyMapping columnObjectName="Join_1" columnName="PRC_ID"/>
+    </attribute>
+    <attribute id="DATA_SCRUB_NAME" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DATA_SCRUB_NAME"/>
+      <keyMapping columnObjectName="Join_1" columnName="DATA_SCRUB_NAME"/>
+    </attribute>
+    <attribute id="DATA_SCRUB_DESC" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DATA_SCRUB_DESC"/>
+      <keyMapping columnObjectName="Join_1" columnName="DATA_SCRUB_DESC"/>
+    </attribute>
+    <attribute id="COMPANY_CODE" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="COMPANY_CODE"/>
+      <keyMapping columnObjectName="Join_1" columnName="COMPANY_CODE"/>
+    </attribute>
+    <attribute id="START_DATE" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="START_DATE"/>
+      <keyMapping columnObjectName="Join_1" columnName="START_DATE"/>
+    </attribute>
+    <attribute id="END_DATE" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="END_DATE"/>
+      <keyMapping columnObjectName="Join_1" columnName="END_DATE"/>
+    </attribute>
+    <attribute id="STATUS_ID" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STATUS_ID"/>
+      <keyMapping columnObjectName="Join_1" columnName="STATUS_ID"/>
+    </attribute>
+    <attribute id="CREATED_AT" order="8" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CREATED_AT"/>
+      <keyMapping columnObjectName="Join_1" columnName="CREATED_AT"/>
+    </attribute>
+    <attribute id="OWNER" order="9" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="OWNER"/>
+      <keyMapping columnObjectName="Join_1" columnName="OWNER"/>
+    </attribute>
+    <attribute id="CONFIGURATION_NAME" order="10" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CONFIGURATION_NAME"/>
+      <keyMapping columnObjectName="Join_1" columnName="CONFIGURATION_NAME"/>
+    </attribute>
+    <attribute id="USER_GROUP" order="11" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="USER_GROUP"/>
+      <keyMapping columnObjectName="Join_1" columnName="USER_GROUP"/>
+    </attribute>
+    <attribute id="ITEM_SET" order="12" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ITEM_SET"/>
+      <keyMapping columnObjectName="Join_1" columnName="ITEM_SET"/>
+    </attribute>
+    <attribute id="CONFIGURATION_NAME_1" order="13" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CONFIGURATION_NAME"/>
+      <keyMapping columnObjectName="Join_1" columnName="CONFIGURATION_NAME_1"/>
+    </attribute>
+    <attribute id="RULESET_NAME" order="14" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="RULESET_NAME"/>
+      <keyMapping columnObjectName="Join_1" columnName="RULESET_NAME"/>
+    </attribute>
+    <attribute id="ENTITY_GROUP" order="15" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ENTITY_GROUP"/>
+      <keyMapping columnObjectName="Join_1" columnName="ENTITY_GROUP"/>
+    </attribute>
+    <attribute id="ENTITY_NAME" order="16" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ENTITY_NAME"/>
+      <keyMapping columnObjectName="Join_1" columnName="ENTITY_NAME"/>
+    </attribute>
+    <attribute id="RULE_NAME" order="17" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="RULE_NAME"/>
+      <keyMapping columnObjectName="Join_1" columnName="RULE_NAME"/>
+    </attribute>
+    <attribute id="RULE_DESCRIPTION" order="18" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="RULE_DESCRIPTION"/>
+      <keyMapping columnObjectName="Join_1" columnName="RULE_DESCRIPTION"/>
+    </attribute>
+    <attribute id="RULE_EXPRESSION" order="19" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="RULE_EXPRESSION"/>
+      <keyMapping columnObjectName="Join_1" columnName="RULE_EXPRESSION"/>
+    </attribute>
+    <attribute id="RULE_PRIORITY" order="20" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="RULE_PRIORITY"/>
+      <keyMapping columnObjectName="Join_1" columnName="RULE_PRIORITY"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Projection_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="-301" y="289"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Projection_2" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="-11" y="289"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="-189" y="164"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="Projection_1" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="215.357421875"/>
+    </shape>
+    <shape modelObjectName="Projection_2" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="215.357421875"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

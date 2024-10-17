@@ -1,0 +1,338 @@
+service{
+
+	//-------------------------DS Application - Landing Screen----------------------------------
+	
+	"CDS_DS.V_PROCESSES" as "DS_PROCESS" keys("PRC_ID","EMAIL")
+	navigates ("PRC_TO_EXP_HEADER" as "TO_EXP_HEADER" ,"PRC_TO_CONFIGURATION" as "TO_CONFIGURATION","PROCESS_TO_STATUS_DESC" as "TO_STATUS_DESC", 
+	"PROCESS_TO_STATS" as "TO_PROCESS_STATS","PRC_TO_DISPOSTION_ENTITY" as "TO_PROCESS_ENTITIES" )
+	create forbidden
+    update forbidden
+    delete forbidden;
+	
+	association "PRC_TO_EXP_HEADER"
+	principal "DS_PROCESS"("PRC_ID")
+	multiplicity "1"
+	dependent "EXP_DISPOSITIONS_HEADER"("PRC_ID")
+    multiplicity "*";
+    
+    association "PRC_TO_CONFIGURATION"
+    principal "DS_PROCESS"("CONFIGURATION_NAME")
+    multiplicity "1"
+    dependent "DS_CONFIGURATIONS"("CONFIGURATION_NAME")
+    multiplicity "*";
+    
+    association "PRC_TO_EXP_HEADER"
+	principal "DS_PROCESS"("PRC_ID")
+	multiplicity "1"
+	dependent "EXP_DISPOSITIONS_HEADER"("PRC_ID")
+    multiplicity "*";
+    
+    association "PRC_TO_DISPOSTION_ENTITY"
+	principal "DS_PROCESS"("PRC_ID")
+	multiplicity "1"
+	dependent "DS_DISPOSITION_ENTITY"("PRC_ID")
+    multiplicity "*";
+    
+    association "PROCESS_TO_STATS"
+	principal "DS_PROCESS"("PRC_ID")
+	multiplicity "1"
+	dependent "DS_PROCESS_STATS"("PRC_ID")
+	multiplicity "1";
+	
+	association "PROCESS_TO_STATUS_DESC"
+    principal "DS_PROCESS"("STATUS_ID")
+    multiplicity "1"
+    dependent "DS_STATUS_DESC"("STATUS_ID")
+    multiplicity "1";
+	
+	//-------------------------DS Application - Data Scrub Reports Screen-----------------------
+
+	"CDS_DS.V_STATS_BY_PRC" as "DS_PROCESS_STATS" keys("PRC_ID")
+	create forbidden
+    update forbidden
+    delete forbidden;
+	
+	"CDS_DS.V_EXP_PROC_DISP_HEADER" as "EXP_DISPOSITIONS_HEADER" keys("PRC_ID","REPORT_ID") 
+	navigates ("EXP_HEADER_TO_EXP_ITEMS" as "TO_ITEMS","EXP_DISP_HEADER_TO_DS_STATUS" as "TO_DS_EXP_STATUS",
+	"EXP_JOURNAL_ENTRIES" as "TO_JOURNAL_ENTRIES",
+	"EXP_DISP_HEADER_TO_SYSTEM_DISPOSITION" as "TO_SYSTEM_DISPOSITIONS",
+	"EXP_DISP_HEADER_TO_MANUAL_DISPOSITION" as "TO_MANUAL_DISPOSITIONS",
+	"REPORT_TO_LOGS" as "TO_LOGS",
+	"EXP_DISP_HEADER_TO_EMP_ORDER" as "TO_EMP_ORDERS")
+	create forbidden
+    update forbidden
+    delete forbidden;
+	
+	association "EXP_HEADER_TO_EXP_ITEMS"
+	principal "EXP_DISPOSITIONS_HEADER"("PRC_ID","REPORT_ID")
+	multiplicity "1"
+	dependent "EXP_DISPOSITIONS_ITEMS"("PRC_ID","REPORT_ID")
+	multiplicity "*";
+	
+	association "EXP_DISP_HEADER_TO_DS_STATUS"
+    principal "EXP_DISPOSITIONS_HEADER"("PRC_ID","REPORT_ID")
+    multiplicity "1"
+    dependent "DS_EXP_STATUS"("PRC_ID","REPORT_ID")
+    multiplicity "1";
+
+	association "EXP_JOURNAL_ENTRIES"
+	principal "EXP_DISPOSITIONS_HEADER"("REPORT_ID")
+	multiplicity "1"
+	dependent "DS_JOURNALENTRIES"("UNIQUE_KEY")
+	multiplicity "*";
+	
+	association "EXP_DISP_HEADER_TO_SYSTEM_DISPOSITION"
+    principal "EXP_DISPOSITIONS_HEADER"("PRC_ID","REPORT_ID")
+    multiplicity "1"
+    dependent "DS_SYSTEM_DISPOSITIONS"("PRC_ID","REPORT_ID")
+    multiplicity "*";
+    
+    association "EXP_DISP_HEADER_TO_MANUAL_DISPOSITION"
+    principal "EXP_DISPOSITIONS_HEADER"("PRC_ID","REPORT_ID")
+    multiplicity "1"
+    dependent "DS_MANUAL_DISPOSITIONS"("PRC_ID","REPORT_ID")
+    multiplicity "*";
+	
+	association "REPORT_TO_LOGS"
+    principal "EXP_DISPOSITIONS_HEADER"("PRC_ID", "REPORT_ID")
+    multiplicity "1"
+    dependent "DS_PROCESS_LOGS"("PRC_ID", "REPORT_ID")
+    multiplicity "*";
+    
+    association "EXP_DISP_HEADER_TO_EMP_ORDER"
+    principal "EXP_DISPOSITIONS_HEADER"("REPORT_ID", "EMPLOYEE_ID")
+    multiplicity "1"
+    dependent "DS_EMPLOYEE_ORDERS"("REPORT_ID", "EMPLOYEE_ID")
+    multiplicity "*";
+	
+	
+	//-------------------------DS Application - Data Scrub Report Dispositions Screen----------------------------
+	
+	"CDS_DS.V_EXP_DEFAULT_ORDER" as "DS_EMPLOYEE_ORDERS" keys("REPORT_ID", "EMPLOYEE_ID")
+	create forbidden
+    update forbidden
+    delete forbidden;
+	
+	"CDS_DS.V_DISPOSITIONS_BY_REPORT" as "DS_SYSTEM_DISPOSITIONS" keys("PRC_ID","REPORT_ID", "DISPOSITION_ENTITY", "DISPOSITION_REASON")
+	create forbidden
+    update forbidden
+    delete forbidden;
+	
+	"CDS_DS.V_PROC_EXPENSES_LINE_STATUS" as "EXP_DISPOSITIONS_ITEMS" keys("PRC_ID","ALLOCATION_KEY","REPORT_ID")
+	navigates("DISP_ITEM_TO_LOG" as "TO_ITEM_LOGS","DISP_ITEM_TO_STATUS" as "TO_ITEM_STATUS","DISP_ITEM_TO_SYSTEM_ITEM_DISPOSITION" as "TO_ITEM_SYSTEM_DISPOSITION",
+	"DISP_ITEM_TO_MANUAL_DISPOSITION" as "TO_ITEM_MANUAL_DISPOSITION",
+	"EXP_LINEITEM_TO_EMP_ORDER" as "TO_EMP_ORDERS")
+	create forbidden
+    update forbidden
+    delete forbidden;
+    
+    association "EXP_LINEITEM_TO_EMP_ORDER"
+    principal "EXP_DISPOSITIONS_ITEMS"("REPORT_ID", "EMPLOYEE_ID")
+    multiplicity "1"
+    dependent "DS_EMPLOYEE_ORDERS"("REPORT_ID", "EMPLOYEE_ID")
+    multiplicity "*";
+	
+	association "DISP_ITEM_TO_LOG"
+    principal "EXP_DISPOSITIONS_ITEMS"("PRC_ID","REPORT_ID","ALLOCATION_KEY")
+    multiplicity "1"
+    dependent "DS_PROCESS_LOGS"("PRC_ID","REPORT_ID","ALLOCATION_KEY")
+    multiplicity "*";
+    
+    association "DISP_ITEM_TO_STATUS"
+    principal "EXP_DISPOSITIONS_ITEMS"("PRC_ID","REPORT_ID","ALLOCATION_KEY")
+    multiplicity "1"
+    dependent "DS_EXP_STATUS_ITEM"("PRC_ID","REPORT_ID","ALLOCATION_KEY")
+    multiplicity "1";
+    
+    association "DISP_ITEM_TO_SYSTEM_ITEM_DISPOSITION"
+    principal "EXP_DISPOSITIONS_ITEMS"("PRC_ID","REPORT_ID","ALLOCATION_KEY")
+    multiplicity "1"
+    dependent "DS_SYSTEM_ITEM_DISPOSITIONS"("PRC_ID","REPORT_ID","ALLOCATION_KEY")
+    multiplicity "*";
+    
+    association "DISP_ITEM_TO_MANUAL_DISPOSITION"
+    principal "EXP_DISPOSITIONS_ITEMS"("PRC_ID","REPORT_ID","ALLOCATION_KEY")
+    multiplicity "1"
+    dependent "DS_MANUAL_DISPOSITIONS"("PRC_ID","REPORT_ID","ALLOCATION_KEY")
+    multiplicity "*";
+
+	
+	"CDS_DS.V_JOURNAL_ENTRY" as "DS_JOURNALENTRIES" keys("UNIQUE_KEY", "GL_ACC_KEY", "ACC_DOC_NUMBER_KEY", "ORDER_KEY")
+	create forbidden
+    update forbidden
+    delete forbidden;
+	
+	"CDS_DS.T_PROCESS_LOGS" as "DS_PROCESS_LOGS"
+	create using "xsjs:CreateProcess.xsjslib::create_log_id"
+	update forbidden
+    delete forbidden;
+	
+	
+	//-------------------------DS Application - Data Scrub Item Dispositions Screen----------------------------
+	
+	"CDS_DS.V_DISPOSITIONS_BY_ITEM" as "DS_SYSTEM_ITEM_DISPOSITIONS" keys("PRC_ID","REPORT_ID","ALLOCATION_KEY", "DISPOSITION_ENTITY", "DISPOSITION_REASON")
+	create forbidden
+    update forbidden
+    delete forbidden;
+	
+	"CDS_DS.T_MANUAL_DISPOSITIONS" as "DS_MANUAL_DISPOSITIONS"
+    create using "xsjs:CreateProcess.xsjslib::create_disposition";
+    "CDS_DS.V_SYSTEM_STATUS" as "DS_SYSTEM_STATUS_DESC" keys("RANK");
+	"CDS_DS.V_MANUAL_STATUS" as "DS_MANUAL_STATUS_DESC" keys("RANK");
+	"CDS_DS.V_REPORT_STATUS" as "DS_REPORT_STATUS_DESC" keys("RANK")
+	delete forbidden;
+	
+	"CDS_DS.T_STATUS_DESC" as "DS_STATUS_DESC"
+	create forbidden
+    update forbidden
+    delete forbidden;
+	
+	
+	"CDS_DS.V_PRC_STATUS" as "DS_PRC_STATUS_DESC" keys("RANK")
+	create forbidden
+    update forbidden
+    delete forbidden;
+	
+	"CDS_DS.T_DS_STATUS" as "DS_EXP_STATUS"
+	delete forbidden;
+	
+	
+	"CDS_DS.T_DS_STATUS_ITEM" as "DS_EXP_STATUS_ITEM"
+	delete forbidden;
+	
+	"CDS_DS.V_DISPOSITIONS_ENTITY" as "DS_DISPOSITION_ENTITY" keys("PRC_ID","DISPOSITION_ENTITY","DISPOSITION_TYPE")
+	create forbidden
+    update forbidden
+    delete forbidden;
+	
+	//-------------------------Create Data Scrub Screen / Admin Screen ----------------------------
+	
+	"CDS_DS.V_COMPANY_CODE_VH" as "DS_COMAPNY_CODES" keys("COMPANY_KEY")
+	create forbidden
+    update forbidden
+    delete forbidden;
+	
+	//Checklist
+	"CDS_DS.T_CHECKLIST"  as "DS_CHECKLIST"
+	create forbidden
+    update forbidden
+    delete forbidden;
+	
+	"CDS_DS.T_CHECKLIST_SET"  as "DS_CHECKLIST_SET_DETAILS"
+	create forbidden
+    update forbidden
+    delete forbidden;
+    
+    "CDS_DS.V_CHECKLIST_DETAILS" as "DS_CHECKLIST_DETAILS" keys("ITEM","ITEM_SET")
+    create forbidden
+    update forbidden
+    delete forbidden;
+    
+	"CDS_DS.V_CHECKLIST_GROUP" as "DS_CHECKLIST_SET" keys("ITEM_SET") navigates("CHECKLIST_SET_DETAILS" as "TO_CHECKLISTS")
+	create forbidden
+    update forbidden
+    delete forbidden;
+	
+	association "CHECKLIST_SET_DETAILS"
+    principal "DS_CHECKLIST_SET"("ITEM_SET")
+    multiplicity "1"
+    dependent "DS_CHECKLIST_SET_DETAILS"("ITEM_SET")
+    multiplicity "*";
+    
+    
+    //Configurations
+    "CDS_DS.V_CONFIGURATIONS" as "DS_CONFIGURATIONS" keys("CONFIGURATION_NAME") navigates("CONFIG_DETAILS" as "TO_CONFIG_DETAILS")
+    create forbidden
+    update forbidden
+    delete forbidden;
+    
+	"CDS_DS.T_CONFIGURATIONS" as "DS_CONFIGURATION_DETAILS" navigates("CONFIG_TO_ENTITIES" as "TO_ENTITTY_GROUP" , "CONFIG_TO_RULESETS" as "TO_RULESET")
+	create forbidden
+    update forbidden
+    delete forbidden;
+    
+    association "CONFIG_DETAILS"
+    principal "DS_CONFIGURATIONS"("CONFIGURATION_NAME")
+    multiplicity "1"
+    dependent "DS_CONFIGURATION_DETAILS"("CONFIGURATION_NAME")
+    multiplicity "*";
+	
+	association "CONFIG_TO_ENTITIES"
+    principal "DS_CONFIGURATION_DETAILS"("ENTITY_GROUP")
+    multiplicity "1"
+    dependent "DS_ENTITIES"("ENTITY_GROUP")
+    multiplicity "*";
+	
+    association "CONFIG_TO_RULESETS"
+    principal "DS_CONFIGURATION_DETAILS"("RULE_SET_NAME")
+    multiplicity "1"
+    dependent "DS_RULESETS"("RULE_SET_NAME")
+    multiplicity "*";
+    
+    
+    //Keywords
+	"CDS_DS.V_ENTITY_GROUPS" as "DS_ENITIES" keys("ENTITY_GROUP") navigates("ENTITY_DETAILS" as "TO_ENTITIES")
+	create forbidden
+    update forbidden
+    delete forbidden;
+    
+	"CDS_DS.T_ENTITIES" as "DS_ENTITY_DETAILS"
+	create forbidden
+    update forbidden
+    delete forbidden;
+    
+    association "ENTITY_DETAILS"
+    principal "DS_ENITIES"("ENTITY_GROUP")
+    multiplicity "1"
+    dependent "DS_ENTITY_DETAILS"("ENTITY_GROUP")
+    multiplicity "*";
+    
+    //Rules
+    "CDS_DS.T_RULES" as "DS_RULES"
+    create forbidden
+    update forbidden
+    delete forbidden;
+    
+    //Rulesets
+	"CDS_DS.V_RULESET_GROUPS" as "DS_RULESETS" keys("RULESET_NAME") navigates("RULESET_DETAILS" as "TO_RULESETS")
+	create forbidden
+    update forbidden
+    delete forbidden;
+    
+	"CDS_DS.T_RULESETS" as "DS_RULESET_DETAILS" 
+	create forbidden
+    update forbidden
+    delete forbidden;
+    
+    association "RULESET_DETAILS"
+    principal "DS_RULESETS"("RULESET_NAME")
+    multiplicity "1"
+    dependent "DS_RULESET_DETAILS"("RULESET_NAME")
+    multiplicity "*";
+    
+	
+	//User Groups
+	"CDS_DS.V_USER_GROUP" as "DS_USERGROUPS" keys("USER_GROUP") navigates("USERGROUP_DETAILS" as "TO_USERGROUPS")
+	create forbidden
+    update forbidden
+    delete forbidden;
+    
+	"CDS_DS.T_USER_GROUPS" as "DS_USERGROUP_DETAILS"
+	create forbidden
+    update forbidden
+    delete forbidden;
+    
+    "CDS_DS.T_USERS" as "DS_USERS"
+    create forbidden
+    update forbidden
+    delete forbidden;
+	
+	association "USERGROUP_DETAILS"
+    principal "DS_USERGROUPS"("USER_GROUP")
+    multiplicity "1"
+    dependent "DS_USERGROUP_DETAILS"("USER_GROUP")
+    multiplicity "*";
+    
+    "CV_EXP_DISPOSITIONS" as "DS_REPORTING" keys generate local "ID" parameters via entity "DS_REPORTING_PARAMS";
+
+}

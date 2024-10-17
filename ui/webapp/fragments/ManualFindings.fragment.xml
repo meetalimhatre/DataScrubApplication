@@ -1,0 +1,30 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:smartTable="sap.ui.comp.smarttable">
+	<smartTable:SmartTable id="idManualDispositionsTable" entitySet="DS_MANUAL_DISPOSITIONS" tableBindingPath="TO_ITEM_MANUAL_DISPOSITION"
+		tableType="ResponsiveTable" useExportToExcel="true" beforeExport="onBeforeExport"
+		useVariantManagement="false" useTablePersonalisation="false" header="Manual Findings" showRowCount="true" enableAutoBinding="true"
+		demandPopin="true" initiallyVisibleFields="DISPOSITION_ENTITY,SCRUBBER_COMMENTS,REVIEWER_COMMENTS,CREATED_BY,LAST_CHANGED_BY" class="sapUiResponsiveContentPadding" height="auto">
+		<smartTable:customToolbar>
+			<OverflowToolbar design="Transparent">
+				<ToolbarSpacer/>
+				<OverflowToolbarButton icon="sap-icon://comment" text="{i18n>ADD_TESTING_COMMENTS}" visible="{parts:[{path: 'status>/STATUS_ID'},{path: 'user>/role'}], formatter: '.formatter.formatTestingCommentsActionVisibility'}" press="_handleAddTestingComments"/>
+			</OverflowToolbar>
+		</smartTable:customToolbar>
+		<Table mode="None">
+			<columns>
+				<Column width="100px" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData"
+							value='\{"columnKey": "REPORT_ID", "columnIndex":"6", "leadingProperty": "REPORT_ID"}' />
+					</customData>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<Button icon="sap-icon://edit" press="_handleEditTestingComments" visible="{path: 'status>/STATUS_ID', formatter: '.formatter.formatTestingCommentsEditVisibility'}"></Button>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+	</smartTable:SmartTable>
+</core:FragmentDefinition>

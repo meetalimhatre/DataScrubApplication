@@ -1,0 +1,24 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog title="{i18n>MANUAL_REVIEW}" >
+		<content>
+			<VBox class="sapUiSmallMargin" width="30rem">
+				<f:SimpleForm  editable="false" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3"
+					labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1"
+					columnsL="1" columnsM="1" singleContainerFullSize="false">
+					<f:content>
+						<Label text="{i18n>DISPOSITION}"/>
+						<Input value="{DISPOSITION_ENTITY}" editable="false"></Input>
+						<Label text="{i18n>SCRUBBER_COMMENTS}" visible="{= ${user>/role} === 'Scrubber' }" required="true"/>
+						<Input value="{SCRUBBER_COMMENTS}" visible="{= ${user>/role} === 'Scrubber' }"></Input>
+						<Label text="{i18n>REVIEWER_COMMENTS}" visible="{= ${user>/role} === 'Reviewer' }" required="true"/>
+						<Input value="{REVIEWER_COMMENTS}" visible="{= ${user>/role} === 'Reviewer' }"></Input>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+		</content>
+		<buttons>
+			<Button text="{i18n>SAVE}" press="_handleTestingCommentsUpdate"/>
+			<Button text="{i18n>CANCEL}" press="_handleCommentsCancel"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

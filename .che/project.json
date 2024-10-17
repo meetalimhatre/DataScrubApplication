@@ -1,0 +1,1 @@
+{"type":"mta","builders":{"default":"mtabuilder","configs":{}},"runners":{"configs":{}},"attributes":{"sap.watt.common.setting":["{\"hdbInactiveFiles\":{\"inactiveFileList\":[\"/DataScrubApplication/db2/src/cdstest.hdbcds\",\"/DataScrubApplication/db2/src/CDS_DS_2.hdbcds\",\"/DataScrubApplication/db/src/CDS_DS.hdbcds\"]}}"]},"description":"","mixinTypes":[]}

@@ -1,0 +1,13 @@
+service{
+
+	"CDS_DS.T_JOURNAL_ENTRY" as "DS_JOURNALENTRIES";
+	"CDS_DS.T_ALLOCATION_CODES" as "DS_ALLOCATION_CODES"
+	create using "xsjs:CreateProcess.xsjslib::create_allocation_code";
+	"CDS_DS.T_EMP_ORDER" as "DS_EMP_ORDER"
+	create using "xsjs:CreateProcess.xsjslib::create_emp_order";
+	"CDS_DS.T_EMP_BAND" as "DS_EMP_BAND"
+	create using "xsjs:CreateProcess.xsjslib::create_emp_band";
+	"CDS_DS.T_EXP_DI" as "DS_CONCUR_EXPENSES"
+	create using "xsjs:CreateEntity.xsjslib::InsertConcur";
+	"CDS_DS.T_EXP_DI" as "DS_CONCUR_EXPENSES_NEW";
+}

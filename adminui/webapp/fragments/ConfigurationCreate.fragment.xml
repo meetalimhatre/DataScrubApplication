@@ -1,0 +1,36 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog title="{i18n>ADD_CONFIGURATION}" id="ConfigurationCreateDialog">
+		<customData>
+			<core:CustomData key="entityName" value="DS_CONFIGURATION_DETAILS"/>
+			<core:CustomData key="modelName" value="configuration"/>
+		</customData>
+		<content>
+			<VBox class="sapUiSmallMargin" width="30rem">
+				<f:SimpleForm editable="false" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+					adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+					singleContainerFullSize="false">
+					<f:content>
+						<Label text="{i18n>CONFIGURATION_NAME}"></Label>
+						<Input value="{configuration>/CONFIGURATION_NAME}" enabled = "{= !(${change>/mode} === 'edit')}"/>
+						<Label text="{i18n>ENTITY_GROUP}"></Label>
+						<MultiComboBox
+							items="{ path: '/DS_ENITIES', sorter: { path: 'ENTITY_GROUP' } }" selectedKeys="{configuration>/ENTITY_GROUPS}">
+							<core:Item key="{ENTITY_GROUP}" text="{ENTITY_GROUP}"/>
+						</MultiComboBox>
+						<Label text="{i18n>RULESET}"></Label>
+						<Select forceSelection="false" selectedKey="{configuration>/RULESET_NAME}"
+							items="{ path: '/DS_RULESETS', sorter: { path: 'RULESET_NAME' } }">
+							<core:Item key="{RULESET_NAME}" text="{RULESET_NAME}"/>
+						</Select>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+		</content>
+		<beginButton>
+			<Button text="{i18n>SUBMIT}" press="_handleUserDialogSubmit"/>
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>CANCEL}" press="_handleEntryDialogCancel"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

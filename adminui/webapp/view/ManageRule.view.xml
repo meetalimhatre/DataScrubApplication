@@ -1,0 +1,86 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.ng.admin.adminui.controller.ManageRule"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:f="sap.ui.layout.form">
+	<Page showHeader="true">
+		<customHeader>
+			<Bar>
+				<contentMiddle>
+					<Title text="{i18n>RULE_EXPRESSION_EDITOR}"/>
+				</contentMiddle>
+				<contentRight>
+					<Label text="{i18n>ADVANCED_MODE}"/>
+					<Switch state="{advancedrule>/enabled}" change="_onAdvancedRuleMode">
+						<layoutData>
+							<FlexItemData growFactor="1"/>
+						</layoutData>
+					</Switch>
+				</contentRight>
+			</Bar>
+		</customHeader>
+		<content>
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+				adjustLabelSpan="false" emptySpanXL="1" emptySpanL="1" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+				singleContainerFullSize="false">
+				<f:content>
+					<Label text="{i18n>RULE_NAME}"/>
+					<Input value="{rule>/RULE_NAME}"/>
+					<Label text="{i18n>RULE_DESCRIPTION}"/>
+					<Input value="{rule>/RULE_DESCRIPTION}"/>
+					<Label text="{i18n>EXPRESSION}"/>
+					<Input value="{rule>/RULE_EXPRESSION}" editable="{advancedrule>/enabled}"/>
+					<Label text="{i18n>PRIORITY}"/>
+					<Select forceSelection="false" selectedKey="{rule>/RULE_PRIORITY}">
+						<core:Item key="Low" text="{i18n>LOW}"/>
+						<core:Item key="Medium" text="{i18n>MEDIUM}"/>
+						<core:Item key="High" text="{i18n>HIGH}"/>
+					</Select>
+				</f:content>
+			</f:SimpleForm>
+			<Table id="idExpressionTable" width="100%" growing="true" growingThreshold="25" mode="None"
+				updateFinished="_onFioriListReportTableUpdateFinished" items="{Expression>/}" visible="{= ${advancedrule>/enabled} === false }">
+				<headerToolbar>
+					<OverflowToolbar design="Transparent">
+						<content>
+							<Title textAlign="Begin" text="{i18n>EXPRESSION_BUILDER}"/>
+							<ToolbarSpacer/>
+							<Button icon="sap-icon://add" iconFirst="true" type="Transparent" enabled="true" press="_onAddExpressionRow"></Button>
+						</content>
+					</OverflowToolbar>
+				</headerToolbar>
+				<columns>
+					<Column width="auto">
+						<header>
+							<Text text="{i18n>EXPRESSION}"/>
+						</header>
+					</Column>
+					<Column width="auto">
+						<header>
+							<Text text="{i18n>OPERATOR}"/>
+						</header>
+					</Column>
+					<Column width="auto">
+						<header>
+							<Text text="{i18n>VALUE}"/>
+						</header>
+					</Column>
+					<Column width="auto">
+						<header>
+							<Text/>
+						</header>
+					</Column>
+				</columns>
+				<items>
+					<core:Fragment fragmentName="com.ng.admin.adminui.fragments.ExpressionRowTemplate" type="XML"/>
+				</items>
+			</Table>
+		</content>
+		<footer>
+			<Bar>
+				<contentRight>
+					<Button text="{i18n>VALIDATE}" press="_onRuleValidate" visible="{= ${advancedrule>/enabled} === false }"></Button>
+					<Button text="{i18n>SUBMIT}" press="_onRuleSave"></Button>
+					<Button text="{i18n>CANCEL}" press="_onRuleCancel"></Button>
+				</contentRight>
+			</Bar>
+		</footer>
+	</Page>
+</mvc:View>

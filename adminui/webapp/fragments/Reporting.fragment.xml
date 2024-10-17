@@ -1,0 +1,9 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:smartTable="sap.ui.comp.smarttable">
+	<smartTable:SmartTable id="idEmployeeOrderTable" entitySet="DS_REPORTING"
+		tableType="ResponsiveTable" useExportToExcel="true" useVariantManagement="false"
+		useTablePersonalisation="true" header="{i18n>EMP_ORDERS}" showRowCount="true" enableAutoBinding="true" demandPopin="true"
+		initiallyVisibleFields="ORDER_NUMBER,EMPLOYEE_ID" class="sapUiResponsiveContentPadding" height="auto">
+		
+	</smartTable:SmartTable>
+</core:FragmentDefinition>

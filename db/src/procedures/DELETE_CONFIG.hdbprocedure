@@ -1,0 +1,46 @@
+PROCEDURE "DELETE_CONFIG" ( IN I_CONFIGURATION_NAME NVARCHAR(100) )
+   LANGUAGE SQLSCRIPT
+   SQL SECURITY DEFINER
+   --DEFAULT SCHEMA <default_schema_name>
+   AS
+BEGIN
+
+declare drop_column nVARCHAR(1000);
+declare delete_conf_entry nvarchar(1000);
+declare drop_fuzzyindex nvarchar(1000);
+declare drop_table nvarchar(1000);
+
+-- -
+declare index_name nvarchar(1000);
+declare index_drop nvarchar(128);
+declare index_count integer;
+-- -
+
+
+-- enable in > 2.0 SPS 0 ,seems like a defect in in SPS00call text_configuration_drop(current_schema,:I_CONFIGURATION_NAME||'_Rule','hdbtextrule');
+--drop_column := 'ALTER TABLE TA_CONCUR_EXPENSES DROP('||:I_CONFIGURATION_NAME||')';
+drop_table = 'DROP TABLE '||:I_CONFIGURATION_NAME||'';
+delete from "CDS_DS.T_CONFIGURATIONS" WHERE CONFIGURATION_NAME = :I_CONFIGURATION_NAME;
+-- drop $TA index table (this doesn't do that)
+
+
+-- -
+-- drop $TA index table based on I_CONFIGURATION_NAME
+index_name = '$TA_'||:I_CONFIGURATION_NAME||'_INDEX';
+index_drop = 'DROP FULLTEXT INDEX '||:I_CONFIGURATION_NAME|| '_INDEX';
+select count(*) into index_count from M_TABLES where SCHEMA_NAME = CURRENT_SCHEMA AND TABLE_NAME = :index_name;
+IF(:index_count>0) THEN
+	EXEC :index_drop;
+END IF;
+call text_configuration_drop(current_schema,:I_CONFIGURATION_NAME,'hdbtextconfig');
+--exec :drop_column;
+exec :drop_table;
+
+
+-- -
+
+-- FUZZY
+-- drop_fuzzyindex := 'drop table '||:I_CONFIGURATION_NAME||'_FUZZY_INDEX';
+-- exec :drop_fuzzyindex;
+
+end

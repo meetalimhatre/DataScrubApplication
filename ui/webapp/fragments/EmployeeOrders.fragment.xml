@@ -1,0 +1,32 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:smartTable="sap.ui.comp.smarttable">
+	<smartTable:SmartTable id="idEmployeeOrderTable" entitySet="DS_EMPLOYEE_ORDERS" tableBindingPath="TO_EMP_ORDERS"
+		tableType="ResponsiveTable" useExportToExcel="true" useVariantManagement="false"
+		useTablePersonalisation="true" header="{i18n>EMP_ORDERS}" showRowCount="true" enableAutoBinding="true" demandPopin="true"
+		initiallyVisibleFields="ORDER_NUMBER,ORDER_DESC,EMPLOYEE_ID" class="sapUiResponsiveContentPadding" height="auto">
+		<Table mode="None">
+			<columns>
+				<Column id="VALID_FROM" width="7rem" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "VALID_FROM", "columnIndex":"4", "leadingProperty": "VALID_FROM"}'/>
+					</customData>
+					<Text text="{i18n>VALID_FROM}"/>
+				</Column>
+				<Column id="VALID_TO" width="7rem" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "VALID_TO", "columnIndex":"5", "leadingProperty": "VALID_TO"}'/>
+					</customData>
+					<Text text="{i18n>VALID_TO}"/>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<Text text="{ path: 'VALID_FROM', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'yyyy/MM/dd', UTC: false } }"></Text>
+						<Text text="{ path: 'VALID_TO', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'yyyy/MM/dd', UTC: false } }"></Text>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+	</smartTable:SmartTable>
+</core:FragmentDefinition>

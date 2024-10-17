@@ -1,0 +1,34 @@
+{
+	"welcomeFile": "/ui/index.html",
+	"sessionTimeout": 15,
+	"authenticationMethod": "route",
+	"logout": {
+		"logoutEndpoint": "/do/logout",
+		"logoutPage": "logout.html"
+	},
+	"routes": [{
+		"source": "^/datascrub/(.*)$",
+		"target": "$1",
+		"authenticationType": "xsuaa",
+		"scope": "$XSAPPNAME.DataScrub",
+		"httpMethods": ["GET", "POST"],
+		"destination": "core-backend"
+	}, {
+		"source": "^/admin/(.*)$",
+		"target": "$1",
+		"authenticationType": "xsuaa",
+		"scope": "$XSAPPNAME.Admin",
+		"destination": "core-backend"
+	}, {
+		"source": "^/ui/(.*)$",
+		"target": "$1",
+		"authenticationType": "xsuaa",
+		"scope": "$XSAPPNAME.DataScrub",
+		"localDir": "webapp",
+		"cacheControl": "no-cache, no-store, must-revalidate"
+	}, {
+		"source": "/logout.html",
+		"localDir": "webapp",
+		"authenticationType": "none"
+	}]
+}

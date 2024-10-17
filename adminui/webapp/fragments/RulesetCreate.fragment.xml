@@ -1,0 +1,31 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog title="{i18n>ADD_RULESET}" id="RulesetCreateDialog">
+		<customData>
+			<core:CustomData key="entityName" value="DS_RULESET_DETAILS"/>
+			<core:CustomData key="modelName" value="ruleset"/>
+		</customData>
+		<content>
+			<VBox class="sapUiSmallMargin" width="30rem">
+				<f:SimpleForm editable="false" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+					adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+					singleContainerFullSize="false">
+					<f:content>
+						<Label text="{i18n>RULESET_NAME}"></Label>
+						<Input value="{ruleset>/RULESET_NAME}" enabled = "{= !(${change>/mode} === 'edit')}"/>
+						<Label text="{i18n>RULE}"></Label>
+						<MultiComboBox
+							items="{ path: '/DS_RULES', sorter: { path: 'RULE_NAME' } }" selectedKeys="{ruleset>/RULE_NAMES}">
+							<core:Item key="{RULE_NAME}" text="{RULE_NAME}"/>
+						</MultiComboBox>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+		</content>
+		<beginButton>
+			<Button text="{i18n>SUBMIT}" press="_handleUserDialogSubmit"/>
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>CANCEL}" press="_handleEntryDialogCancel"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

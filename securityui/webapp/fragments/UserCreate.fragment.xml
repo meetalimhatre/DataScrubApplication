@@ -1,0 +1,37 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog title="{i18n>ADD_USER}" id="UserCreateDialog">
+		<customData>
+			<core:CustomData key="entityName" value="DS_USERS"/>
+			<core:CustomData key="modelName" value="user"/>
+		</customData>
+		<content>
+			<VBox class="sapUiSmallMargin" width="30rem">
+				<f:SimpleForm editable="false" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+					adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+					singleContainerFullSize="false">
+					<f:content>
+						<Label text="{i18n>NAME}" required="true"></Label>
+						<Input value="{user>/NAME}" placeholder="{i18n>USER_NAME_PLACEHOLDER}" enabled = "{= !(${change>/mode} === 'edit')}"/>
+						<Label text="{i18n>EMAIL}"></Label>
+						<Input id="emailInput" type="Email" value="{path: 'user>/EMAIL', type: '.customEMailType'}" 
+							enabled = "{= !(${change>/mode} === 'edit')}"
+							placeholder="{i18n>EMAIL_PLACEHOLDER}" 
+							valueStateText="{i18n>EMAIL_VALIDATION_TEXT}"/>
+						<Label text="{i18n>ROLE}"></Label>
+						<Select forceSelection="false" selectedKey="{user>/ROLE}">
+							<core:Item key="Scrubber" text="{i18n>SCRUBBER}"/>
+							<core:Item key="Reviewer" text="{i18n>REVIEWER}"/>
+							<core:Item key="DS_ADMIN" text="DS Admin"/>
+						</Select>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+		</content>
+		<beginButton>
+			<Button text="{i18n>SUBMIT}" press="_handleUserDialogSubmit"/>
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>CANCEL}" press="_handleEntryDialogCancel"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

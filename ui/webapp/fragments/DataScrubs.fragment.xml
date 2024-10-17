@@ -1,0 +1,51 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:smartTable="sap.ui.comp.smarttable" xmlns:core="sap.ui.core">
+	<smartTable:SmartTable id="idDataScrubTable" entitySet="DS_PROCESS" smartFilterId="idDataScrubsmartFilterBar" tableType="ResponsiveTable"
+		showVariantManagement="false" useExportToExcel="true" beforeExport="onBeforeExport" useVariantManagement="false"
+		useTablePersonalisation="true" header="Data Scrubs" showRowCount="true" enableAutoBinding="true" demandPopin="true"
+		class="sapUiResponsiveContentPadding" initiallyVisibleFields="DATA_SCRUB_NAME,COMPANY_CODE,START_DATE,END_DATE,CONFIGURATION_NAME,STATUS_ID,ITEM_SET">
+		<smartTable:customToolbar>
+			<OverflowToolbar design="Transparent">
+				<ToolbarSpacer/>
+				<OverflowToolbarButton icon="sap-icon://add" text="{i18n>ADD}" press="_handleCreateDataScrub" visible="{authorization>/createdatascrub}"/>
+			</OverflowToolbar>
+		</smartTable:customToolbar>
+		<Table selectionChange="_handleLoadDataScrubStatus" mode="SingleSelectMaster" growing="true">
+			<columns>
+				<Column id="PRC_ID" width="7rem" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "PRC_ID", "columnIndex":"0", "leadingProperty": "PRC_ID"}'/>
+					</customData>
+					<Text text="{i18n>PROCESS_ID}"/>
+				</Column>
+				<Column id="START_DATE" width="7rem" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "START_DATE", "columnIndex":"3", "leadingProperty": "START_DATE"}'/>
+					</customData>
+					<Text text="{i18n>START_DATE}"/>
+				</Column>
+				<Column id="END_DATE" width="7rem" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "END_DATE","columnIndex":"4", "leadingProperty": "END_DATE"}'/>
+					</customData>
+					<Text text="{i18n>END_DATE}"/>
+				</Column>
+				<Column id="STATUS_ID" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "STATUS_ID","columnIndex":"5", "leadingProperty": "STATUS_ID"}'/>
+					</customData>
+					<Text text="{i18n>STATUS}"/>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<Text text="{PRC_ID}"></Text>
+						<Text text="{ path: 'START_DATE', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'yyyy/MM/dd', UTC: true } }"></Text>
+						<Text text="{ path: 'END_DATE', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'yyyy/MM/dd', UTC: true } }"></Text>
+						<ObjectStatus text="{STATUS_ID}" inverted="true" active="true" state="{path: 'STATUS_ID', formatter: '.formatter.formatDSState'}"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+	</smartTable:SmartTable>
+</core:FragmentDefinition>

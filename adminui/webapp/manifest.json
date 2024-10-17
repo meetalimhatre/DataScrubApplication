@@ -1,0 +1,150 @@
+{
+	"_version": "1.8.0",
+	"sap.app": {
+		"id": "com.ng.admin.adminui",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "servicecatalog.connectivityComponentForManifest",
+			"version": "0.0.0"
+		},
+		"dataSources": {
+			"datascrubber": {
+				"uri": "/datascrub/datascrub.xsodata",
+				"type": "OData",
+				"settings": {
+					"localUri": "localService/datascrubmetadata.xml"
+				}
+			},
+			"admin": {
+				"uri": "/admin/admin.xsodata",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/adminmetadata.xml"
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		}
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "com.ng.admin.adminui.view.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.60.1",
+			"libs": {
+				"sap.m": {},
+				"sap.ui.layout": {},
+				"sap.f": {},
+				"sap.ui.core": {
+					"lazy": true
+				}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "com.ng.admin.adminui.i18n.i18n"
+				}
+			},
+			"": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request",
+					"refreshAfterChange": true,
+					"defaultUpdateMethod": "PUT"
+				},
+				"dataSource": "datascrubber"
+			},
+			"user": {
+				"type": "sap.ui.model.json.JSONModel"
+			},
+			"authorization": {
+				"type": "sap.ui.model.json.JSONModel"
+			}
+		},
+		"resources": {
+			"css": [{
+				"uri": "css/style.css"
+			}],
+			"images": [{
+				"uri": "model/logo.jpg"
+			}]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "com.ng.admin.adminui.view",
+				"controlAggregation": "pages",
+				"controlId": "app",
+				"clearTarget": false,
+				"async": true
+			},
+			"routes": [{
+				"name": "Home",
+				"pattern": "",
+				"target": [
+					"TargetHome"
+				]
+			}, {
+				"name": "CreateRule",
+				"pattern": "createrule",
+				"target": [
+					"TargetRule"
+				]
+			}, {
+				"name": "EditRule",
+				"pattern": "editrule/{context}",
+				"target": [
+					"TargetRule"
+				]
+			}],
+			"targets": {
+				"TargetHome": {
+					"viewType": "XML",
+					"transition": "slide",
+					"controlAggregation": "pages",
+					"viewId": "Home",
+					"viewName": "Home"
+				},
+				"TargetRule": {
+					"viewType": "XML",
+					"transition": "slide",
+					"controlAggregation": "pages",
+					"viewId": "ManageRule",
+					"viewName": "ManageRule"
+				}
+			}
+		}
+	}
+}

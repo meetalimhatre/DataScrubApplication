@@ -1,0 +1,9 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:smartTable="sap.ui.comp.smarttable">
+	<smartTable:SmartTable id="idJournalEntryTable" entitySet="DS_JOURNALENTRIES" tableBindingPath="TO_JOURNAL_ENTRIES"
+		tableType="ResponsiveTable" useExportToExcel="true" beforeExport="onBeforeExport" useVariantManagement="false"
+		useTablePersonalisation="true" header="Journal Entries" showRowCount="true" enableAutoBinding="true" demandPopin="true"
+		initiallyVisibleFields="GL_ACC_KEY,GL_ACC_NAME,DOC_TYPE_KEY" class="sapUiResponsiveContentPadding" height="auto">
+		<Table mode="None"></Table>
+	</smartTable:SmartTable>
+</core:FragmentDefinition>

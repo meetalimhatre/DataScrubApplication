@@ -1,0 +1,12 @@
+#subgroup Retirements_lunch: <retirement><>*<Lunch>
+#group Retirement_Exclude_L: %(Retirements_lunch)
+#subgroup Retirement:<retirement>
+#subgroup Retirement_meeting:<retirement><>*<meeting>
+#subgroup WorkStoppage: <stoppage>|<contigency>|<continuation>|<continuity>|<lockout>|<strike>
+#group Retirement_Exclude_: %(Retirement)
+#group Retirement_Include: %(Retirement_meeting)
+#group WorkStoppage_exclude:%(WorkStoppage)
+#group WorkStoppage_exclude_2: <CONTIGENCY>|<CONTINUATION>
+
+
+

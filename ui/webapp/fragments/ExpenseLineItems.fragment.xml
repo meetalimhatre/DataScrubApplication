@@ -1,0 +1,56 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:smartTable="sap.ui.comp.smarttable">
+	<smartTable:SmartTable id="idDataScrubReportItemsTable" entitySet="EXP_DISPOSITIONS_ITEMS" tableBindingPath="TO_ITEMS"
+		smartFilterId="idDataScrubsmartFilterBar" tableType="ResponsiveTable" useExportToExcel="true"
+		beforeRebindTable="_onBeforeRebindExpenseLineItems" beforeExport="onBeforeExport" useVariantManagement="false"
+		useTablePersonalisation="true" header="Expense Items" showRowCount="true" enableAutoBinding="true" demandPopin="true"
+		initiallyVisibleFields="EXPENSE_TYPE,RECIEVING_COMPANY_CODE,ORDER_NUMBER,APPROVED_AMOUNT,SYSTEM_STATUS,MANUAL_STATUS"
+		class="sapUiResponsiveContentPadding" height="auto">
+		<Table mode="SingleSelectMaster" itemPress="_onExpenseLineItemAnalysis">
+			<columns>
+				<Column id="REPORT_DETAILS" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "PURPOSE", "columnIndex":"0", "leadingProperty": ["REPORT_NAME","PURPOSE"]}'/>
+					</customData>
+					<Label text="{i18n>REPORT_DETAILS}"/>
+				</Column>
+				<Column id="EMPLOYEE_COMPANY" width="8rem" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "EMPLOYEE_COMPANY", "columnIndex":"2", "leadingProperty": "EMPLOYEE_COMPANY"}'/>
+					</customData>
+					<Label text="{i18n>EMPLOYEE_COMPANY}"/>
+				</Column>
+				
+				<Column id="SYSTEM_STATUS" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "SYSTEM_STATUS", "columnIndex":"6", "leadingProperty": "SYSTEM_STATUS"}'/>
+					</customData>
+					<Label text="{i18n>ITEM_SYSTEM_STATUS}"/>
+				</Column>
+				<Column id="MANUAL_STATUS" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "MANUAL_STATUS", "columnIndex":"7", "leadingProperty": "MANUAL_STATUS"}'/>
+					</customData>
+					<Label text="{i18n>ITEM_MANUAL_STATUS}"/>
+				</Column>
+				
+				<Column id="TRANSACTION_DATE" width="10rem" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "TRANSACTION_DATE", "columnIndex":"8", "leadingProperty": "TRANSACTION_DATE"}'/>
+					</customData>
+					<Label text="{i18n>TRANSACTION_DATE}"/>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem type="Active">
+					<cells>
+						<ObjectIdentifier title="{ path: 'REPORT_NAME'}" text="{PURPOSE}"></ObjectIdentifier>
+						<Text text="{ path: 'EMPLOYEE_COMPANY'}"></Text>
+						<ObjectStatus class="ngStatusTextColor" text="{SYSTEM_STATUS}" inverted="true" active="true" state="None"/>
+						<ObjectStatus class="ngStatusTextColor" text="{MANUAL_STATUS}" inverted="true" active="true" state="{path: 'MANUAL_STATUS', formatter: '.formatter.formatItemState'}"/>
+						<Text text="{ path: 'TRANSACTION_DATE', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'yyyy/MM/dd' } }"></Text>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+	</smartTable:SmartTable>
+</core:FragmentDefinition>

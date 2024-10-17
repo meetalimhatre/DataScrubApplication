@@ -1,0 +1,3 @@
+service{
+	"CV_EXP_DISPOSITIONS" as "DS_REPORTING" keys generate local "ID" parameters via entity "DS_REPORTING_PARAMS";
+}

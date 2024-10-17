@@ -1,0 +1,32 @@
+service{
+	
+	//Process Creation by Data Scrub Admin
+	"CDS_DS.T_DS_PROCESSES" as "DS_PROCESS_MANAGE"
+	create using "xsjs:CreateProcess.xsjslib::Initiate_Process";
+	
+	"CDS_DS.T_CHECKLIST"  as "DS_CHECKLIST";
+	"CDS_DS.T_CHECKLIST_SET"  as "DS_CHECKLIST_SET_DETAILS";
+	"CDS_DS.T_USER_GROUPS" as "DS_USERGROUP_DETAILS";
+	
+	"CDS_DS.T_CONFIGURATIONS" as "DS_CONFIGURATION_DETAILS"
+	create using "xsjs:CreateEntity.xsjslib::InsertConfiguration";
+	//delete using "xsjs:DeleteConfig.xsjslib::DeleteConfiguration";
+	
+	"CDS_DS.T_ENTITIES" as "DS_ENTITY_DETAILS";
+	"CDS_DS.T_RULES" as "DS_RULES";
+	"CDS_DS.T_RULESETS" as "DS_RULESET_DETAILS" ;
+
+	
+	//Rule Builder Metadata
+    "CDS_DS.T_ALLOCATION_CODES" as "ALLOCATION_CODES"
+    create forbidden
+    update forbidden
+    delete forbidden;
+    
+	"CDS_DS.V_EXP_RULE_DATA" as "DS_RULE_DATA" with( "PRC_ID","REPORT_ID","EMPLOYEE_ID","ALLOCATION_KEY",	"EMPLOYEE_NAME","EMPLOYEE_COMPANY","REPORT_NAME","PURPOSE","SENT_FOR_PAYMENT","TOTAL_APPROVED_AMOUNT","PAYMENT_TYPE","EXPENSE_TYPE","APPROVAL_STATUS","PAYMENT_STATUS","APPROVED_AMOUNT_RPT","APPROVED_AMOUNT","TRANSACTION_DATE","PERCENTAGE",	"RECIEVING_COMPANY_CODE","ORDER_NUMBER","OPERATION_KEY") keys("PRC_ID");
+	
+	"CDS_DS.V_DISPOSITIONS_BY_REPORT" as "DS_SYSTEM_DISPOSITIONS" keys("PRC_ID","REPORT_ID", "DISPOSITION_ENTITY", "DISPOSITION_REASON");
+	
+	
+    
+}

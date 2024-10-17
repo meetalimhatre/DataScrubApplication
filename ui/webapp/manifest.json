@@ -1,0 +1,253 @@
+{
+	"_version": "1.8.0",
+	"sap.app": {
+		"_version": "1.3.0",
+		"id": "com.ng.datascrubautomation",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.2.2"
+		},
+		"dataSources": {
+			"datascrubber": {
+				"uri": "/datascrub/datascrub.xsodata",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml",
+					"annotations": [
+						"annotation0"
+					]
+				}
+			},
+			"admin": {
+				"uri": "/admin/admin.xsodata",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml",
+					"annotations": [
+						"annotation0"
+					]
+				}
+			},
+			"annotation0": {
+				"type": "ODataAnnotation",
+				"uri": "localService/annotation0.xml",
+				"settings": {
+					"localUri": "localService/annotation0.xml"
+				}
+			}
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"ach": "ach",
+		"resources": "resources.json",
+		"sourceTemplate": {
+			"id": "ui5template.basicSAPUI5ApplicationProject",
+			"version": "1.32.0"
+		}
+	},
+	"sap.ui": {
+		"_version": "1.3.0",
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		}
+	},
+	"sap.ui5": {
+		"_version": "1.3.0",
+		"rootView": {
+			"viewName": "com.ng.datascrubautomation.view.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.50.0",
+			"libs": {
+				"sap.m": {},
+				"sap.ui.layout": {},
+				"sap.ui.table": {},
+				"sap.f": {},
+				"sap.ui.comp": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"uri": "i18n/i18n.properties"
+			},
+			"": {
+				"preload": true,
+				"dataSource": "datascrubber",
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"loadMetadataAsync": false,
+					"json": true,
+					"bJSON": true,
+					"defaultBindingMode": "TwoWay",
+					"defaultCountMode": "Inline",
+					"useBatch": true,
+					"refreshAfterChange": true,
+					"disableHeadRequestForToken": true,
+					"defaultUpdateMethod": "PUT"
+				}
+			},
+			"adminModel": {
+				"preload": true,
+				"dataSource": "admin",
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"loadMetadataAsync": false,
+					"json": true,
+					"bJSON": true,
+					"defaultBindingMode": "TwoWay",
+					"defaultCountMode": "Inline",
+					"useBatch": true,
+					"refreshAfterChange": true,
+					"disableHeadRequestForToken": true,
+					"defaultUpdateMethod": "PUT"
+				}
+			},
+			
+			"user": {
+				"type": "sap.ui.model.json.JSONModel"
+			},
+			"status": {
+				"type": "sap.ui.model.json.JSONModel"
+			},
+			"authorization": {
+				"type": "sap.ui.model.json.JSONModel"
+			},
+			"@i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"uri": "i18n/i18n.properties"
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			],
+			"images": [
+				{
+					"uri": "model/logo.jpg"
+				}
+			]
+		},
+		"routing": {
+			"config": {
+				"async": true,
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "com.ng.datascrubautomation.view",
+				"controlId": "App",
+				"clearTarget": false,
+				"controlAggregation": "pages"
+			},
+			"targets": {
+				"DataScrubLanding": {
+					"controlAggregation": "pages",
+					"viewName": "DataScrubLanding",
+					"viewId": "DataScrubLanding",
+					"viewLevel": 1,
+					"transition": "slide"
+				},
+				"DataScrubConfiguration": {
+					"controlAggregation": "pages",
+					"viewName": "DataScrubConfiguration",
+					"viewId": "DataScrubConfiguration",
+					"viewLevel": 2,
+					"transition": "slide"
+				},
+				"CreateDataScrub": {
+					"controlAggregation": "pages",
+					"viewName": "CreateDataScrub",
+					"viewId": "CreateDataScrub",
+					"viewLevel": 3,
+					"transition": "slide"
+				},
+				"DataScrubStatus": {
+					"controlAggregation": "pages",
+					"viewName": "DataScrubStatus",
+					"viewId": "DataScrubStatus",
+					"viewLevel": 4,
+					"transition": "slide"
+				},
+				"DataScrubStatusDetails": {
+					"controlAggregation": "pages",
+					"viewName": "DataScrubStatusDetails",
+					"viewId": "DataScrubStatusDetails",
+					"viewLevel": 5,
+					"transition": "slide"
+				},
+				"App": {
+					"viewType": "XML",
+					"viewName": "App"
+				},
+				"ExpenseItemAnalysis": {
+					"viewType": "XML",
+					"viewName": "ExpenseItemAnalysis"
+				}
+			},
+			"routes": [
+				{
+					"pattern": "",
+					"name": "DataScrubLanding",
+					"target": [
+						"DataScrubLanding"
+					]
+				},
+				{
+					"pattern": "DataScrubConfiguration/:context:",
+					"name": "DataScrubConfiguration",
+					"target": [
+						"DataScrubConfiguration"
+					]
+				},
+				{
+					"pattern": "CreateDataScrub/:context:",
+					"name": "CreateDataScrub",
+					"target": [
+						"CreateDataScrub"
+					]
+				},
+				{
+					"pattern": "DataScrubStatus/:context:",
+					"name": "DataScrubStatus",
+					"target": [
+						"DataScrubStatus"
+					]
+				},
+				{
+					"pattern": "DataScrubStatusDetails/:context:",
+					"name": "DataScrubStatusDetails",
+					"target": [
+						"DataScrubStatusDetails"
+					]
+				},
+				{
+					"pattern": "ExpenseItemAnalysis/:context:",
+					"name": "ExpenseItemAnalysis",
+					"target": [
+						"ExpenseItemAnalysis"
+					]
+				}
+			]
+		}
+	}
+}

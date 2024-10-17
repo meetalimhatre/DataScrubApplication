@@ -1,0 +1,71 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<VBox>
+		<items>
+			<Table id="idConfigurationTable" width="100%" growing="true" growingScrollToLoad="true" growingThreshold="25" mode="None"
+				itemPress="_onFioriListReportTableItemPress" updateFinished="_onFioriListReportTableUpdateFinished"
+				items="{path:'/DS_CONFIGURATIONS',templateShareable:false}">
+				<headerToolbar>
+					<OverflowToolbar design="Transparent">
+						<content>
+							<ToolbarSpacer/>
+							<Button icon="sap-icon://add" iconFirst="true" visible="{authorization>/manageconfig}" type="Transparent" enabled="true"
+								press="_onAddConfiguration"></Button>
+						</content>
+					</OverflowToolbar>
+				</headerToolbar>
+				<columns>
+					<Column width="auto" minScreenWidth="Tablet" demandPopin="true">
+						<header>
+							<Text text="{i18n>CONFIGURATION_NAME}" width="auto"/>
+						</header>
+					</Column>
+					<Column width="auto" minScreenWidth="Phone">
+						<header>
+							<Text text="{i18n>KEYWORD_GROUPS}" width="auto"/>
+						</header>
+					</Column>
+					<Column width="auto" minScreenWidth="Phone">
+						<header>
+							<Text text="{i18n>RULESET}" width="auto"/>
+						</header>
+					</Column>
+					<Column width="auto" minScreenWidth="Phone">
+						<header>
+							<Text text="{i18n>CONFIGURATION_STATUS}" width="auto"/>
+						</header>
+					</Column>
+					<Column width="5rem" minScreenWidth="Phone">
+						<header>
+							<Text width="auto"/>
+						</header>
+					</Column>
+					<Column width="5rem" minScreenWidth="Phone">
+						<header>
+							<Text width="auto"/>
+						</header>
+					</Column>
+					<Column width="5rem" minScreenWidth="Phone">
+						<header>
+							<Text width="auto"/>
+						</header>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem >
+						<cells>
+							<Text text="{CONFIGURATION_NAME}"/>
+							<Tokenizer class="ngTokenizerDisplayMode" width="100%" tokens="{path: 'TO_CONFIG_DETAILS', templateShareable:false}">
+								<Token text="{ENTITY_GROUP}" visible="{path:'ENTITY_GROUP', formatter: '.formatEntityGroupVisibility'}" editable="false"/>
+							</Tokenizer>
+							<Text text="{RULESET_NAME}"/>
+							<ObjectIdentifier title="{CONF_STATUS}" text="{path: 'LAST_DEPLOYED', formatter: '.formatLastDeployed'}"/>
+							<Button text="{i18n>EDIT}" type="Ghost" press="_onEditConfiguration" visible="{authorization>/manageconfig}"/>
+							<Button text="{i18n>LOAD}" type="Ghost" press="_handleTAConfigLoad" visible="{authorization>/manageconfig}"/>
+							<Button text="{i18n>UNLOAD}" type="Ghost" press="_handleTAConfigUnload" visible="{authorization>/manageconfig}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</items>
+	</VBox>
+</core:FragmentDefinition>

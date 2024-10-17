@@ -1,0 +1,619 @@
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+	<edmx:Reference Uri="https://wiki.scn.sap.com/wiki/download/attachments/448470974/Common.xml?api=v2">
+		<edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+	</edmx:Reference>
+	<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml">
+		<edmx:Include Alias="Measures" Namespace="Org.OData.Measures.V1"/>
+	</edmx:Reference>
+	<edmx:Reference Uri="https://wiki.scn.sap.com/wiki/download/attachments/448470968/UI.xml?api=v2">
+		<edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+	</edmx:Reference>
+	<edmx:DataServices>
+		<Schema xmlns="http://docs.oasis-open.org/odata/ns/edm">
+			<Annotations Target="default.DS_PROCESSType">
+				<Annotation Term="UI.SelectionFields">
+					<Collection>
+						<PropertyPath>STATUS_ID</PropertyPath>
+						<PropertyPath>CONFIGURATION_NAME</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESSType/STATUS_ID">
+				<Annotation Term="Common.ValueListWithFixedValues" Bool="true"/>
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;STATUS}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;STATUS}"/>
+				<Annotation Term="Common.ValueList">
+					<Record Type="Common.ValueListType">
+						<PropertyValue Property="CollectionPath" String="DS_PRC_STATUS_DESC"/>
+						<PropertyValue Property="Label" String="{@i18n&gt;STATUS}"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="STATUS_ID"/>
+									<PropertyValue Property="ValueListProperty" String="STATUS_ID"/>
+								</Record>
+								<Record Type="Common.ValueListParameterDisplayOnly">
+									<PropertyValue Property="ValueListProperty" String="DESC"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_HEADERType">
+				<Annotation Term="UI.SelectionFields">
+					<Collection>
+						<PropertyPath>EMPLOYEE_COMPANY</PropertyPath>
+						<PropertyPath>SYS_STATUS</PropertyPath>
+						<PropertyPath>REP_STATUS</PropertyPath>
+						<PropertyPath>BAND_LEVEL</PropertyPath>
+					</Collection>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESSType/CREATED_AT">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;CREATED_AT}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;CREATED_AT}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESSType/PRC_ID">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;PROCESS_ID}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;PROCESS_ID}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESSType/DATA_SCRUB_NAME">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;DATA_SCRUB}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;DATA_SCRUB}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESSType/DATA_SCRUB_DESC">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;DESCRIPTION}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;DESCRIPTION}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESSType/COMPANY_CODE">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;COMPANY_CODE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;COMPANY_CODE}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESSType/START_DATE">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;START_DATE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;START_DATE}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESSType/END_DATE">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;END_DATE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;END_DATE}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESSType/OWNER">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;OWNER}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;OWNER}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESSType/CONFIGURATION_NAME">
+				<Annotation Term="Common.ValueListWithFixedValues" Bool="true"/>
+				<Annotation Term="Common.ValueList">
+					<Record Type="Common.ValueListType">
+						<PropertyValue Property="CollectionPath" String="DS_CONFIGURATIONS"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="CONFIGURATION_NAME"/>
+									<PropertyValue Property="ValueListProperty" String="CONFIGURATION_NAME"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;CONFIGURATION_NAME}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;CONFIGURATION_NAME}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESSType/USER_GROUP">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;USER_GROUP}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;USER_GROUP}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESSType/EMAIL">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;EMAIL}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;EMAIL}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESSType/ITEM_SET">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;CHECKLIST_GROUP}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;CHECKLIST_GROUP}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_HEADERType/PRC_ID">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;PROCESS_ID}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;PROCESS_ID}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_HEADERType/REPORT_ID">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;REPORT_ID}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;REPORT_ID}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_HEADERType/EMPLOYEE_ID">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;EMPLOYEE_ID}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;EMPLOYEE_ID}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_HEADERType/EMPLOYEE_NAME">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;EMPLOYEE_NAME}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;EMPLOYEE_NAME}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_HEADERType/EMPLOYEE_COMPANY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;EMPLOYEE_COMPANY_CODE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;EMPLOYEE_COMPANY_CODE}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_HEADERType/REPORT_NAME">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;REPORT_NAME}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;REPORT_NAME}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_HEADERType/RECIEVING_COMPANY_CODE">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;RECEIVING_COMPANY_CODE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;RECEIVING_COMPANY_CODE}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_HEADERType/TOTAL_APPROVED_AMOUNT">
+				<Annotation Term="Measures.Unit" String="USD"/>
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;TOTAL_APPROVED_AMOUNT}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;TOTAL_APPROVED_AMOUNT}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_HEADERType/SYS_STATUS">
+				<Annotation Term="Common.ValueListWithFixedValues" Bool="true"/>
+				<Annotation Term="Common.ValueList">
+					<Record Type="Common.ValueListType">
+						<PropertyValue Property="CollectionPath" String="DS_SYSTEM_STATUS_DESC"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="SYS_STATUS"/>
+									<PropertyValue Property="ValueListProperty" String="STATUS_ID"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;SYSTEM_STATUS}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;SYSTEM_STATUS}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_HEADERType/REP_STATUS">
+				<Annotation Term="Common.ValueListWithFixedValues" Bool="true"/>
+				<Annotation Term="Common.ValueList">
+					<Record Type="Common.ValueListType">
+						<PropertyValue Property="CollectionPath" String="DS_REPORT_STATUS_DESC"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterOut">
+									<PropertyValue Property="LocalDataProperty" PropertyPath="REP_STATUS"/>
+									<PropertyValue Property="ValueListProperty" String="STATUS_ID"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;REPORT_STATUS}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;REPORT_STATUS}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_HEADERType/BAND_LEVEL">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;BAND_LEVEL}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;BAND_LEVEL}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_HEADERType/ITEM_SET">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;CHECKLIST_GROUP}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;CHECKLIST_GROUP}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_HEADERType/JOB_DESC">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;JOB_DESCRIPTION}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;JOB_DESCRIPTION}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_HEADERType/ORDER_DESC">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;ORDER_DESCRIPTION}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;ORDER_DESCRIPTION}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESS_STATSType/PRC_ID">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;PROCESS_ID}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;PROCESS_ID}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESS_STATSType/POPULATION_SAMPLES">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;TOTAL_POPULATION_SAMPLES}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;TOTAL_POPULATION_SAMPLES}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESS_STATSType/POPULATION_AMOUNT">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;TOTAL_POPULATION_AMOUNT}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;TOTAL_POPULATION_AMOUNT}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESS_STATSType/POPULATION_SYSTEM_EXCLUDED_AMOUNT">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;POPULATION_SYSTEM_EXCLUDED_AMOUNT}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;POPULATION_SYSTEM_EXCLUDED_AMOUNT}"/>
+			</Annotations>
+			<Annotations Target="default.DS_PROCESS_STATSType/POPULATION_MANUAL_EXCLUDED_AMOUNT">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;POPULATION_MANUAL_EXCLUSION_AMOUNT}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;POPULATION_SYSTEM_EXCLUDED_AMOUNT}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/UNIQUE_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;UNIQUE_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;UNIQUE_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/DOC_TYPE_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;DOCUMENT_TYPE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;DOCUMENT_TYPE}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/GL_ACC_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;G/L_ACCOUNT_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;G/L_ACCOUNT_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/GL_ACC_NAME">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;G/L_ACCOUNT_NAME}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;G/L_ACCOUNT_NAME}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/ACC_DOC_NUMBER_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;ACC_DOC_NUMBER_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;ACC_DOC_NUMBER_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/COMPANY_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;COMPANY_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;COMPANY_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/COST_ELEMENT_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;COST_ELEMENT_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;COST_ELEMENT_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/DATE_OF_ENTRY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;DATE_OF_ENTRY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;DATE_OF_ENTRY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/DOC_HEADER_TEXT_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;DOC_HEADER_TEXT_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;DOC_HEADER_TEXT_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/FISCAL_PERIOD_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;FISCAL_PERIOD_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;FISCAL_PERIOD_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/ORDER_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;ORDER_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;ORDER_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/ORDER_NAME">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;ORDER_NAME}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;ORDER_NAME}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/PARKED_BY_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;PARKED_BY_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;PARKED_BY_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/POSTING_DATE_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;POSTING_DATE_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;POSTING_DATE_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/PROFIT_CENTER_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;PROFIT_CENTER_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;PROFIT_CENTER_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/PROFIT_CENTER_NAME">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;PROFIT_CENTER_NAME}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;PROFIT_CENTER_NAME}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/REF_DOCUMENT_NUMBER_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;REF_DOCUMENT_NUMBER_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;REF_DOCUMENT_NUMBER_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/UNIQUE_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;UNIQUE_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;UNIQUE_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/TOTAL_JOURNAL_USD">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;TOTAL_JOURNAL_USD}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;TOTAL_JOURNAL_USD}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/VENDOR_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;VENDOR_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;VENDOR_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_JOURNALENTRIESType/VENDOR_NAME">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;VENDOR_NAME}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;VENDOR_NAME}"/>
+			</Annotations>
+			<Annotations Target="default.DS_STATUS_DESCType/STATUS_ID">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;STATUS_ID}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;STATUS_ID}"/>
+			</Annotations>
+			<Annotations Target="default.DS_STATUS_DESCType/STATUS_TYPE">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.DS_STATUS_DESCType/DESC">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;STATUS}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;STATUS}"/>
+			</Annotations>
+			
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/DATA_SCRUB_NAME">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/DATA_SCRUB_DESC">
+				<Annotation Term="UI.Hidden"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/START_DATE">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/END_DATE">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/STATUS_ID">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/CREATED_AT">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/OWNER">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;OWNER}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;OWNER}"/>
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/REPORT_ID">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/EMPLOYEE_ID">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;EMPLOYEE_ID}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;EMPLOYEE_ID}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/ALLOCATION_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;ALLOCATION_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;ALLOCATION_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/EMPLOYEE_NAME">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;EMPLOYEE_NAME}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;EMPLOYEE_NAME}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/REPORT_NAME">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;REPORT_NAME}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;REPORT_NAME}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/PURPOSE">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;PURPOSE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;PURPOSE}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/COMPANY_CODE">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;COMPANY_CODE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;COMPANY_CODE}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/EMPLOYEE_COMPANY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;EMPLOYEE_COMPANY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;EMPLOYEE_COMPANY}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/SYSTEM_STATUS">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;ITEM_SYSTEM_STATUS}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;ITEM_SYSTEM_STATUS}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/MANUAL_STATUS">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;ITEM_MANUAL_STATUS}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;ITEM_MANUAL_STATUS}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/SENT_FOR_PAYMENT">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;SENT_FOR_PAYMENT}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;SENT_FOR_PAYMENT}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/TOTAL_APPROVED_AMOUNT">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/PAYMENT_TYPE">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;PAYMENT_TYPE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;PAYMENT_TYPE}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/EXPENSE_TYPE">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;EXPENSE_TYPE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;EXPENSE_TYPE}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/APPROVAL_STATUS">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;APPROVAL_STATUS}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;APPROVAL_STATUS}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/PAYMENT_STATUS">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;PAYMENT_STATUS}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;PAYMENT_STATUS}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/APPROVED_AMOUNT_RPT">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;APPROVED_AMOUNT_(RPT)}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;APPROVED_AMOUNT_(RPT)}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/APPROVED_AMOUNT">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;APPROVED_AMOUNT}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;APPROVED_AMOUNT}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/TRANSACTION_DATE">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;TRANSACTION_DATE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;TRANSACTION_DATE}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/PERCENTAGE">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;PERCENTAGE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;PERCENTAGE}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/RECIEVING_COMPANY_CODE">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;RECEIVING_COMPANY_CODE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;RECEIVING_COMPANY_CODE}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/ORDER_NUMBER">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;ORDER_NUMBER}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;ORDER_NUMBER}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/OPERATION_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;OPERATION_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;OPERATION_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/ALLOCATION_CODE">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;ALLOCATION_CODE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;ALLOCATION_CODE}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/ITEM_SET">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;CHECKLIST_GROUP}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;CHECKLIST_GROUP}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/USER_GROUP">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;USER_GROUP}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;USER_GROUP}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/DISPOSITION_ID">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/DISPOSITION_ENTITY">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/DISPOSITION_REASON">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/REPORT_STATUS">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/BAND_LEVEL">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;BAND_LEVEL}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;BAND_LEVEL}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/JOB_DESC">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;JOB_DESC}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;JOB_DESC}"/>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/ORDER_DESC">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;ORDER_DESC}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;ORDER_DESC}"/>
+			</Annotations>
+			<Annotations Target="default.DS_DISPOSITIONSType/EXPENSE_KEY.REPORT_ID">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;REPORT_ID}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;REPORT_ID}"/>
+			</Annotations>
+			<Annotations Target="default.DS_DISPOSITIONSType/EXPENSE_KEY.ALLOCATION_KEY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;ALLOCATION_KEY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;ALLOCATION_KEY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_DISPOSITIONSType/DISPOSITION_ID">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.DS_DISPOSITIONSType/PRC_ID">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.DS_DISPOSITIONSType/DISPOSITION_REASON">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;REASON}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;REASON}"/>
+			</Annotations>
+			<Annotations Target="default.DS_DISPOSITIONSType/DISPOSITION_ENTITY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;OBSERVATION_CATEGORY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;OBSERVATION_CATEGORY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_DISPOSITIONSType/TA_COLUMN">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;TA_COLUMN}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;TA_COLUMN}"/>
+			</Annotations>
+			<Annotations Target="default.DS_DISPOSITIONSType/PRIORITY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;PRIORITY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;PRIORITY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_DISPOSITIONSType/CREATED_BY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;CREATED_BY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;CREATED_BY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_DISPOSITIONSType/LAST_CHANGED_BY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;LAST_CHANGED_BY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;LAST_CHANGED_BY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_DISPOSITIONSType/DISPOSITION_TYPE">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;TYPE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;TYPE}"/>
+			</Annotations>
+			<Annotations Target="default.DS_STATUS_DESCType">
+				<Annotation Term="UI.PresentationVariant">
+					<Record Type="UI.PresentationVariantType">
+						<PropertyValue Property="SortOrder">
+							<Collection>
+								<Record Type="Common.SortOrderType">
+									<PropertyValue Property="Property" PropertyPath="RANK"/>
+									<PropertyValue Property="Descending" Bool="false"/>
+								</Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations Target="default.EXP_DISPOSITIONS_ITEMSType/EXP_EMPLOYEE_COMPANY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;EMPLOYEE_COMPANY_CODE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;EMPLOYEE_COMPANY_CODE}"/>
+			</Annotations>
+			<Annotations Target="default.DS_SYSTEM_DISPOSITIONSType/REPORT_ID">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.DS_SYSTEM_DISPOSITIONSType/PRC_ID">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.DS_SYSTEM_DISPOSITIONSType/DISPOSITION_REASON">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;DISPOSITION_REASON}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;DISPOSITION_REASON}"/>
+			</Annotations>
+			<Annotations Target="default.DS_SYSTEM_DISPOSITIONSType/DISPOSITION_ENTITY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;DISPOSITION_ENTITY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;DISPOSITION_ENTITY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_SYSTEM_DISPOSITIONSType/TA_COLUMN">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.DS_SYSTEM_DISPOSITIONSType/PRIORITY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;PROIORITY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;PRIORITY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_SYSTEM_DISPOSITIONSType/CREATED_BY">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.DS_SYSTEM_DISPOSITIONSType/LAST_CHANGED_BY">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.DS_SYSTEM_DISPOSITIONSType/DISPOSITION_TYPE">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;DISPOSITION_TYPE}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;DISPOSITION_TYPE}"/>
+			</Annotations>
+			<Annotations Target="default.DS_SYSTEM_ITEM_DISPOSITIONSType/REPORT_ID">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.DS_SYSTEM_ITEM_DISPOSITIONSType/DISPOSITION_REASON">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;DISPOSITION_REASON}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;DISPOSITION_REASON}"/>
+			</Annotations>
+			<Annotations Target="default.DS_SYSTEM_ITEM_DISPOSITIONSType/PRIORITY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;PROIORITY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;PRIORITY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_SYSTEM_ITEM_DISPOSITIONSType/CREATED_BY">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.DS_SYSTEM_ITEM_DISPOSITIONSType/LAST_CHANGED_BY">
+				<Annotation Term="UI.Hidden" Bool="true"/>
+			</Annotations>
+			<Annotations Target="default.DS_MANUAL_DISPOSITIONSType/DISPOSITION_ENTITY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;DISPOSITION_ENTITY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;DISPOSITION_ENTITY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_MANUAL_DISPOSITIONSType/SCRUBBER_COMMENTS">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;SCRUBBER_COMMENTS}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;SCRUBBER_COMMENTS}"/>
+			</Annotations>
+			<Annotations Target="default.DS_MANUAL_DISPOSITIONSType/REVIEWER_COMMENTS">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;REVIEWER_COMMENTS}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;REVIEWER_COMMENTS}"/>
+			</Annotations>
+			<Annotations Target="default.DS_MANUAL_DISPOSITIONSType/CREATED_BY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;CREATED_BY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;CREATED_BY}"/>
+			</Annotations>
+			<Annotations Target="default.DS_MANUAL_DISPOSITIONSType/LAST_CHANGED_BY">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;LAST_CHANGED_BY}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;LAST_CHANGED_BY}"/>
+			</Annotations>
+			<Annotations Target="Metadata.DS_EMPLOYEE_ORDERSType/REPORT_ID">
+				<Annotation Term="Common.Label" String="{@i18n&gt;REPORT_ID}"/>
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;REPORT_ID}"/>
+			</Annotations>
+			<Annotations Target="Metadata.DS_EMPLOYEE_ORDERSType/EMPLOYEE_ID">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;EMPLOYEE_ID}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;EMPLOYEE_ID}"/>
+			</Annotations>
+			<Annotations Target="Metadata.DS_EMPLOYEE_ORDERSType/ORDER_NUMBER">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;ORDER_NUMBER}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;ORDER_NUMBER}"/>
+			</Annotations>
+			<Annotations Target="Metadata.DS_EMPLOYEE_ORDERSType/ORDER_DESC">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;ORDER_DESCRIPTION}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;ORDER_DESCRIPTION}"/>
+			</Annotations>
+			<Annotations Target="Metadata.DS_EMPLOYEE_ORDERSType/VALID_FROM">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;VALID_FROM}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;VALID_FROM}"/>
+			</Annotations>
+			<Annotations Target="Metadata.DS_EMPLOYEE_ORDERSType/VALID_TO">
+				<Annotation Term="Common.QuickInfo" String="{@i18n&gt;VALID_TO}"/>
+				<Annotation Term="Common.Label" String="{@i18n&gt;VALID_TO}"/>
+			</Annotations>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

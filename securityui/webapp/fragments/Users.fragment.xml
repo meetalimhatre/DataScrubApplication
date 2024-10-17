@@ -1,0 +1,54 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<VBox class="sapUiSmallMargin">
+		<Table width="100%" growing="true" growingThreshold="25" mode="None" itemPress="_onFioriListReportTableItemPress"
+			updateFinished="_onFioriListReportTableUpdateFinished" items="{path:'/DS_USERS',templateShareable:false}">
+			<headerToolbar>
+				<OverflowToolbar design="Transparent">
+					<content>
+						<ToolbarSpacer/>
+						<Button text="" icon="sap-icon://add" iconFirst="true" type="Transparent" enabled="true" press="_onAddUser" visible="{authorization>/manageconfig}">
+						</Button>
+					</content>
+				</OverflowToolbar>
+			</headerToolbar>
+			<columns>
+				<Column width="auto" minScreenWidth="Tablet" demandPopin="true">
+					<header>
+						<Text text="User" width="auto"/>
+					</header>
+				</Column>
+				<Column width="auto" minScreenWidth="Phone">
+					<header>
+						<Text text="Email" width="auto"/>
+					</header>
+				</Column>
+				<Column width="auto" minScreenWidth="Phone">
+					<header>
+						<Text text="Role" width="auto"/>
+					</header>
+				</Column>
+				<Column width="5rem" minScreenWidth="Phone">
+					<header>
+						<Text text="" width="auto"/>
+					</header>
+				</Column>
+				<Column width="5rem" minScreenWidth="Phone">
+					<header>
+						<Text text="" width="auto"/>
+					</header>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<Text text="{NAME}"/>
+						<Text text="{EMAIL}"/>
+						<Text text="{ROLE}"/>
+						<Button icon="sap-icon://edit" type="Ghost" press="_onEditUser" visible="{authorization>/manageconfig}"/>
+						<Button icon="sap-icon://delete" type="Ghost" press="_onDeleteUser" visible="{authorization>/manageconfig}"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+	</VBox>
+</core:FragmentDefinition>

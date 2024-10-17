@@ -1,0 +1,45 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f" xmlns="sap.m" xmlns:core="sap.ui.core"
+	controllerName="com.ng.admin.adminui.controller.Home" height="92%">
+	<f:ShellBar title="Data Scrub Configuration" homeIcon="model/logo.jpg">
+		<f:menu>
+			<Menu itemSelected="_handleMenuItemSelected">
+				<MenuItem text="{i18n>DATA_SCRUB_APPLICATION}" icon="sap-icon://sap-ui5"/>
+			</Menu>
+		</f:menu>
+		<f:profile>
+			<f:Avatar initials="{path:'user>/name', formatter: '.formatShellBarInitials'}" press="_openUserPopover"/>
+		</f:profile>
+	</f:ShellBar>
+	<f:DynamicPage id="idConfigPage" headerExpanded="{/headerExpanded}" toggleHeaderOnTitleClick="{/titleClickable}">
+		<f:content>
+			<IconTabBar id="idIconTabBarMulti" expanded="{device>/isNoPhone}">
+				<items>
+					<IconTabFilter icon="sap-icon://hint" text="{i18n>KEYWORDS}">
+						<core:Fragment fragmentName="com.ng.admin.adminui.fragments.Keywords" type="XML"/>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://check-availability" text="{i18n>RULES}">
+						<core:Fragment fragmentName="com.ng.admin.adminui.fragments.Rules" type="XML"/>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://target-group" text="{i18n>RULESETS}">
+						<core:Fragment fragmentName="com.ng.admin.adminui.fragments.Rulesets" type="XML"/>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://dimension" text="{i18n>CONFIGURATIONS}">
+						<core:Fragment fragmentName="com.ng.admin.adminui.fragments.Configurations" type="XML"/>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://group" text="{i18n>USERGROUPS}">
+						<core:Fragment fragmentName="com.ng.admin.adminui.fragments.Usergroups" type="XML"/>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://question-mark" text="{i18n>CHECKLIST}">
+						<core:Fragment fragmentName="com.ng.admin.adminui.fragments.Checklist" type="XML"/>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://group-2" text="{i18n>CHECKLIST_GROUPS}">
+						<core:Fragment fragmentName="com.ng.admin.adminui.fragments.ChecklistGroup" type="XML"/>
+					</IconTabFilter>
+					<!--<IconTabFilter icon="sap-icon://group-2" text="{i18n>Reporting}">
+						<core:Fragment fragmentName="com.ng.admin.adminui.fragments.Reporting" type="XML"/>
+					</IconTabFilter>-->
+				</items>
+			</IconTabBar>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>

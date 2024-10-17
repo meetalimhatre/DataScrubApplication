@@ -1,0 +1,12 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.f" xmlns:core="sap.ui.core">
+	<f:ShellBar title="{i18n>DATASCRUB_APPLICATION}" homeIcon="model/logo.jpg" homeIconPressed="navToHome">
+		<f:menu>
+			<Menu itemSelected="_handleMenuItemSelected">
+				<MenuItem text="{i18n>DATASCRUB_CONFIGURATION}" icon="sap-icon://sap-ui5"/>
+			</Menu>
+		</f:menu>
+		<f:profile>
+			<f:Avatar initials="{path:'user>/name', formatter: '.formatter.formatShellBarInitials'}" press="_openUserPopover"/>
+		</f:profile>
+	</f:ShellBar>
+</core:FragmentDefinition>

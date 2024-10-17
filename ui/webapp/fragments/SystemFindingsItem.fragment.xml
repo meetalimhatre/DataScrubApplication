@@ -1,0 +1,11 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:smartTable="sap.ui.comp.smarttable">
+	<smartTable:SmartTable id="idSystemDispositionsTable" entitySet="DS_SYSTEM_DISPOSITIONS" tableBindingPath="TO_ITEM_SYSTEM_DISPOSITION"
+	    tableType="ResponsiveTable" useExportToExcel="true" beforeExport="onBeforeExport" beforeRebindTable="_onBeforeRebindSyetmDispositionsTable"
+		useVariantManagement="false" useTablePersonalisation="true" header="System Findings" showRowCount="true" enableAutoBinding="true"
+		demandPopin="true"
+		initiallyVisibleFields="DISPOSITION_ENTITY,DISPOSITION_REASON,PRIORITY,DISPOSITION_TYPE"
+		class="sapUiResponsiveContentPadding" height="auto">
+		<Table mode="None">
+		</Table>
+	</smartTable:SmartTable>
+</core:FragmentDefinition>

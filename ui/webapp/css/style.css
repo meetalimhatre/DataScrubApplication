@@ -1,0 +1,17 @@
+/* Enter your custom styles here */
+
+.sapMFlexBoxFit, .sapMFlexBoxScroll{
+	height: auto!important;
+}
+
+.ngApp{
+	height: 92%!important;
+}
+
+.ngTestingCommentsLabel{
+	white-space: normal;
+}
+
+.ngStatusTextColor .sapMObjStatusText{
+	color: white!important;
+}

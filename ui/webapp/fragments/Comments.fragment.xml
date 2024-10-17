@@ -1,0 +1,29 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog title="{i18n>SET_REPORT_STATUS}">
+		<content>
+			<VBox class="sapUiSmallMargin" width="30rem">
+				<f:SimpleForm editable="false" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+					adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+					singleContainerFullSize="false">
+					<f:content>
+						<Label text="{i18n>STATUS}"/>
+						<Select forceSelection="false" selectedKey="{statusModel>/REPORT_STATUS}" visible="{= ${user>/role} === 'Scrubber' }"
+							items="{path: '/DS_REPORT_STATUS_DESC', filters: [{ path: 'STATUS_TYPE', operator: 'EQ', value1: 'DSPTN_SC' }]}">
+							<core:Item key="{STATUS_ID}" text="{DESC}"/>
+						</Select>
+						<Select forceSelection="false" selectedKey="{statusModel>/REPORT_STATUS}" visible="{= ${user>/role} === 'Reviewer' }"
+							items="{path: '/DS_REPORT_STATUS_DESC', filters: [{ path: 'STATUS_TYPE', operator: 'EQ', value1: 'DSPTN_RE' }]}">
+							<core:Item key="{STATUS_ID}" text="{DESC}"/>
+						</Select>
+						<Label text="{i18n>COMMENTS}"/>
+						<TextArea placeholder="{i18n>ADD_COMMENTS}" rows="4" value="{statusModel>/COMMENTS}"/>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+		</content>
+		<buttons>
+			<Button text="{i18n>SAVE}" press="_handleCommentsSave"/>
+			<Button text="{i18n>CANCEL}" press="_handleCommentsCancel"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

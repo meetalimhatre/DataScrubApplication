@@ -1,0 +1,121 @@
+ID: DataScrubApplication
+_schema-version: '2.1'
+version: 0.0.1
+modules:
+  - name: db
+    type: hdb
+    path: db
+    requires:
+      - name: datascrub_db
+        properties:
+          TARGET_CONTAINER: '~{hdi-container-name}'
+  - name: ui
+    type: html5
+    path: ui
+    parameters:
+      disk-quota: 512M
+      memory: 512M
+    build-parameters:
+      builder: grunt
+    requires:
+      - name: uaa_DataScrubApplication
+      - name: dest_DataScrubApplication
+      - name: odata_api
+        group: destinations
+        properties:
+          name: core-backend
+          url: '~{url}'
+          forwardAuthToken: true
+  - name: odata
+    type: nodejs
+    path: services/odata
+    provides:
+      - name: odata_api
+        properties:
+          url: '${default-url}'
+    parameters:
+      disk-quota: 1024M
+      memory: 1024M
+    requires:
+      - name: datascrub_db
+      - name: uaa_DataScrubApplication
+      - name: db
+      - name: datascrub_auditlog
+  - name: adminui
+    type: html5
+    path: adminui
+    parameters:
+      disk-quota: 512M
+      memory: 512M
+    build-parameters:
+      builder: grunt
+    requires:
+      - name: uaa_DataScrubApplication
+      - name: odata_api
+        group: destinations
+        properties:
+          name: core-backend
+          url: '~{url}'
+          forwardAuthToken: true
+      - name: config_api
+        group: destinations
+        properties:
+          name: config-backend
+          url: '~{url}'
+          forwardAuthToken: true
+  - name: api
+    type: nodejs
+    path: services/api
+    parameters:
+      disk-quota: 1024M
+      memory: 512M
+    provides:
+      - name: config_api
+        properties:
+          url: '${default-url}'
+    requires:
+      - name: datascrub_db
+      - name: uaa_DataScrubApplication
+      - name: db
+  - name: securityui
+    type: html5
+    path: securityui
+    parameters:
+      disk-quota: 512M
+      memory: 512M
+    build-parameters:
+      builder: grunt
+    requires:
+      - name: uaa_DataScrubApplication
+      - name: dest_DataScrubApplication
+      - name: odata_api
+        group: destinations
+        properties:
+          name: core-backend
+          url: '~{url}'
+          forwardAuthToken: true
+resources:
+  - name: uaa_DataScrubApplication
+    parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa
+    type: com.sap.xs.uaa-space
+  - name: dest_DataScrubApplication
+    parameters:
+      service-plan: lite
+      service: destination
+    type: org.cloudfoundry.managed-service
+  - name: datascrub_db
+    parameters:
+      config:
+        schema: SCH_DS
+    properties:
+      hdi-container-name: '${service-name}'
+    type: org.cloudfoundry.existing-service
+  - name: datascrub_auditlog
+    parameters:
+      service-name: datascrub_auditlog
+      service: auditlog-management
+      service-plan: default
+    type: org.cloudfoundry.managed-service

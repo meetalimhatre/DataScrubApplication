@@ -1,0 +1,33 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:smartTable="sap.ui.comp.smarttable">
+	<smartTable:SmartTable id="idDataScrubReportsTable" entitySet="EXP_DISPOSITIONS_HEADER" tableBindingPath="TO_EXP_HEADER"
+		smartFilterId="idDataScrubsmartFilterBar" tableType="ResponsiveTable" useExportToExcel="true" beforeExport="onBeforeExport"
+		beforeRebindTable="_onBeforeRebindDatascrubReports" useVariantManagement="false" useTablePersonalisation="true" header="Dispositions"
+		showRowCount="true" enableAutoBinding="true" demandPopin="true"
+		initiallyVisibleFields="EMPLOYEE_NAME,REPORT_ID,REPORT_NAME,SYS_STATUS,REP_STATUS,TOTAL_APPROVED_AMOUNT" class="sapUiResponsiveContentPadding"
+		height="auto">
+		<Table id="idDispositionReportsTable" selectionChange="_onFioriListReportTableItemPress" mode="SingleSelectMaster" growing="true">
+			<columns>
+				<Column id="SYS_STATUS" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "SYS_STATUS", "columnIndex":"5", "leadingProperty": "SYS_STATUS"}'/>
+					</customData>
+					<Label text="{i18n>SYSTEM_STATUS}"/>
+				</Column>
+				<Column id="REP_STATUS" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "REP_STATUS", "columnIndex":"6", "leadingProperty": "REP_STATUS"}'/>
+					</customData>
+					<Label text="{i18n>REPORT_STATUS}"/>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem type="Active">
+					<cells>
+						<ObjectStatus text="{SYS_STATUS}" inverted="true" active="true" state="None"/>
+						<ObjectStatus text="{REP_STATUS}" inverted="true" active="true" state="{path: 'REP_STATUS', formatter: '.formatter.formatReportState'}"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+	</smartTable:SmartTable>
+</core:FragmentDefinition>

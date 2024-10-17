@@ -1,0 +1,13 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f" xmlns="sap.m" xmlns:core="sap.ui.core"
+	controllerName="com.ng.admin.securityui.controller.Home" height="92%">
+	<f:ShellBar title="Data Scrub Security Administration" homeIcon="model/logo.jpg">
+		<f:profile>
+			<f:Avatar initials="{path:'user>/name', formatter: '.formatShellBarInitials'}" press="_openUserPopover"/>
+		</f:profile>
+	</f:ShellBar>
+	<f:DynamicPage id="idConfigPage" headerExpanded="{/headerExpanded}" toggleHeaderOnTitleClick="{/titleClickable}">
+		<f:content>
+			<core:Fragment fragmentName="com.ng.admin.securityui.fragments.Users" type="XML"/>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>

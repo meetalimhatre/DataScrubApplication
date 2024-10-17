@@ -1,0 +1,191 @@
+PROCEDURE "CREATE_TA_TEXTRULES" ( IN I_CONFIGURATION_NAME NVARCHAR(100) )
+   LANGUAGE SQLSCRIPT
+   SQL SECURITY DEFINER
+   --DEFAULT SCHEMA <default_schema_name>
+   AS
+BEGIN
+DECLARE invalid_input CONDITION FOR SQL_ERROR_CODE 10001;
+DECLARE invalid_entity_group CONDITION FOR SQL_ERROR_CODE 10002;
+
+-- May add 2 words or more
+
+/*
+-- DERIVE THE CONFIGURATION FROM PROCESS 
+declare configurations NVARCHAR(100) array;
+declare column_names nvarchar(100) array;
+DECLARE COLUMN_NAME NVARCHAR(200);
+DECLARE full_text_name NVARCHAR(200);
+declare create_full_text nvarchar(2000);
+T_CONFIG = SELECT CONFIGURATION_NAME,TA_COLUMN FROM "CDS_DS.T_CONFIGURATIONS"  WHERE CONFIGURATION_NAME = :I_CONFIGURATION_NAME;    
+configurations = array_agg(:t_config.configuration_name);
+column_names  =  array_agg(:t_config.ta_column);
+column_name  = 'EXPENSE.'||:column_names[1];
+full_text_name = :I_CONFIGURATION_NAME||'_'||:column_names[1];
+
+create_full_text = 'CREATE FULLTEXT INDEX '|| :full_text_name || ' ON "CDS_DS.T_CONCUR_EXPENSES"("'|| :column_name||
+'") FAST PREPROCESS OFF ASYNC FLUSH EVERY 1 MINUTES CONFIGURATION '''||:configurations[1]||''' TEXT ANALYSIS ON';  
+/*
+CREATE FULLTEXT INDEX "TA_REPORT" ON "CDS_DS.T_CONCUR_EXPENSES" ("EXPENSE.REPORT_NAME") FAST PREPROCESS OFF ASYNC FLUSH EVERY 1 MINUTES
+CONFIGURATION 'configuration_1'
+TEXT ANALYSIS ON; */
+
+-- EXEC :create_full_text;
+
+/*
+ENTITIES = SELECT CONFIGURATION_NAME,E.ENTITY_CATEGORY FROM "CDS_DS.T_CONFIGURATIONS" AS C INNER JOIN "CDS_DS.T_ENTITIES" AS E ON C.CONFIGURATION_NAME = :configurations[1] ;
+
+INSERT INTO "CDS_DS.T_DISPOSITIONS"( DISPOSITION_ID,"EXPENSE_KEY.REPORT_ID","EXPENSE_KEY.ALLOCATION_KEY",DISPOSITION_ENTITY,DISPOSITION_REASON,PRC_ID,TA_COLUMN)
+SELECT SYSUUID AS DISPOSITION_ID,TE."EXPENSE_KEY.REPORT_ID",TE."EXPENSE_KEY.ALLOCATION_KEY",C.ENTITY_CATEGORY,TE.TA_TOKEN,:I_PROCESS_ID AS PRC_ID,'REPORT_NAME' AS TA_COLUMN FROM (SELECT  I."EXPENSE_KEY.REPORT_ID",I."EXPENSE_KEY.ALLOCATION_KEY",I.TA_TYPE,I.TA_TOKEN  FROM "$TA_TA_REPORT" AS I inner join "CDS_DS.V_PROC_EXPENSES" AS E ON I."EXPENSE_KEY.REPORT_ID" = E.REPORT_ID AND 
+I."EXPENSE_KEY.ALLOCATION_KEY" = E.ALLOCATION_KEY   WHERE E.PRC_ID = :I_PROCESS_ID ) AS TE INNER JOIN  :ENTITIES as C ON TE.TA_TYPE = C.ENTITY_CATEGORY; 
+*/
+
+declare entity_groups NVARCHAR(1000) array;
+declare sub_group_entity NVARCHAR(1000) default '';
+declare i INTEGER ;
+declare J INTEGER ;
+declare subgroup_keyword NVARCHAR(200) default '#subgroup ';
+declare group_keyword NVARCHAR(200) default '#group ';
+declare subgroup_str NVARCHAR(1000) default '';
+declare group_str NVARCHAR(5000)  default '';
+declare text_rule NVARCHAR(5000)  default '';
+declare text_rule_ NVARCHAR(5000)  default '';
+declare _group NVARCHAR(1000) default '';
+declare carriage_return NVARCHAR(2);
+declare entity NVARCHAR(1000) default '';
+declare _configuration blob;
+
+-- -
+declare c_sen_keyword NVARCHAR(6) default 'i_';
+-- -
+
+SELECT BINTOSTR( HEXTOBIN('0D0A') ) INTO carriage_return FROM dummy;
+
+-- Select configuration details from given configuration name (config name, ruleset name, entity group, config status)
+T_CONF_ENTITIES = SELECT CONFIGURATION_NAME,ENTITY_GROUP FROM "CDS_DS.T_CONFIGURATIONS"  WHERE CONFIGURATION_NAME = :I_CONFIGURATION_NAME;
+IF  IS_EMPTY(:T_CONF_ENTITIES) THEN
+	SIGNAL invalid_input  SET MESSAGE_TEXT = 'Invalid Configuration';
+END IF;
+
+entity_groups = array_agg(:T_CONF_ENTITIES.ENTITY_GROUP);
+
+-- Check validity of all entities in specified configuration (Entities in configuration must exist in entity table)
+i := 1;
+j := 1;
+-- entity_groups (Entity Name, Entity Group)
+FOR i IN 1 .. CARDINALITY(:entity_groups) DO
+	-- collect all entity values first before converting to TA format
+	-- collect all negated entities
+
+	T_ENTITIES  = SELECT * FROM  "CDS_DS.T_ENTITIES" WHERE ENTITY_GROUP = :entity_groups[i];
+	IF  IS_EMPTY(:T_ENTITIES) THEN
+		SIGNAL invalid_entity_group  SET MESSAGE_TEXT = 'Invalid Entity Group';
+	--	||:entity_groups[i]||'';	
+	END IF;
+
+	-- Convert entities into valid TA rule set format	
+	FOR J in 1 .. RECORD_COUNT(:T_ENTITIES) DO
+		-- Does entity name start with '<'? if not append and check other conditions
+		-- If entity starts with '<', it is assumed that it is already formatted in TA format, and ignore format modificaitons
+		IF ( instr(:T_ENTITIES.ENTITY_NAME[J],'<') != 0 ) THEN
+			entity = :T_ENTITIES.ENTITY_NAME[J];
+			-- entity = '<'||:T_ENTITIES.ENTITY_NAME[J]||'>';
+		ELSE
+	
+			entity = '<('||:T_ENTITIES.ENTITY_NAME[J]||')>';
+			-- entity = :T_ENTITIES.ENTITY_NAME[J];
+			-- trim beginning and trailing whitespace
+			entity = trim(:entity);
+			-- w1,w2,w3
+			-- <w1,w2,w3>
+			--<w1><>*<w2><>*<w3>
+			
+		-- MULTI WORD / CASE SENSITIVE
+/*		
+			IF ( instr(:entity,',') != 0 and instr(:entity,:c_sen_keyword) = 0) THEN
+				entity = replace(:entity, ',', ')(><>*<)(');
+			--<\p{ci}w1<>*<\p{ci}w2><>*<\\p{ci}w3>
+*/
+		-- MULTI WORD / CASE INSENSITIVE
+			IF ( instr(:entity,',') != 0 ) THEN
+				entity = replace(:entity, :c_sen_keyword, '');
+			--	entity = replace(:entity, ',', ')><(.*)>*<(');
+			entity = replace(:entity, ',', ')><>*<(');
+			
+				entity = replace(:entity, '<(', '<\p{ci}(');
+			/*	
+			IF(instr(:entity,'<(.*') != 0) THEN
+				entity = replace(:entity, '<(.*', '<.*\p{ci}(');
+			     ELSE
+				entity = replace(:entity, '<(', '<\p{ci}(');
+				END IF; */	
+			
+			/* Alternation can be achieved with the multiple keywords in a group 
+				IF (instr(:entity,'|') != 0) THEN
+					entity = replace(:entity, '|', '|\p{ci})(');
+				END IF; */
+		-- SINGLE WORD / CASE INSENSITIVE
+			ELSEIF (instr(:entity,',') = 0 ) THEN
+				entity = replace(:entity, :c_sen_keyword, '');
+			entity = replace(:entity, ' ', ')><(\\s)>*<(');
+			    IF(instr(:entity,'<(.*') != 0) THEN
+				entity = replace(:entity, '<(.*', '<.*\p{ci}(');
+			     ELSE
+				entity = replace(:entity, '<(', '<\p{ci}(');
+				END IF;
+			/*	Alternation can be achieved with the multiple keywords in a group 
+			IF (instr(:entity,'|.*') != 0) THEN
+				entity = replace(:entity, '|.*', ')|.*\p{ci}(');
+				ELSEIF (instr(:entity,'|') != 0) THEN
+					entity = replace(:entity, '|', ')|\p{ci}(');
+				END IF; */
+		-- SINGLE WORD / CASE SENSITIVE
+		--	ELSEIF (instr(:entity,',') = 0 and instr(:entity,:c_sen_keyword) = 0) THEN
+		--		entity = replace(:entity, ' ', '><');
+			END IF;
+			
+			-- IF (instr(:entity,'|') != 0) THEN
+			-- 	entity = replace(:entity, '|', '|\p{ci}');
+			-- END IF;
+			-- 
+			-- IF ( instr(:entity,'~') != 0) THEN
+			-- 	entity = replace(:entity, '~', '.* - .*');
+			-- END IF;
+			-- -
+			
+		END IF;
+		
+		entity = '('||:entity||')';
+			
+		-- if there is more than 1 entity, append to subgroup entity, else start subgroup entity
+		IF (J = 1) THEN
+			sub_group_entity =  :entity ;
+		ELSE
+			sub_group_entity =  :sub_group_entity||'|'||:entity ;
+		END IF;
+	END FOR;
+	-- Create string for subgroup
+	subgroup_str = :subgroup_keyword || :entity_groups[i] || '_SG: '|| :sub_group_entity||carriage_return;
+--	_group = '#'||:subgroup_str||CHAR(13);
+	-- Create string for group
+	group_str = :group_keyword||:entity_groups[i]||': %('||:entity_groups[i]||'_SG)'||carriage_return;
+	-- Create string that will be added to text rule.
+	text_rule_ = :subgroup_str||:group_str;
+	
+	-- If in first loop or only rule, set as just text_rule_
+	-- If more, append new rule to previous rule
+	IF (i=1) THEN
+		text_rule = :text_rule_;
+	ELSE
+		text_rule = :text_rule||:text_rule_;
+	END IF;
+END FOR;
+
+-- Call SAP provided Text Configuration Create procedure
+-- Create actual TA textrule
+---_CONFIGURATION := 	:GROU
+CALL TEXT_CONFIGURATION_CREATE_2(CURRENT_SCHEMA, :I_CONFIGURATION_NAME||'_Rule', 'hdbtextrule', :text_rule);
+
+
+
+
+end

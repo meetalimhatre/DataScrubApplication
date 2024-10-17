@@ -1,0 +1,1007 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" xmlns:Variable="http://www.sap.com/ndb/BiModelVariable.ecore" id="CV_EXP_DISPOSITIONS" applyPrivilegeType="NONE" dataCategory="DIMENSION" schemaVersion="3.0" outputViewType="Projection" cacheInvalidationPeriod="HOURLY" enforceSqlExecution="false">
+<descriptions defaultDescription="CV_EXP_DISPOSITIONS"/>
+<localVariables>
+  <variable id="IP_PRC_ID" parameter="true">
+    <descriptions defaultDescription=""/>
+    <variableProperties datatype="BIGINT" mandatory="true">
+      <valueDomain type="empty"/>
+      <selection multiLine="true" type="SingleValue"/>
+    </variableProperties>
+  </variable></localVariables>
+<variableMappings>
+  <mapping xsi:type="Variable:VariableMapping" dataSource="CV_DISPOSITIONS_CONF">
+    <targetVariable name="IP_PRC_ID" resourceUri="CV_DISPOSITIONS_CONF"/>
+    <localVariable>IP_PRC_ID</localVariable>
+  </mapping>
+</variableMappings>
+<dataSources>
+  <DataSource id="CDS_DS.V_JE_EXP_PROC">
+    <resourceUri>CDS_DS.V_JE_EXP_PROC</resourceUri>
+  </DataSource>
+  <DataSource id="CV_DISPOSITIONS_CONF">
+    <resourceUri>CV_DISPOSITIONS_CONF</resourceUri>
+  </DataSource>
+  <DataSource id="CDS_DS.T_DS_STATUS">
+    <resourceUri>CDS_DS.T_DS_STATUS</resourceUri>
+  </DataSource>
+  <DataSource id="CDS_DS.T_DS_STATUS_ITEM">
+    <resourceUri>CDS_DS.T_DS_STATUS_ITEM</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_1" filterExpressionLanguage="COLUMN_ENGINE">
+    <viewAttributes>
+      <viewAttribute id="DATA_SCRUB_DESC"/>
+      <viewAttribute id="PRC_ID"/>
+      <viewAttribute id="DATA_SCRUB_NAME"/>
+      <viewAttribute id="COMPANY_CODE"/>
+      <viewAttribute id="START_DATE"/>
+      <viewAttribute id="END_DATE"/>
+      <viewAttribute id="STATUS_ID"/>
+      <viewAttribute id="CREATED_AT"/>
+      <viewAttribute id="OWNER"/>
+      <viewAttribute id="CONFIGURATION_NAME"/>
+      <viewAttribute id="USER_GROUP"/>
+      <viewAttribute id="ITEM_SET"/>
+      <viewAttribute id="DOC_HEADER_TEXT_KEY"/>
+      <viewAttribute id="UNIQUE_KEY"/>
+      <viewAttribute id="ACC_DOC_NUMBER_KEY"/>
+      <viewAttribute id="FISCAL_PERIOD_KEY"/>
+      <viewAttribute id="PARKED_BY_KEY"/>
+      <viewAttribute id="COMPANY_KEY"/>
+      <viewAttribute id="COST_ELEMENT_KEY"/>
+      <viewAttribute id="PROFIT_CENTER_KEY"/>
+      <viewAttribute id="PROFIT_CENTER_NAME"/>
+      <viewAttribute id="POSTING_DATE_KEY"/>
+      <viewAttribute id="ORDER_KEY"/>
+      <viewAttribute id="ORDER_NAME"/>
+      <viewAttribute id="DOC_TYPE_KEY"/>
+      <viewAttribute id="GL_ACC_KEY"/>
+      <viewAttribute id="GL_ACC_NAME"/>
+      <viewAttribute id="VENDOR_KEY"/>
+      <viewAttribute id="VENDOR_NAME"/>
+      <viewAttribute id="REF_DOCUMENT_NUMBER_KEY"/>
+      <viewAttribute id="TOTAL_JOURNAL_USD"/>
+      <viewAttribute id="REPORT_ID"/>
+      <viewAttribute id="ALLOCATION_KEY"/>
+      <viewAttribute id="EMPLOYEE_ID"/>
+      <viewAttribute id="EMPLOYEE_NAME"/>
+      <viewAttribute id="EMPLOYEE_COMPANY"/>
+      <viewAttribute id="REPORT_NAME"/>
+      <viewAttribute id="PURPOSE"/>
+      <viewAttribute id="SENT_FOR_PAYMENT"/>
+      <viewAttribute id="TOTAL_APPROVED_AMOUNT"/>
+      <viewAttribute id="PAYMENT_TYPE"/>
+      <viewAttribute id="EXPENSE_TYPE"/>
+      <viewAttribute id="APPROVAL_STATUS"/>
+      <viewAttribute id="PAYMENT_STATUS"/>
+      <viewAttribute id="APPROVED_AMOUNT_RPT"/>
+      <viewAttribute id="APPROVED_AMOUNT"/>
+      <viewAttribute id="TRANSACTION_DATE"/>
+      <viewAttribute id="PERCENTAGE"/>
+      <viewAttribute id="RECIEVING_COMPANY_CODE"/>
+      <viewAttribute id="ORDER_NUMBER"/>
+      <viewAttribute id="OPERATION_KEY"/>
+      <viewAttribute id="ALLOCATION_CODE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CDS_DS.V_JE_EXP_PROC"/>
+    <filter>IN (&quot;PRC_ID&quot;,$$IP_PRC_ID$$)</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_2">
+    <viewAttributes>
+      <viewAttribute id="EXPENSE_KEY_REPORT_ID"/>
+      <viewAttribute id="EXPENSE_KEY_ALLOCATION_KEY"/>
+      <viewAttribute id="DISPOSITION_ID"/>
+      <viewAttribute id="PRC_ID"/>
+      <viewAttribute id="DISPOSITION_REASON"/>
+      <viewAttribute id="DISPOSITION_ENTITY"/>
+      <viewAttribute id="TA_COLUMN"/>
+      <viewAttribute id="PRIORITY"/>
+      <viewAttribute id="CREATED_BY"/>
+      <viewAttribute id="LAST_CHANGED_BY"/>
+      <viewAttribute id="DISPOSITION_TYPE"/>
+      <viewAttribute id="SAMPLED_FLAG"/>
+      <viewAttribute id="ENTITY_NAME"/>
+    
+      <viewAttribute id="ENTITY_GROUP"/>
+      <viewAttribute id="RULE_DESCRIPTION"/>
+      <viewAttribute id="RULE_NAME"/>
+      <viewAttribute id="RULE_EXPRESSION"/>
+      <viewAttribute id="RULE_PRIORITY"/>
+    
+      <viewAttribute id="SCRUBBER_COMMENTS"/>
+      <viewAttribute id="REVIEWER_COMMENTS"/>
+      <viewAttribute id="ITEM"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CV_DISPOSITIONS_CONF"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1" cardinality="C1_N" joinType="leftOuter">
+    <viewAttributes>
+      <viewAttribute id="DATA_SCRUB_DESC"/>
+      <viewAttribute id="PRC_ID"/>
+      <viewAttribute id="DATA_SCRUB_NAME"/>
+      <viewAttribute id="COMPANY_CODE"/>
+      <viewAttribute id="START_DATE"/>
+      <viewAttribute id="END_DATE"/>
+      <viewAttribute id="STATUS_ID"/>
+      <viewAttribute id="CREATED_AT"/>
+      <viewAttribute id="OWNER"/>
+      <viewAttribute id="CONFIGURATION_NAME"/>
+      <viewAttribute id="USER_GROUP"/>
+      <viewAttribute id="ITEM_SET"/>
+      <viewAttribute id="DOC_HEADER_TEXT_KEY"/>
+      <viewAttribute id="UNIQUE_KEY"/>
+      <viewAttribute id="ACC_DOC_NUMBER_KEY"/>
+      <viewAttribute id="FISCAL_PERIOD_KEY"/>
+      <viewAttribute id="PARKED_BY_KEY"/>
+      <viewAttribute id="COMPANY_KEY"/>
+      <viewAttribute id="COST_ELEMENT_KEY"/>
+      <viewAttribute id="PROFIT_CENTER_KEY"/>
+      <viewAttribute id="PROFIT_CENTER_NAME"/>
+      <viewAttribute id="POSTING_DATE_KEY"/>
+      <viewAttribute id="ORDER_KEY"/>
+      <viewAttribute id="ORDER_NAME"/>
+      <viewAttribute id="DOC_TYPE_KEY"/>
+      <viewAttribute id="GL_ACC_KEY"/>
+      <viewAttribute id="GL_ACC_NAME"/>
+      <viewAttribute id="VENDOR_KEY"/>
+      <viewAttribute id="VENDOR_NAME"/>
+      <viewAttribute id="REF_DOCUMENT_NUMBER_KEY"/>
+      <viewAttribute id="TOTAL_JOURNAL_USD"/>
+      <viewAttribute id="REPORT_ID"/>
+      <viewAttribute id="ALLOCATION_KEY"/>
+      <viewAttribute id="EMPLOYEE_ID"/>
+      <viewAttribute id="EMPLOYEE_NAME"/>
+      <viewAttribute id="EMPLOYEE_COMPANY"/>
+      <viewAttribute id="REPORT_NAME"/>
+      <viewAttribute id="PURPOSE"/>
+      <viewAttribute id="SENT_FOR_PAYMENT"/>
+      <viewAttribute id="TOTAL_APPROVED_AMOUNT"/>
+      <viewAttribute id="PAYMENT_TYPE"/>
+      <viewAttribute id="EXPENSE_TYPE"/>
+      <viewAttribute id="APPROVAL_STATUS"/>
+      <viewAttribute id="PAYMENT_STATUS"/>
+      <viewAttribute id="APPROVED_AMOUNT_RPT"/>
+      <viewAttribute id="APPROVED_AMOUNT"/>
+      <viewAttribute id="TRANSACTION_DATE"/>
+      <viewAttribute id="PERCENTAGE"/>
+      <viewAttribute id="RECIEVING_COMPANY_CODE"/>
+      <viewAttribute id="ORDER_NUMBER"/>
+      <viewAttribute id="OPERATION_KEY"/>
+      <viewAttribute id="ALLOCATION_CODE"/>
+    
+      <viewAttribute id="DISPOSITION_REASON"/>
+      <viewAttribute id="DISPOSITION_ENTITY"/>
+      <viewAttribute id="PRIORITY"/>
+      <viewAttribute id="CREATED_BY"/>
+      <viewAttribute id="LAST_CHANGED_BY"/>
+      <viewAttribute id="DISPOSITION_TYPE"/>
+      <viewAttribute id="SAMPLED_FLAG"/>
+      <viewAttribute id="ENTITY_NAME"/>
+      <viewAttribute id="ENTITY_GROUP"/>
+      <viewAttribute id="RULE_DESCRIPTION"/>
+      <viewAttribute id="RULE_NAME"/>
+      <viewAttribute id="RULE_EXPRESSION"/>
+      <viewAttribute id="RULE_PRIORITY"/>
+    
+      <viewAttribute id="SCRUBBER_COMMENTS"/>
+      <viewAttribute id="REVIEWER_COMMENTS"/>
+      <viewAttribute id="ITEM"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Projection_1">
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATA_SCRUB_DESC" source="DATA_SCRUB_DESC"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRC_ID" source="PRC_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATA_SCRUB_NAME" source="DATA_SCRUB_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COMPANY_CODE" source="COMPANY_CODE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="START_DATE" source="START_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="END_DATE" source="END_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_ID" source="STATUS_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CREATED_AT" source="CREATED_AT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="OWNER" source="OWNER"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CONFIGURATION_NAME" source="CONFIGURATION_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="USER_GROUP" source="USER_GROUP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ITEM_SET" source="ITEM_SET"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DOC_HEADER_TEXT_KEY" source="DOC_HEADER_TEXT_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="UNIQUE_KEY" source="UNIQUE_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ACC_DOC_NUMBER_KEY" source="ACC_DOC_NUMBER_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FISCAL_PERIOD_KEY" source="FISCAL_PERIOD_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PARKED_BY_KEY" source="PARKED_BY_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COMPANY_KEY" source="COMPANY_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COST_ELEMENT_KEY" source="COST_ELEMENT_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PROFIT_CENTER_KEY" source="PROFIT_CENTER_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PROFIT_CENTER_NAME" source="PROFIT_CENTER_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="POSTING_DATE_KEY" source="POSTING_DATE_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ORDER_KEY" source="ORDER_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ORDER_NAME" source="ORDER_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DOC_TYPE_KEY" source="DOC_TYPE_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="GL_ACC_KEY" source="GL_ACC_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="GL_ACC_NAME" source="GL_ACC_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VENDOR_KEY" source="VENDOR_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VENDOR_NAME" source="VENDOR_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REF_DOCUMENT_NUMBER_KEY" source="REF_DOCUMENT_NUMBER_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTAL_JOURNAL_USD" source="TOTAL_JOURNAL_USD"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REPORT_ID" source="REPORT_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALLOCATION_KEY" source="ALLOCATION_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EMPLOYEE_ID" source="EMPLOYEE_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EMPLOYEE_NAME" source="EMPLOYEE_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EMPLOYEE_COMPANY" source="EMPLOYEE_COMPANY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REPORT_NAME" source="REPORT_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PURPOSE" source="PURPOSE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SENT_FOR_PAYMENT" source="SENT_FOR_PAYMENT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTAL_APPROVED_AMOUNT" source="TOTAL_APPROVED_AMOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PAYMENT_TYPE" source="PAYMENT_TYPE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EXPENSE_TYPE" source="EXPENSE_TYPE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPROVAL_STATUS" source="APPROVAL_STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PAYMENT_STATUS" source="PAYMENT_STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPROVED_AMOUNT_RPT" source="APPROVED_AMOUNT_RPT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPROVED_AMOUNT" source="APPROVED_AMOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TRANSACTION_DATE" source="TRANSACTION_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PERCENTAGE" source="PERCENTAGE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RECIEVING_COMPANY_CODE" source="RECIEVING_COMPANY_CODE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ORDER_NUMBER" source="ORDER_NUMBER"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="OPERATION_KEY" source="OPERATION_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALLOCATION_CODE" source="ALLOCATION_CODE"/>
+    </input>
+    <input node="Projection_2">
+      <mapping xsi:type="Calculation:AttributeMapping" target="DISPOSITION_REASON" source="DISPOSITION_REASON"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DISPOSITION_ENTITY" source="DISPOSITION_ENTITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRIORITY" source="PRIORITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CREATED_BY" source="CREATED_BY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LAST_CHANGED_BY" source="LAST_CHANGED_BY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DISPOSITION_TYPE" source="DISPOSITION_TYPE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SAMPLED_FLAG" source="SAMPLED_FLAG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ENTITY_NAME" source="ENTITY_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ENTITY_GROUP" source="ENTITY_GROUP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_DESCRIPTION" source="RULE_DESCRIPTION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_NAME" source="RULE_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_EXPRESSION" source="RULE_EXPRESSION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_PRIORITY" source="RULE_PRIORITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SCRUBBER_COMMENTS" source="SCRUBBER_COMMENTS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REVIEWER_COMMENTS" source="REVIEWER_COMMENTS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ITEM" source="ITEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRC_ID" source="PRC_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REPORT_ID" source="EXPENSE_KEY_REPORT_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALLOCATION_KEY" source="EXPENSE_KEY_ALLOCATION_KEY"/>
+    </input>
+    <joinAttribute name="PRC_ID"/>
+    <joinAttribute name="REPORT_ID"/>
+    <joinAttribute name="ALLOCATION_KEY"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_3" filterExpressionLanguage="COLUMN_ENGINE">
+    <viewAttributes>
+      <viewAttribute id="PRC_ID"/>
+      <viewAttribute id="REPORT_ID"/>
+      <viewAttribute id="REPORT_STATUS"/>
+      <viewAttribute id="SYSTEM_STATUS"/>
+      <viewAttribute id="PRIORITY"/>
+      <viewAttribute id="MANUAL_STATUS"/>
+      <viewAttribute id="MATCHING_RULES"/>
+      <viewAttribute id="MATCHING_ENTITIES"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CDS_DS.T_DS_STATUS"/>
+    <filter>IN (&quot;PRC_ID&quot;,$$IP_PRC_ID$$)</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_2" cardinality="C1_1" joinType="leftOuter" optimizeJoinColumns="true">
+    <viewAttributes>
+      <viewAttribute id="DATA_SCRUB_DESC"/>
+      <viewAttribute id="PRC_ID"/>
+      <viewAttribute id="DATA_SCRUB_NAME"/>
+      <viewAttribute id="COMPANY_CODE"/>
+      <viewAttribute id="START_DATE"/>
+      <viewAttribute id="END_DATE"/>
+      <viewAttribute id="STATUS_ID"/>
+      <viewAttribute id="CREATED_AT"/>
+      <viewAttribute id="OWNER"/>
+      <viewAttribute id="CONFIGURATION_NAME"/>
+      <viewAttribute id="USER_GROUP"/>
+      <viewAttribute id="ITEM_SET"/>
+      <viewAttribute id="DOC_HEADER_TEXT_KEY"/>
+      <viewAttribute id="UNIQUE_KEY"/>
+      <viewAttribute id="ACC_DOC_NUMBER_KEY"/>
+      <viewAttribute id="FISCAL_PERIOD_KEY"/>
+      <viewAttribute id="PARKED_BY_KEY"/>
+      <viewAttribute id="COMPANY_KEY"/>
+      <viewAttribute id="COST_ELEMENT_KEY"/>
+      <viewAttribute id="PROFIT_CENTER_KEY"/>
+      <viewAttribute id="PROFIT_CENTER_NAME"/>
+      <viewAttribute id="POSTING_DATE_KEY"/>
+      <viewAttribute id="ORDER_KEY"/>
+      <viewAttribute id="ORDER_NAME"/>
+      <viewAttribute id="DOC_TYPE_KEY"/>
+      <viewAttribute id="GL_ACC_KEY"/>
+      <viewAttribute id="GL_ACC_NAME"/>
+      <viewAttribute id="VENDOR_KEY"/>
+      <viewAttribute id="VENDOR_NAME"/>
+      <viewAttribute id="REF_DOCUMENT_NUMBER_KEY"/>
+      <viewAttribute id="TOTAL_JOURNAL_USD"/>
+      <viewAttribute id="REPORT_ID"/>
+      <viewAttribute id="ALLOCATION_KEY"/>
+      <viewAttribute id="EMPLOYEE_ID"/>
+      <viewAttribute id="EMPLOYEE_NAME"/>
+      <viewAttribute id="EMPLOYEE_COMPANY"/>
+      <viewAttribute id="REPORT_NAME"/>
+      <viewAttribute id="PURPOSE"/>
+      <viewAttribute id="SENT_FOR_PAYMENT"/>
+      <viewAttribute id="TOTAL_APPROVED_AMOUNT"/>
+      <viewAttribute id="PAYMENT_TYPE"/>
+      <viewAttribute id="EXPENSE_TYPE"/>
+      <viewAttribute id="APPROVAL_STATUS"/>
+      <viewAttribute id="PAYMENT_STATUS"/>
+      <viewAttribute id="APPROVED_AMOUNT_RPT"/>
+      <viewAttribute id="APPROVED_AMOUNT"/>
+      <viewAttribute id="TRANSACTION_DATE"/>
+      <viewAttribute id="PERCENTAGE"/>
+      <viewAttribute id="RECIEVING_COMPANY_CODE"/>
+      <viewAttribute id="ORDER_NUMBER"/>
+      <viewAttribute id="OPERATION_KEY"/>
+      <viewAttribute id="ALLOCATION_CODE"/>
+      <viewAttribute id="DISPOSITION_REASON"/>
+      <viewAttribute id="DISPOSITION_ENTITY"/>
+      <viewAttribute id="PRIORITY"/>
+      <viewAttribute id="CREATED_BY"/>
+      <viewAttribute id="LAST_CHANGED_BY"/>
+      <viewAttribute id="DISPOSITION_TYPE"/>
+      <viewAttribute id="SAMPLED_FLAG"/>
+      <viewAttribute id="ENTITY_NAME"/>
+      <viewAttribute id="ENTITY_GROUP"/>
+      <viewAttribute id="RULE_DESCRIPTION"/>
+      <viewAttribute id="RULE_NAME"/>
+      <viewAttribute id="RULE_EXPRESSION"/>
+      <viewAttribute id="RULE_PRIORITY"/>
+      <viewAttribute id="REPORT_STATUS"/>
+      <viewAttribute id="SYSTEM_STATUS"/>
+      <viewAttribute id="MANUAL_STATUS"/>
+      <viewAttribute id="MATCHING_RULES"/>
+      <viewAttribute id="MATCHING_ENTITIES"/>
+    
+      <viewAttribute id="SCRUBBER_COMMENTS"/>
+      <viewAttribute id="REVIEWER_COMMENTS"/>
+      <viewAttribute id="ITEM"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Join_1">
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATA_SCRUB_DESC" source="DATA_SCRUB_DESC"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRC_ID" source="PRC_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATA_SCRUB_NAME" source="DATA_SCRUB_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COMPANY_CODE" source="COMPANY_CODE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="START_DATE" source="START_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="END_DATE" source="END_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_ID" source="STATUS_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CREATED_AT" source="CREATED_AT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="OWNER" source="OWNER"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CONFIGURATION_NAME" source="CONFIGURATION_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="USER_GROUP" source="USER_GROUP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ITEM_SET" source="ITEM_SET"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DOC_HEADER_TEXT_KEY" source="DOC_HEADER_TEXT_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="UNIQUE_KEY" source="UNIQUE_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ACC_DOC_NUMBER_KEY" source="ACC_DOC_NUMBER_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FISCAL_PERIOD_KEY" source="FISCAL_PERIOD_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PARKED_BY_KEY" source="PARKED_BY_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COMPANY_KEY" source="COMPANY_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COST_ELEMENT_KEY" source="COST_ELEMENT_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PROFIT_CENTER_KEY" source="PROFIT_CENTER_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PROFIT_CENTER_NAME" source="PROFIT_CENTER_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="POSTING_DATE_KEY" source="POSTING_DATE_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ORDER_KEY" source="ORDER_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ORDER_NAME" source="ORDER_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DOC_TYPE_KEY" source="DOC_TYPE_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="GL_ACC_KEY" source="GL_ACC_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="GL_ACC_NAME" source="GL_ACC_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VENDOR_KEY" source="VENDOR_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VENDOR_NAME" source="VENDOR_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REF_DOCUMENT_NUMBER_KEY" source="REF_DOCUMENT_NUMBER_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTAL_JOURNAL_USD" source="TOTAL_JOURNAL_USD"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REPORT_ID" source="REPORT_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALLOCATION_KEY" source="ALLOCATION_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EMPLOYEE_ID" source="EMPLOYEE_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EMPLOYEE_NAME" source="EMPLOYEE_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EMPLOYEE_COMPANY" source="EMPLOYEE_COMPANY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REPORT_NAME" source="REPORT_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PURPOSE" source="PURPOSE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SENT_FOR_PAYMENT" source="SENT_FOR_PAYMENT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTAL_APPROVED_AMOUNT" source="TOTAL_APPROVED_AMOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PAYMENT_TYPE" source="PAYMENT_TYPE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EXPENSE_TYPE" source="EXPENSE_TYPE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPROVAL_STATUS" source="APPROVAL_STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PAYMENT_STATUS" source="PAYMENT_STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPROVED_AMOUNT_RPT" source="APPROVED_AMOUNT_RPT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPROVED_AMOUNT" source="APPROVED_AMOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TRANSACTION_DATE" source="TRANSACTION_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PERCENTAGE" source="PERCENTAGE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RECIEVING_COMPANY_CODE" source="RECIEVING_COMPANY_CODE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ORDER_NUMBER" source="ORDER_NUMBER"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="OPERATION_KEY" source="OPERATION_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALLOCATION_CODE" source="ALLOCATION_CODE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DISPOSITION_REASON" source="DISPOSITION_REASON"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DISPOSITION_ENTITY" source="DISPOSITION_ENTITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRIORITY" source="PRIORITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CREATED_BY" source="CREATED_BY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LAST_CHANGED_BY" source="LAST_CHANGED_BY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DISPOSITION_TYPE" source="DISPOSITION_TYPE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SAMPLED_FLAG" source="SAMPLED_FLAG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ENTITY_NAME" source="ENTITY_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ENTITY_GROUP" source="ENTITY_GROUP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_DESCRIPTION" source="RULE_DESCRIPTION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_NAME" source="RULE_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_EXPRESSION" source="RULE_EXPRESSION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_PRIORITY" source="RULE_PRIORITY"/>
+    
+      <mapping xsi:type="Calculation:AttributeMapping" target="SCRUBBER_COMMENTS" source="SCRUBBER_COMMENTS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REVIEWER_COMMENTS" source="REVIEWER_COMMENTS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ITEM" source="ITEM"/>
+    </input>
+    <input node="Projection_3">
+      <mapping xsi:type="Calculation:AttributeMapping" target="REPORT_STATUS" source="REPORT_STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SYSTEM_STATUS" source="SYSTEM_STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANUAL_STATUS" source="MANUAL_STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MATCHING_RULES" source="MATCHING_RULES"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MATCHING_ENTITIES" source="MATCHING_ENTITIES"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRC_ID" source="PRC_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REPORT_ID" source="REPORT_ID"/>
+    </input>
+    <joinAttribute name="PRC_ID"/>
+    <joinAttribute name="REPORT_ID"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_4" filterExpressionLanguage="COLUMN_ENGINE">
+    <viewAttributes>
+      <viewAttribute id="PRC_ID"/>
+      <viewAttribute id="REPORT_ID"/>
+      <viewAttribute id="ALLOCATION_KEY"/>
+      <viewAttribute id="REPORT_STATUS"/>
+      <viewAttribute id="SYSTEM_STATUS"/>
+      <viewAttribute id="PRIORITY"/>
+      <viewAttribute id="MANUAL_STATUS"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CDS_DS.T_DS_STATUS_ITEM"/>
+    <filter>IN (&quot;PRC_ID&quot;,$$IP_PRC_ID$$)</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_3" cardinality="C1_1" joinType="leftOuter" optimizeJoinColumns="true">
+    <viewAttributes>
+      <viewAttribute id="DATA_SCRUB_DESC"/>
+      <viewAttribute id="PRC_ID"/>
+      <viewAttribute id="DATA_SCRUB_NAME"/>
+      <viewAttribute id="COMPANY_CODE"/>
+      <viewAttribute id="START_DATE"/>
+      <viewAttribute id="END_DATE"/>
+      <viewAttribute id="STATUS_ID"/>
+      <viewAttribute id="CREATED_AT"/>
+      <viewAttribute id="OWNER"/>
+      <viewAttribute id="CONFIGURATION_NAME"/>
+      <viewAttribute id="USER_GROUP"/>
+      <viewAttribute id="ITEM_SET"/>
+      <viewAttribute id="DOC_HEADER_TEXT_KEY"/>
+      <viewAttribute id="UNIQUE_KEY"/>
+      <viewAttribute id="ACC_DOC_NUMBER_KEY"/>
+      <viewAttribute id="FISCAL_PERIOD_KEY"/>
+      <viewAttribute id="PARKED_BY_KEY"/>
+      <viewAttribute id="COMPANY_KEY"/>
+      <viewAttribute id="COST_ELEMENT_KEY"/>
+      <viewAttribute id="PROFIT_CENTER_KEY"/>
+      <viewAttribute id="PROFIT_CENTER_NAME"/>
+      <viewAttribute id="POSTING_DATE_KEY"/>
+      <viewAttribute id="ORDER_KEY"/>
+      <viewAttribute id="ORDER_NAME"/>
+      <viewAttribute id="DOC_TYPE_KEY"/>
+      <viewAttribute id="GL_ACC_KEY"/>
+      <viewAttribute id="GL_ACC_NAME"/>
+      <viewAttribute id="VENDOR_KEY"/>
+      <viewAttribute id="VENDOR_NAME"/>
+      <viewAttribute id="REF_DOCUMENT_NUMBER_KEY"/>
+      <viewAttribute id="TOTAL_JOURNAL_USD"/>
+      <viewAttribute id="REPORT_ID"/>
+      <viewAttribute id="ALLOCATION_KEY"/>
+      <viewAttribute id="EMPLOYEE_ID"/>
+      <viewAttribute id="EMPLOYEE_NAME"/>
+      <viewAttribute id="EMPLOYEE_COMPANY"/>
+      <viewAttribute id="REPORT_NAME"/>
+      <viewAttribute id="PURPOSE"/>
+      <viewAttribute id="SENT_FOR_PAYMENT"/>
+      <viewAttribute id="TOTAL_APPROVED_AMOUNT"/>
+      <viewAttribute id="PAYMENT_TYPE"/>
+      <viewAttribute id="EXPENSE_TYPE"/>
+      <viewAttribute id="APPROVAL_STATUS"/>
+      <viewAttribute id="PAYMENT_STATUS"/>
+      <viewAttribute id="APPROVED_AMOUNT_RPT"/>
+      <viewAttribute id="APPROVED_AMOUNT"/>
+      <viewAttribute id="TRANSACTION_DATE"/>
+      <viewAttribute id="PERCENTAGE"/>
+      <viewAttribute id="RECIEVING_COMPANY_CODE"/>
+      <viewAttribute id="ORDER_NUMBER"/>
+      <viewAttribute id="OPERATION_KEY"/>
+      <viewAttribute id="ALLOCATION_CODE"/>
+      <viewAttribute id="DISPOSITION_REASON"/>
+      <viewAttribute id="DISPOSITION_ENTITY"/>
+      <viewAttribute id="PRIORITY"/>
+      <viewAttribute id="CREATED_BY"/>
+      <viewAttribute id="LAST_CHANGED_BY"/>
+      <viewAttribute id="DISPOSITION_TYPE"/>
+      <viewAttribute id="SAMPLED_FLAG"/>
+      <viewAttribute id="ENTITY_NAME"/>
+      <viewAttribute id="ENTITY_GROUP"/>
+      <viewAttribute id="RULE_DESCRIPTION"/>
+      <viewAttribute id="RULE_NAME"/>
+      <viewAttribute id="RULE_EXPRESSION"/>
+      <viewAttribute id="RULE_PRIORITY"/>
+      <viewAttribute id="REPORT_STATUS"/>
+      <viewAttribute id="SYSTEM_STATUS"/>
+      <viewAttribute id="MANUAL_STATUS"/>
+      <viewAttribute id="MATCHING_RULES"/>
+      <viewAttribute id="MATCHING_ENTITIES"/>
+      <viewAttribute id="SCRUBBER_COMMENTS"/>
+      <viewAttribute id="REVIEWER_COMMENTS"/>
+      <viewAttribute id="ITEM"/>
+      <viewAttribute id="MANUAL_STATUS_1"/>
+      <viewAttribute id="SYSTEM_STATUS_1"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Join_2">
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATA_SCRUB_DESC" source="DATA_SCRUB_DESC"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRC_ID" source="PRC_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DATA_SCRUB_NAME" source="DATA_SCRUB_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COMPANY_CODE" source="COMPANY_CODE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="START_DATE" source="START_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="END_DATE" source="END_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CREATED_AT" source="CREATED_AT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="OWNER" source="OWNER"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CONFIGURATION_NAME" source="CONFIGURATION_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="USER_GROUP" source="USER_GROUP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ITEM_SET" source="ITEM_SET"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DOC_HEADER_TEXT_KEY" source="DOC_HEADER_TEXT_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="UNIQUE_KEY" source="UNIQUE_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ACC_DOC_NUMBER_KEY" source="ACC_DOC_NUMBER_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FISCAL_PERIOD_KEY" source="FISCAL_PERIOD_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PARKED_BY_KEY" source="PARKED_BY_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COMPANY_KEY" source="COMPANY_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COST_ELEMENT_KEY" source="COST_ELEMENT_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PROFIT_CENTER_KEY" source="PROFIT_CENTER_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PROFIT_CENTER_NAME" source="PROFIT_CENTER_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="POSTING_DATE_KEY" source="POSTING_DATE_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ORDER_KEY" source="ORDER_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ORDER_NAME" source="ORDER_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DOC_TYPE_KEY" source="DOC_TYPE_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="GL_ACC_KEY" source="GL_ACC_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="GL_ACC_NAME" source="GL_ACC_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VENDOR_KEY" source="VENDOR_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VENDOR_NAME" source="VENDOR_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REF_DOCUMENT_NUMBER_KEY" source="REF_DOCUMENT_NUMBER_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTAL_JOURNAL_USD" source="TOTAL_JOURNAL_USD"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REPORT_ID" source="REPORT_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALLOCATION_KEY" source="ALLOCATION_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EMPLOYEE_ID" source="EMPLOYEE_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EMPLOYEE_NAME" source="EMPLOYEE_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EMPLOYEE_COMPANY" source="EMPLOYEE_COMPANY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REPORT_NAME" source="REPORT_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PURPOSE" source="PURPOSE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SENT_FOR_PAYMENT" source="SENT_FOR_PAYMENT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTAL_APPROVED_AMOUNT" source="TOTAL_APPROVED_AMOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PAYMENT_TYPE" source="PAYMENT_TYPE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EXPENSE_TYPE" source="EXPENSE_TYPE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPROVAL_STATUS" source="APPROVAL_STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PAYMENT_STATUS" source="PAYMENT_STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPROVED_AMOUNT_RPT" source="APPROVED_AMOUNT_RPT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPROVED_AMOUNT" source="APPROVED_AMOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TRANSACTION_DATE" source="TRANSACTION_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PERCENTAGE" source="PERCENTAGE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RECIEVING_COMPANY_CODE" source="RECIEVING_COMPANY_CODE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ORDER_NUMBER" source="ORDER_NUMBER"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="OPERATION_KEY" source="OPERATION_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALLOCATION_CODE" source="ALLOCATION_CODE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DISPOSITION_REASON" source="DISPOSITION_REASON"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DISPOSITION_ENTITY" source="DISPOSITION_ENTITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRIORITY" source="PRIORITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CREATED_BY" source="CREATED_BY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LAST_CHANGED_BY" source="LAST_CHANGED_BY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DISPOSITION_TYPE" source="DISPOSITION_TYPE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SAMPLED_FLAG" source="SAMPLED_FLAG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ENTITY_NAME" source="ENTITY_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ENTITY_GROUP" source="ENTITY_GROUP"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_DESCRIPTION" source="RULE_DESCRIPTION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_NAME" source="RULE_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_EXPRESSION" source="RULE_EXPRESSION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RULE_PRIORITY" source="RULE_PRIORITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REPORT_STATUS" source="REPORT_STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SYSTEM_STATUS" source="SYSTEM_STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANUAL_STATUS" source="MANUAL_STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MATCHING_RULES" source="MATCHING_RULES"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MATCHING_ENTITIES" source="MATCHING_ENTITIES"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SCRUBBER_COMMENTS" source="SCRUBBER_COMMENTS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REVIEWER_COMMENTS" source="REVIEWER_COMMENTS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ITEM" source="ITEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS_ID" source="STATUS_ID"/>
+    </input>
+    <input node="Projection_4">
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANUAL_STATUS_1" source="MANUAL_STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SYSTEM_STATUS_1" source="SYSTEM_STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRC_ID" source="PRC_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REPORT_ID" source="REPORT_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALLOCATION_KEY" source="ALLOCATION_KEY"/>
+    </input>
+    <joinAttribute name="PRC_ID"/>
+    <joinAttribute name="REPORT_ID"/>
+    <joinAttribute name="ALLOCATION_KEY"/>
+  </calculationView>
+</calculationViews>
+<logicalModel id="Join_3">
+  <attributes>
+    <attribute id="DATA_SCRUB_DESC" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DATA_SCRUB_DESC"/>
+      <keyMapping columnObjectName="Join_3" columnName="DATA_SCRUB_DESC"/>
+    </attribute>
+    <attribute id="PRC_ID" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PRC_ID"/>
+      <keyMapping columnObjectName="Join_3" columnName="PRC_ID"/>
+    </attribute>
+    <attribute id="DATA_SCRUB_NAME" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DATA_SCRUB_NAME"/>
+      <keyMapping columnObjectName="Join_3" columnName="DATA_SCRUB_NAME"/>
+    </attribute>
+    <attribute id="COMPANY_CODE" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="COMPANY_CODE"/>
+      <keyMapping columnObjectName="Join_3" columnName="COMPANY_CODE"/>
+    </attribute>
+    <attribute id="START_DATE" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="START_DATE"/>
+      <keyMapping columnObjectName="Join_3" columnName="START_DATE"/>
+    </attribute>
+    <attribute id="END_DATE" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="END_DATE"/>
+      <keyMapping columnObjectName="Join_3" columnName="END_DATE"/>
+    </attribute>
+    <attribute id="CREATED_AT" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CREATED_AT"/>
+      <keyMapping columnObjectName="Join_3" columnName="CREATED_AT"/>
+    </attribute>
+    <attribute id="OWNER" order="8" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="OWNER"/>
+      <keyMapping columnObjectName="Join_3" columnName="OWNER"/>
+    </attribute>
+    <attribute id="CONFIGURATION_NAME" order="9" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CONFIGURATION_NAME"/>
+      <keyMapping columnObjectName="Join_3" columnName="CONFIGURATION_NAME"/>
+    </attribute>
+    <attribute id="USER_GROUP" order="10" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="USER_GROUP"/>
+      <keyMapping columnObjectName="Join_3" columnName="USER_GROUP"/>
+    </attribute>
+    <attribute id="ITEM_SET" order="11" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ITEM_SET"/>
+      <keyMapping columnObjectName="Join_3" columnName="ITEM_SET"/>
+    </attribute>
+    <attribute id="DOC_HEADER_TEXT_KEY" order="12" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DOC_HEADER_TEXT_KEY"/>
+      <keyMapping columnObjectName="Join_3" columnName="DOC_HEADER_TEXT_KEY"/>
+    </attribute>
+    <attribute id="ACC_DOC_NUMBER_KEY" order="13" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ACC_DOC_NUMBER_KEY"/>
+      <keyMapping columnObjectName="Join_3" columnName="ACC_DOC_NUMBER_KEY"/>
+    </attribute>
+    <attribute id="FISCAL_PERIOD_KEY" order="14" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="FISCAL_PERIOD_KEY"/>
+      <keyMapping columnObjectName="Join_3" columnName="FISCAL_PERIOD_KEY"/>
+    </attribute>
+    <attribute id="PARKED_BY_KEY" order="15" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PARKED_BY_KEY"/>
+      <keyMapping columnObjectName="Join_3" columnName="PARKED_BY_KEY"/>
+    </attribute>
+    <attribute id="COMPANY_KEY" order="16" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="COMPANY_KEY"/>
+      <keyMapping columnObjectName="Join_3" columnName="COMPANY_KEY"/>
+    </attribute>
+    <attribute id="COST_ELEMENT_KEY" order="17" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="COST_ELEMENT_KEY"/>
+      <keyMapping columnObjectName="Join_3" columnName="COST_ELEMENT_KEY"/>
+    </attribute>
+    <attribute id="PROFIT_CENTER_KEY" order="18" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PROFIT_CENTER_KEY"/>
+      <keyMapping columnObjectName="Join_3" columnName="PROFIT_CENTER_KEY"/>
+    </attribute>
+    <attribute id="PROFIT_CENTER_NAME" order="19" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PROFIT_CENTER_NAME"/>
+      <keyMapping columnObjectName="Join_3" columnName="PROFIT_CENTER_NAME"/>
+    </attribute>
+    <attribute id="POSTING_DATE_KEY" order="20" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="POSTING_DATE_KEY"/>
+      <keyMapping columnObjectName="Join_3" columnName="POSTING_DATE_KEY"/>
+    </attribute>
+    <attribute id="ORDER_KEY" order="21" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ORDER_KEY"/>
+      <keyMapping columnObjectName="Join_3" columnName="ORDER_KEY"/>
+    </attribute>
+    <attribute id="ORDER_NAME" order="22" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ORDER_NAME"/>
+      <keyMapping columnObjectName="Join_3" columnName="ORDER_NAME"/>
+    </attribute>
+    <attribute id="DOC_TYPE_KEY" order="23" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DOC_TYPE_KEY"/>
+      <keyMapping columnObjectName="Join_3" columnName="DOC_TYPE_KEY"/>
+    </attribute>
+    <attribute id="GL_ACC_KEY" order="24" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="GL_ACC_KEY"/>
+      <keyMapping columnObjectName="Join_3" columnName="GL_ACC_KEY"/>
+    </attribute>
+    <attribute id="GL_ACC_NAME" order="25" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="GL_ACC_NAME"/>
+      <keyMapping columnObjectName="Join_3" columnName="GL_ACC_NAME"/>
+    </attribute>
+    <attribute id="VENDOR_KEY" order="26" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="VENDOR_KEY"/>
+      <keyMapping columnObjectName="Join_3" columnName="VENDOR_KEY"/>
+    </attribute>
+    <attribute id="VENDOR_NAME" order="27" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="VENDOR_NAME"/>
+      <keyMapping columnObjectName="Join_3" columnName="VENDOR_NAME"/>
+    </attribute>
+    <attribute id="REF_DOCUMENT_NUMBER_KEY" order="28" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="REF_DOCUMENT_NUMBER_KEY"/>
+      <keyMapping columnObjectName="Join_3" columnName="REF_DOCUMENT_NUMBER_KEY"/>
+    </attribute>
+    <attribute id="TOTAL_JOURNAL_USD" order="29" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TOTAL_JOURNAL_USD"/>
+      <keyMapping columnObjectName="Join_3" columnName="TOTAL_JOURNAL_USD"/>
+    </attribute>
+    <attribute id="REPORT_ID" order="30" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="REPORT_ID"/>
+      <keyMapping columnObjectName="Join_3" columnName="REPORT_ID"/>
+    </attribute>
+    <attribute id="ALLOCATION_KEY" order="31" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ALLOCATION_KEY"/>
+      <keyMapping columnObjectName="Join_3" columnName="ALLOCATION_KEY"/>
+    </attribute>
+    <attribute id="EMPLOYEE_ID" order="32" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="EMPLOYEE_ID"/>
+      <keyMapping columnObjectName="Join_3" columnName="EMPLOYEE_ID"/>
+    </attribute>
+    <attribute id="EMPLOYEE_NAME" order="33" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="EMPLOYEE_NAME"/>
+      <keyMapping columnObjectName="Join_3" columnName="EMPLOYEE_NAME"/>
+    </attribute>
+    <attribute id="EMPLOYEE_COMPANY" order="34" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="EMPLOYEE_COMPANY"/>
+      <keyMapping columnObjectName="Join_3" columnName="EMPLOYEE_COMPANY"/>
+    </attribute>
+    <attribute id="REPORT_NAME" order="35" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="REPORT_NAME"/>
+      <keyMapping columnObjectName="Join_3" columnName="REPORT_NAME"/>
+    </attribute>
+    <attribute id="PURPOSE" order="36" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PURPOSE"/>
+      <keyMapping columnObjectName="Join_3" columnName="PURPOSE"/>
+    </attribute>
+    <attribute id="SENT_FOR_PAYMENT" order="37" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SENT_FOR_PAYMENT"/>
+      <keyMapping columnObjectName="Join_3" columnName="SENT_FOR_PAYMENT"/>
+    </attribute>
+    <attribute id="TOTAL_APPROVED_AMOUNT" order="38" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TOTAL_APPROVED_AMOUNT"/>
+      <keyMapping columnObjectName="Join_3" columnName="TOTAL_APPROVED_AMOUNT"/>
+    </attribute>
+    <attribute id="PAYMENT_TYPE" order="39" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PAYMENT_TYPE"/>
+      <keyMapping columnObjectName="Join_3" columnName="PAYMENT_TYPE"/>
+    </attribute>
+    <attribute id="EXPENSE_TYPE" order="40" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="EXPENSE_TYPE"/>
+      <keyMapping columnObjectName="Join_3" columnName="EXPENSE_TYPE"/>
+    </attribute>
+    <attribute id="APPROVAL_STATUS" order="41" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="APPROVAL_STATUS"/>
+      <keyMapping columnObjectName="Join_3" columnName="APPROVAL_STATUS"/>
+    </attribute>
+    <attribute id="PAYMENT_STATUS" order="42" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PAYMENT_STATUS"/>
+      <keyMapping columnObjectName="Join_3" columnName="PAYMENT_STATUS"/>
+    </attribute>
+    <attribute id="APPROVED_AMOUNT_RPT" order="43" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="APPROVED_AMOUNT_RPT"/>
+      <keyMapping columnObjectName="Join_3" columnName="APPROVED_AMOUNT_RPT"/>
+    </attribute>
+    <attribute id="APPROVED_AMOUNT" order="44" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="APPROVED_AMOUNT"/>
+      <keyMapping columnObjectName="Join_3" columnName="APPROVED_AMOUNT"/>
+    </attribute>
+    <attribute id="TRANSACTION_DATE" order="45" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TRANSACTION_DATE"/>
+      <keyMapping columnObjectName="Join_3" columnName="TRANSACTION_DATE"/>
+    </attribute>
+    <attribute id="PERCENTAGE" order="46" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PERCENTAGE"/>
+      <keyMapping columnObjectName="Join_3" columnName="PERCENTAGE"/>
+    </attribute>
+    <attribute id="RECIEVING_COMPANY_CODE" order="47" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="RECIEVING_COMPANY_CODE"/>
+      <keyMapping columnObjectName="Join_3" columnName="RECIEVING_COMPANY_CODE"/>
+    </attribute>
+    <attribute id="ORDER_NUMBER" order="48" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ORDER_NUMBER"/>
+      <keyMapping columnObjectName="Join_3" columnName="ORDER_NUMBER"/>
+    </attribute>
+    <attribute id="OPERATION_KEY" order="49" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="OPERATION_KEY"/>
+      <keyMapping columnObjectName="Join_3" columnName="OPERATION_KEY"/>
+    </attribute>
+    <attribute id="ALLOCATION_CODE" order="50" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ALLOCATION_CODE"/>
+      <keyMapping columnObjectName="Join_3" columnName="ALLOCATION_CODE"/>
+    </attribute>
+    <attribute id="DISPOSITION_REASON" order="51" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DISPOSITION_REASON"/>
+      <keyMapping columnObjectName="Join_3" columnName="DISPOSITION_REASON"/>
+    </attribute>
+    <attribute id="DISPOSITION_ENTITY" order="52" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DISPOSITION_ENTITY"/>
+      <keyMapping columnObjectName="Join_3" columnName="DISPOSITION_ENTITY"/>
+    </attribute>
+    <attribute id="PRIORITY" order="53" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PRIORITY"/>
+      <keyMapping columnObjectName="Join_3" columnName="PRIORITY"/>
+    </attribute>
+    <attribute id="CREATED_BY" order="54" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CREATED_BY"/>
+      <keyMapping columnObjectName="Join_3" columnName="CREATED_BY"/>
+    </attribute>
+    <attribute id="LAST_CHANGED_BY" order="55" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="LAST_CHANGED_BY"/>
+      <keyMapping columnObjectName="Join_3" columnName="LAST_CHANGED_BY"/>
+    </attribute>
+    <attribute id="DISPOSITION_TYPE" order="56" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DISPOSITION_TYPE"/>
+      <keyMapping columnObjectName="Join_3" columnName="DISPOSITION_TYPE"/>
+    </attribute>
+    <attribute id="SAMPLED_FLAG" order="57" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SAMPLED_FLAG"/>
+      <keyMapping columnObjectName="Join_3" columnName="SAMPLED_FLAG"/>
+    </attribute>
+    <attribute id="ENTITY_NAME" order="58" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ENTITY_NAME"/>
+      <keyMapping columnObjectName="Join_3" columnName="ENTITY_NAME"/>
+    </attribute>
+    <attribute id="ENTITY_GROUP" order="59" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ENTITY_GROUP"/>
+      <keyMapping columnObjectName="Join_3" columnName="ENTITY_GROUP"/>
+    </attribute>
+    <attribute id="RULE_DESCRIPTION" order="60" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="RULE_DESCRIPTION"/>
+      <keyMapping columnObjectName="Join_3" columnName="RULE_DESCRIPTION"/>
+    </attribute>
+    <attribute id="RULE_NAME" order="61" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="RULE_NAME"/>
+      <keyMapping columnObjectName="Join_3" columnName="RULE_NAME"/>
+    </attribute>
+    <attribute id="RULE_EXPRESSION" order="62" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="RULE_EXPRESSION"/>
+      <keyMapping columnObjectName="Join_3" columnName="RULE_EXPRESSION"/>
+    </attribute>
+    <attribute id="RULE_PRIORITY" order="63" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="RULE_PRIORITY"/>
+      <keyMapping columnObjectName="Join_3" columnName="RULE_PRIORITY"/>
+    </attribute>
+    <attribute id="REPORT_STATUS" order="64" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="REPORT_STATUS"/>
+      <keyMapping columnObjectName="Join_3" columnName="REPORT_STATUS"/>
+    </attribute>
+    <attribute id="SYSTEM_STATUS" order="65" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SYSTEM_STATUS"/>
+      <keyMapping columnObjectName="Join_3" columnName="SYSTEM_STATUS"/>
+    </attribute>
+    <attribute id="MANUAL_STATUS" order="66" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="MANUAL_STATUS"/>
+      <keyMapping columnObjectName="Join_3" columnName="MANUAL_STATUS"/>
+    </attribute>
+    <attribute id="MATCHING_RULES" order="67" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="MATCHING_RULES"/>
+      <keyMapping columnObjectName="Join_3" columnName="MATCHING_RULES"/>
+    </attribute>
+    <attribute id="MATCHING_ENTITIES" order="68" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="MATCHING_ENTITIES"/>
+      <keyMapping columnObjectName="Join_3" columnName="MATCHING_ENTITIES"/>
+    </attribute>
+    <attribute id="SCRUBBER_COMMENTS" order="69" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SCRUBBER_COMMENTS"/>
+      <keyMapping columnObjectName="Join_3" columnName="SCRUBBER_COMMENTS"/>
+    </attribute>
+    <attribute id="REVIEWER_COMMENTS" order="70" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="REVIEWER_COMMENTS"/>
+      <keyMapping columnObjectName="Join_3" columnName="REVIEWER_COMMENTS"/>
+    </attribute>
+    <attribute id="ITEM" order="71" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ITEM"/>
+      <keyMapping columnObjectName="Join_3" columnName="ITEM"/>
+    </attribute>
+    <attribute id="ITEM_MANUAL_STATUS" order="72" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="MANUAL_STATUS"/>
+      <keyMapping columnObjectName="Join_3" columnName="MANUAL_STATUS_1"/>
+    </attribute>
+    <attribute id="ITEM_SYSTEM_STATUS" order="73" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SYSTEM_STATUS"/>
+      <keyMapping columnObjectName="Join_3" columnName="SYSTEM_STATUS_1"/>
+    </attribute>
+  
+    <attribute id="STATUS_ID" order="74" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="STATUS_ID"/>
+  
+      <keyMapping columnObjectName="Join_3" columnName="STATUS_ID"/>
+  
+    </attribute>
+  
+    <attribute id="UNIQUE_KEY" order="75" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="UNIQUE_KEY"/>
+  
+      <keyMapping columnObjectName="Join_3" columnName="UNIQUE_KEY"/>
+  
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/></logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="422" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Projection_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="696"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Projection_2" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="302" y="696"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="118" y="536"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="Projection_1" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="149" y="70"/>
+      <rectangleSize width="269"/>
+    </shape>
+    <shape modelObjectName="Projection_2" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="559" y="-8"/>
+      <rectangleSize width="238"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Projection_3" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="384" y="536"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Join_2" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="145" y="376"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="Join_1" modelObjectNameSpace="Join_2" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="136"/>
+    </shape>
+    <shape modelObjectName="Projection_3" modelObjectNameSpace="Join_2" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="224"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Projection_4" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="489" y="376"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Join_3" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="422" y="217"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="Join_2" modelObjectNameSpace="Join_3" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="224"/>
+    </shape>
+    <shape modelObjectName="Projection_4" modelObjectNameSpace="Join_3" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="182"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

@@ -1,0 +1,80 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" controllerName="com.ng.datascrubautomation.controller.DataScrubStatusDetails"
+	xmlns:uxap="sap.uxap" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:s="sap.suite.ui.commons">
+	<l:DynamicSideContent id="DynamicSideContentStatusDetailsPage" class="sapUiDSCExplored sapUiContentPadding" sideContentFallDown="BelowM"
+		containerQuery="true" showSideContent="false">
+		<l:mainContent>
+			<uxap:ObjectPageLayout showTitleInHeaderContent="false" showHeaderContent="true" showEditHeaderButton="false" showFooter="false"
+				class="sapUiSizeCompact">
+				<uxap:headerTitle>
+					<uxap:ObjectPageHeader objectTitle="{REPORT_NAME}" objectSubtitle="{DISPOSITIONSYSTEMSTATUS}" isObjectIconAlwaysVisible="false"
+						isObjectTitleAlwaysVisible="true" isObjectSubtitleAlwaysVisible="true" showPlaceholder="true"
+						objectImageURI="/build/uilibraries/content/static/image-canvas.svg">
+						<uxap:actions>
+							<Button text="{i18n>SET_REPORT_STATUS}" iconFirst="false" type="Transparent" enabled="true" press="_handleUserComments"
+								visible="{parts:[{path: 'REP_STATUS'},{path: 'status>/STATUS_ID'}, {path: 'user>/role'}], formatter: '.formatter.formatSetStatusVisibility'}"></Button>
+						</uxap:actions>
+						<uxap:sideContentButton>
+							<Button text="{i18n>SHOW_HIDE_LOGS}" icon="sap-icon://detail-view" type="Transparent" press="_showActivityLogs" tooltip="detail-view"></Button>
+						</uxap:sideContentButton>
+					</uxap:ObjectPageHeader>
+				</uxap:headerTitle>
+				<uxap:headerContent>
+					<l:VerticalLayout>
+						<ObjectStatus title="{i18n>EMPLOYEE_NAME}" text="{EMPLOYEE_NAME}"/>
+						<ObjectStatus title="{i18n>TOTAL_APPROVED_AMOUNT}" text="{TOTAL_APPROVED_AMOUNT}"/>
+					</l:VerticalLayout>
+					<l:VerticalLayout>
+						<ObjectStatus class="ngStatusTextColor" title="{i18n>SYSTEM_STATUS}" text="{SYS_STATUS}" state="None" inverted="true"/>
+						<ObjectStatus title="{i18n>REPORT_STATUS}" text="{REP_STATUS}" state="{path: 'REP_STATUS', formatter: '.formatter.formatReportState'}" inverted="true"/>
+					</l:VerticalLayout>
+				</uxap:headerContent>
+				<uxap:sections>
+					<uxap:ObjectPageSection title="{i18n>FINDINGS}">
+						<uxap:subSections>
+							<uxap:ObjectPageSubSection title="{i18n>SYSTEM_FINDINGS}">
+								<uxap:blocks>
+									<core:Fragment fragmentName="com.ng.datascrubautomation.fragments.SystemFindings" type="XML"/>
+								</uxap:blocks>
+							</uxap:ObjectPageSubSection>
+						</uxap:subSections>
+					</uxap:ObjectPageSection>
+					<uxap:ObjectPageSection title="{i18n>EXPENSE_LINE_ITEMS}">
+						<uxap:subSections>
+							<uxap:ObjectPageSubSection title="{i18n>EXPENSE_LINE_ITEMS}">
+								<uxap:blocks>
+									<core:Fragment fragmentName="com.ng.datascrubautomation.fragments.ExpenseLineItems" type="XML"/>
+								</uxap:blocks>
+							</uxap:ObjectPageSubSection>
+						</uxap:subSections>
+					</uxap:ObjectPageSection>
+					<uxap:ObjectPageSection title="{i18n>JE_DATA}">
+						<uxap:subSections>
+							<uxap:ObjectPageSubSection title="{i18n>JE_DATA}">
+								<uxap:blocks>
+									<core:Fragment fragmentName="com.ng.datascrubautomation.fragments.JournalEntry" type="XML"/>
+								</uxap:blocks>
+							</uxap:ObjectPageSubSection>
+						</uxap:subSections>
+					</uxap:ObjectPageSection>
+					<uxap:ObjectPageSection title="{i18n>EMP_ORDERS}">
+						<uxap:subSections>
+							<uxap:ObjectPageSubSection title="{i18n>EMP_ORDERS}">
+								<uxap:blocks>
+									<core:Fragment fragmentName="com.ng.datascrubautomation.fragments.EmployeeOrders" type="XML"/>
+								</uxap:blocks>
+							</uxap:ObjectPageSubSection>
+						</uxap:subSections>
+					</uxap:ObjectPageSection>
+				</uxap:sections>
+			</uxap:ObjectPageLayout>
+		</l:mainContent>
+		<l:sideContent>
+			<Title level="H1" text="{i18n>REPORT_ACTIVITY}"/>
+			<s:Timeline id="idTimelineReport" enableDoubleSided="true" growingThreshold="0" sortOldestFirst="true" content="{TO_LOGS}">
+				<s:content>
+					<s:TimelineItem userName="{USER_ID}" dateTime="{CREATED_TIME}" text="{SHORT_DESCRIPTION}" title="{TEXT}" userNameClickable="true"></s:TimelineItem>
+				</s:content>
+			</s:Timeline>
+		</l:sideContent>
+	</l:DynamicSideContent>
+</mvc:View>

@@ -1,0 +1,39 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<ColumnListItem>
+		<cells>
+			<VBox>
+				<Select class="ngRuleSelectExpression16" forceSelection="false" items="{ExpressionType>/TYPES}" selectedKey="{Expression>EXPRESSION_TYPE}" change="_loadExpressionFieldModel">
+					<core:Item key="{ExpressionType>text}" text="{ExpressionType>text}"/>
+				</Select>
+				<Select class="ngRuleSelectExpression16" items="{Expression>EXPRESSION_FIELD/FIELDS}" forceSelection="false" selectedKey="{Expression>SELECTED_EXPRESSION_FIELD}">
+					<core:Item key="{Expression>name}" text="{Expression>name}"/>
+				</Select>
+			</VBox>
+			<Select forceSelection="false" selectedKey="{Expression>OPERATOR}" class="ngRuleSelectExpression8">
+				<core:Item key="EQ" text="{i18n>EQUALS}"/>
+				<core:Item key="NE" text="{i18n>NOT_EQUALS}"/>
+				<core:Item key="IN" text="{i18n>IN}"/>
+				<core:Item key="NIN" text="{i18n>NOT_IN}"/>
+				<core:Item key="LIKE" text="{i18n>CONTAINS}"/>
+			</Select>
+			<VBox>
+				<Select forceSelection="false" class="ngRuleSelectExpression16" items="{ValueType>/VALUETYPES}" selectedKey="{Expression>VALUE_TYPE}" change="_loadValueFieldModel">
+					<core:Item key="{ValueType>text}" text="{ValueType>text}"/>
+				</Select>
+				<Select visible="{path: 'Expression>VALUE_TYPE', formatter: '.formatValueFieldSelectVisibility' }" items="{Expression>VALUE_FIELD/FIELDS}" class="ngRuleSelectExpression16" forceSelection="false" selectedKey="{Expression>SELECTED_VALUE_FIELD}">
+					<core:Item key="{Expression>name}" text="{Expression>name}"/>
+				</Select>
+				<Input visible="{path: 'Expression>VALUE_TYPE', formatter: '.formatValueFieldCustomVisibility' }" value="{Expression>VALUE}" class="ngRuleSelectExpression16"/>
+			</VBox>
+			<HBox>
+				<SegmentedButton selectedKey="{Expression>EXPRESSION_CONJUCTION}" class="sapUiSmallMarginBottom" width="12rem">
+					<items>
+						<SegmentedButtonItem text="{i18n>AND}" key="and"/>
+						<SegmentedButtonItem text="{i18n>OR}" key="or"/>
+					</items>
+				</SegmentedButton>
+				<Button icon="sap-icon://sys-cancel" class="sapUiLargeMarginBegin" type="Transparent" press="_onDeleteExpressionRow"/>
+			</HBox>
+		</cells>
+	</ColumnListItem>
+</core:FragmentDefinition>

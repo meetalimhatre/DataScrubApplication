@@ -1,0 +1,23 @@
+{
+	"role": {
+		"name": "load_report_role",
+	"object_privileges":[ 
+      { 
+        "name":"LOAD_REPORT_PRC", 
+        "type":"PROCEDURE", 
+        "privileges":[ "EXECUTE" ]
+      },
+      { 
+        "name":"CDS_DS.T_DATA_SCRUB_REPORT", 
+        "type":"TABLE", 
+        "privileges":[ "INSERT","DELETE","UPDATE" ]
+      }
+    ],
+    "schema_privileges": [{
+			"privileges": [
+				"SELECT",
+				"SELECT METADATA"
+			]
+		}]
+	}
+}

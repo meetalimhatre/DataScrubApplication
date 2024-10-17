@@ -1,0 +1,1480 @@
+// using "T_CONCUR_EXPENSES" as T_CONCUR_EXPENSES;
+// using "T_DS_PROCESSES" as T_DS_PROCESSES;
+// using "T_DISPOSITIONS" as T_DISPOSITIONS;
+// using "T_DS_STATUS" as T_DS_STATUS;V_PROCESSES
+// using "T_EMP_DEF_ACC" as T_EMP_DEF_ACC;
+// using "T_JOURNAL_ENTRY" as T_JOURNAL_ENTRY;
+// using "V_CONCUR_EXPENSES" as V_CONCUR_EXPENSES;
+// using "V_JOURNAL_ENTRY" as V_JOURNAL_ENTRY;k
+// using "V_PROCESSES" as V_PROCESSES;
+// using "V_JE_EXP" as V_JE_EXP;
+// using "V_DISPOSITIONS" as V_DISPOSITIONS;
+// using "V_JE_EXP_PROC" as V_JE_EXP_PROC;
+// using "V_STATUS" as V_STATUS;
+
+@OData.publish : true
+context CDS_DS {
+    /*@@layout{"layoutInfo":{"x":-987.90625,"y":-976}}*/
+    type USER_ID : String(100);
+    /*@@layout{"layoutInfo":{"x":-987.90625,"y":-949}}*/
+    type DATE_TIME_LOCAL : UTCDateTime;
+    /*@@layout{"layoutInfo":{"x":-987.90625,"y":-919}}*/
+    type STATUS_ID : String(30);
+    /*@@layout{"layoutInfo":{"x":-273.90625,"y":-1058}}*/
+    type S_EXPENSE {
+        EMPLOYEE_ID            : String(32);
+        EMPLOYEE_NAME          : String(128);
+        EMPLOYEE_COMPANY       : String(64);
+        REPORT_NAME            : String(128);
+        PURPOSE                : String(128);
+        SENT_FOR_PAYMENT       : DATE_LOCAL;
+        TOTAL_APPROVED_AMOUNT  : Decimal(13, 2);
+        PAYMENT_TYPE           : String(64);
+        EXPENSE_TYPE           : String(64);
+        APPROVAL_STATUS        : String(64);
+        PAYMENT_STATUS         : String(64);
+        APPROVED_AMOUNT_RPT    : Decimal(13, 2);
+        APPROVED_AMOUNT        : Decimal(13, 2);
+        TRANSACTION_DATE       : DATE_LOCAL;
+        PERCENTAGE             : Decimal(11, 8);
+        RECIEVING_COMPANY_CODE : String(64);
+        ORDER_NUMBER           : String(64);
+        OPERATION_KEY          : String(64);
+    };
+    /*@@layout{"layoutInfo":{"x":-586.09375,"y":-919}}*/
+    type S_EXP_KEY {
+        REPORT_ID      : String(64);
+        ALLOCATION_KEY : CDS_DS.ALLOCATION_KEY;
+    };
+    /*@@layout{"layoutInfo":{"x":-788.09375,"y":-919}}*/
+    type REPORT_ID : String(64);
+    /*@@layout{"layoutInfo":{"x":-588.09375,"y":-976}}*/
+    type ALLOCATION_KEY : String(20);
+    /*@@layout{"layoutInfo":{"x":-987.90625,"y":-894}}*/
+    type PROCESS_ID : Integer64;
+    /*@@layout{"layoutInfo":undefined}*/
+    type DATE_LOCAL : LocalDate;
+    /*@@layout{"layoutInfo":{"x":-787.90625,"y":-888}}*/
+    type GUID : String(100);
+    /*@@layout{"layoutInfo":{"x":-585.90625,"y":-949}}*/
+    type USER_GRP : String(80);
+
+
+    /*@@layout{"layoutInfo":{"x":508.09375,"y":-975}}*/
+    entity T_CONCUR_EXPENSES {
+        key EXPENSE_KEY : CDS_DS.S_EXP_KEY;
+            EXPENSE     : CDS_DS.S_EXPENSE;
+    };
+
+    entity T_CONCUR_EXPENSES_DATA {
+          EXPENSE_KEY : CDS_DS.S_EXP_KEY;
+          EXPENSE     : CDS_DS.S_EXPENSE;
+    };
+
+    /*@@layout{"layoutInfo":{"x":-1011.90625,"y":-505}}*/
+    entity T_INDEX_TEST {
+        key EXPENSE_ID  : Integer64 not null;
+            DESCRIPTION : String(100);
+    };
+
+    /*@@layout{"layoutInfo":{"x":980.09375,"y":-975}}*/
+    entity T_DISPOSITIONS {
+            EXPENSE_KEY        : CDS_DS.S_EXP_KEY;
+        key DISPOSITION_ID     : String(100);
+            PRC_ID             : CDS_DS.PROCESS_ID;
+            DISPOSITION_REASON : String(1000);
+            DISPOSITION_ENTITY : String(100);
+            TA_COLUMN          : String(100);
+            PRIORITY           : String(100);
+            CREATED_BY         : CDS_DS.USER_ID;
+            LAST_CHANGED_BY    : CDS_DS.USER_ID;
+            DISPOSITION_TYPE   : String(30);
+            SAMPLED_FLAG       : String(10);
+    };
+
+    /*@@layout{"layoutInfo":{"x":-1275.6103515625,"y":-388}}*/
+    entity T_MANUAL_DISPOSITIONS {
+        key PRC_ID             : CDS_DS.PROCESS_ID;
+        key REPORT_ID          : CDS_DS.REPORT_ID;
+        key ITEM               : String(100)           default 'initial';
+        key ALLOCATION_KEY     : CDS_DS.ALLOCATION_KEY default '0000';
+            DISPOSITION_ENTITY : String(100);
+            DISPOSITION_REASON : String(1000);
+            CREATED_BY         : CDS_DS.USER_ID;
+            LAST_CHANGED_BY    : CDS_DS.USER_ID;
+            SAMPLED_FLAG       : String(10);
+            REVIEWER_COMMENTS  : String(1000);
+            SCRUBBER_COMMENTS  : String(1000);
+    };
+
+    /*@@layout{"layoutInfo":{"x":780.09375,"y":-974}}*/
+    entity T_DS_PROCESSES {
+        key PRC_ID             : CDS_DS.PROCESS_ID;
+            DATA_SCRUB_NAME    : String(100);
+            DATA_SCRUB_DESC    : String(300);
+            COMPANY_CODE       : String(64);
+            START_DATE         : CDS_DS.DATE_LOCAL;
+            END_DATE           : CDS_DS.DATE_LOCAL;
+            STATUS_ID          : CDS_DS.STATUS_ID;
+            CREATED_AT         : CDS_DS.DATE_TIME_LOCAL;
+            OWNER              : CDS_DS.USER_ID;
+            CONFIGURATION_NAME : String(100);
+            USER_GROUP         : CDS_DS.USER_GRP;
+            ITEM_SET           : String(100);
+    };
+
+
+    /*@@layout{"layoutInfo":{"x":-995.90625,"y":-768}}*/
+    entity T_STATUS_DESC {
+        key STATUS_ID   : CDS_DS.STATUS_ID;
+            STATUS_TYPE : String(10);
+            DESC        : String(100);
+            RANK        : Integer;
+    };
+
+    /*@@layout{"layoutInfo":{"x":-823.90625,"y":-156}}*/
+    entity T_USERS {
+        key EMAIL : CDS_DS.USER_ID;
+            ROLE  : String(20);
+            NAME  : String(100);
+    };
+
+    /*@@layout{"layoutInfo":{"x":1380.09375,"y":-974}}*/
+    entity T_EMP_DEF_ACC {
+        key PERSONNEL_ID : String(32);
+        key ORDER_NUM    : String(64);
+            BAND_LEVEL   : String(100);
+            JOB_DESC     : String(100);
+            ORDER_DESC   : String(100);
+    };
+
+    // /*@@layout{"layoutInfo":{"x":1651.09375,"y":-242}}*/
+    // view V_PROC_EXPENSES as
+    //     select from (
+    //                   T_DS_PROCESSES
+    //         inner join T_CONCUR_EXPENSES on
+    //                 T_DS_PROCESSES.START_DATE   <= T_CONCUR_EXPENSES.EXPENSE.SENT_FOR_PAYMENT
+    //             and T_DS_PROCESSES.END_DATE     >= T_CONCUR_EXPENSES.EXPENSE.SENT_FOR_PAYMENT
+    //             and T_DS_PROCESSES.COMPANY_CODE =  T_CONCUR_EXPENSES.EXPENSE.RECIEVING_COMPANY_CODE
+    //     )
+    //     {
+    //         T_DS_PROCESSES.PRC_ID,
+    //         T_DS_PROCESSES.DATA_SCRUB_NAME,
+    //         T_DS_PROCESSES.DATA_SCRUB_DESC,
+    //         T_DS_PROCESSES.START_DATE,
+    //         T_DS_PROCESSES.END_DATE,
+    //         T_DS_PROCESSES.STATUS_ID,
+    //         T_DS_PROCESSES.CREATED_AT,
+    //         T_DS_PROCESSES.OWNER,
+    //         T_CONCUR_EXPENSES.EXPENSE_KEY.REPORT_ID,
+    //         T_CONCUR_EXPENSES.EXPENSE_KEY.ALLOCATION_KEY,
+    //         T_CONCUR_EXPENSES.EXPENSE.EMPLOYEE_ID,
+    //         T_CONCUR_EXPENSES.EXPENSE.EMPLOYEE_NAME,
+    //         T_CONCUR_EXPENSES.EXPENSE.EMPLOYEE_COMPANY,
+    //         T_CONCUR_EXPENSES.EXPENSE.REPORT_NAME,
+    //         T_CONCUR_EXPENSES.EXPENSE.PURPOSE,
+    //         T_CONCUR_EXPENSES.EXPENSE.SENT_FOR_PAYMENT,
+    //         T_CONCUR_EXPENSES.EXPENSE.TOTAL_APPROVED_AMOUNT,
+    //         T_CONCUR_EXPENSES.EXPENSE.PAYMENT_TYPE,
+    //         T_CONCUR_EXPENSES.EXPENSE.EXPENSE_TYPE,
+    //         T_CONCUR_EXPENSES.EXPENSE.APPROVAL_STATUS,
+    //         T_CONCUR_EXPENSES.EXPENSE.PAYMENT_STATUS,
+    //         T_CONCUR_EXPENSES.EXPENSE.APPROVED_AMOUNT_RPT,
+    //         T_CONCUR_EXPENSES.EXPENSE.APPROVED_AMOUNT,
+    //         T_CONCUR_EXPENSES.EXPENSE.TRANSACTION_DATE,
+    //         T_CONCUR_EXPENSES.EXPENSE.PERCENTAGE,
+    //         T_CONCUR_EXPENSES.EXPENSE.RECIEVING_COMPANY_CODE,
+    //         T_CONCUR_EXPENSES.EXPENSE.ORDER_NUMBER,
+    //         T_CONCUR_EXPENSES.EXPENSE.OPERATION_KEY,
+    //         left(T_CONCUR_EXPENSES.EXPENSE.ORDER_NUMBER, 4)   as ALLOCATION_CODE
+    //     };
+
+
+    // /*@@layout{"layoutInfo":{"x":-587.798828125,"y":43}}*/
+    // view V_EXP_RULE_DATA as
+    //     select from (
+    //         (
+    //                             V_PROC_EXPENSES
+    //             left outer join T_DISPOSITIONS     on
+    //                     V_PROC_EXPENSES.PRC_ID         = T_DISPOSITIONS.PRC_ID
+    //                 and V_PROC_EXPENSES.REPORT_ID      = T_DISPOSITIONS.EXPENSE_KEY.REPORT_ID
+    //                 and V_PROC_EXPENSES.ALLOCATION_KEY = T_DISPOSITIONS.EXPENSE_KEY.ALLOCATION_KEY
+    //         )
+    //         left outer join     T_ALLOCATION_CODES on
+    //             V_PROC_EXPENSES.ALLOCATION_CODE = T_ALLOCATION_CODES.ALLOCATION_CODE
+    //     )
+    //     {
+    //         V_PROC_EXPENSES.PRC_ID,
+    //         V_PROC_EXPENSES.DATA_SCRUB_NAME,
+    //         V_PROC_EXPENSES.DATA_SCRUB_DESC,
+    //         V_PROC_EXPENSES.START_DATE,
+    //         V_PROC_EXPENSES.END_DATE,
+    //         V_PROC_EXPENSES.STATUS_ID,
+    //         V_PROC_EXPENSES.CREATED_AT,
+    //         V_PROC_EXPENSES.OWNER,
+    //         V_PROC_EXPENSES.REPORT_ID,
+    //         V_PROC_EXPENSES.EMPLOYEE_ID,
+    //         V_PROC_EXPENSES.ALLOCATION_KEY,
+    //         V_PROC_EXPENSES.EMPLOYEE_NAME,
+    //         V_PROC_EXPENSES.EMPLOYEE_COMPANY,
+    //         V_PROC_EXPENSES.REPORT_NAME,
+    //         V_PROC_EXPENSES.PURPOSE,
+    //         V_PROC_EXPENSES.SENT_FOR_PAYMENT,
+    //         V_PROC_EXPENSES.TOTAL_APPROVED_AMOUNT,
+    //         V_PROC_EXPENSES.PAYMENT_TYPE,
+    //         V_PROC_EXPENSES.EXPENSE_TYPE,
+    //         V_PROC_EXPENSES.APPROVAL_STATUS,
+    //         V_PROC_EXPENSES.PAYMENT_STATUS,
+    //         V_PROC_EXPENSES.APPROVED_AMOUNT_RPT,
+    //         V_PROC_EXPENSES.APPROVED_AMOUNT,
+    //         V_PROC_EXPENSES.TRANSACTION_DATE,
+    //         V_PROC_EXPENSES.PERCENTAGE,
+    //         V_PROC_EXPENSES.RECIEVING_COMPANY_CODE,
+    //         V_PROC_EXPENSES.ORDER_NUMBER,
+    //         V_PROC_EXPENSES.OPERATION_KEY,
+    //         T_DISPOSITIONS.DISPOSITION_ID,
+    //         T_DISPOSITIONS.DISPOSITION_ENTITY,
+    //         T_DISPOSITIONS.DISPOSITION_REASON,
+    //         T_ALLOCATION_CODES.ALLOCATION_CODE,
+    //         T_ALLOCATION_CODES.COMPANY_CODE         as ALLOCATED_COMPANY_CODE
+    //     };
+
+/*@@layout{"layoutInfo":{"x":-587.798828125,"y":43}}*/
+    view V_EXP_RULE_DATA as
+        select from     V_JE_EXP_PROC_DISP
+        left outer join V_ALLOCATION_CODES on
+                V_JE_EXP_PROC_DISP.ALLOCATION_CODE = V_ALLOCATION_CODES.ALLOCATION_CODE
+            and V_JE_EXP_PROC_DISP.PAYMENT_MONTH   = V_ALLOCATION_CODES.DATE_MONTH
+            and V_JE_EXP_PROC_DISP.PAYMENT_YEAR    = V_ALLOCATION_CODES.DATE_YEAR
+        {
+            V_JE_EXP_PROC_DISP.PRC_ID,
+            V_JE_EXP_PROC_DISP.DATA_SCRUB_NAME,
+            V_JE_EXP_PROC_DISP.DATA_SCRUB_DESC,
+            V_JE_EXP_PROC_DISP.START_DATE,
+            V_JE_EXP_PROC_DISP.END_DATE,
+            V_JE_EXP_PROC_DISP.STATUS_ID,
+            V_JE_EXP_PROC_DISP.CREATED_AT,
+            V_JE_EXP_PROC_DISP.OWNER,
+            V_JE_EXP_PROC_DISP.REPORT_ID,
+            V_JE_EXP_PROC_DISP.EMPLOYEE_ID,
+            V_JE_EXP_PROC_DISP.ALLOCATION_KEY,
+            V_JE_EXP_PROC_DISP.EMPLOYEE_NAME,
+            V_JE_EXP_PROC_DISP.EMPLOYEE_COMPANY,
+            V_JE_EXP_PROC_DISP.REPORT_NAME,
+            V_JE_EXP_PROC_DISP.PURPOSE,
+            V_JE_EXP_PROC_DISP.SENT_FOR_PAYMENT,
+            V_JE_EXP_PROC_DISP.TOTAL_APPROVED_AMOUNT,
+            V_JE_EXP_PROC_DISP.PAYMENT_TYPE,
+            V_JE_EXP_PROC_DISP.EXPENSE_TYPE,
+            V_JE_EXP_PROC_DISP.APPROVAL_STATUS,
+            V_JE_EXP_PROC_DISP.PAYMENT_STATUS,
+            V_JE_EXP_PROC_DISP.APPROVED_AMOUNT_RPT,
+            V_JE_EXP_PROC_DISP.APPROVED_AMOUNT,
+            V_JE_EXP_PROC_DISP.TRANSACTION_DATE,
+            V_JE_EXP_PROC_DISP.PERCENTAGE,
+            V_JE_EXP_PROC_DISP.RECIEVING_COMPANY_CODE,
+            V_JE_EXP_PROC_DISP.ORDER_NUMBER,
+            V_JE_EXP_PROC_DISP.OPERATION_KEY,
+            V_JE_EXP_PROC_DISP.DISPOSITION_ID,
+            V_JE_EXP_PROC_DISP.DISPOSITION_ENTITY,
+            V_JE_EXP_PROC_DISP.DISPOSITION_REASON,
+            V_JE_EXP_PROC_DISP.BAND_LEVEL,
+            V_ALLOCATION_CODES.ALLOCATION_CODE,
+            V_ALLOCATION_CODES.ALLOCATED_COMPANY_CODE,
+            V_ALLOCATION_CODES.FISCPER,
+            V_ALLOCATION_CODES.DATE_OF_ENTRY
+        };
+
+
+    /*@@layout{"layoutInfo":{"x":-1006.90625,"y":-623}}*/
+    entity T_EXPENSES_TEST {
+        key EXP_KEY : CDS_DS.S_EXP_KEY;
+            EXPENSE : CDS_DS.S_EXPENSE;
+    };
+
+    /*@@layout{"layoutInfo":{"x":-795.90625,"y":-659}}*/
+    entity T_PROCESS_LOGS {
+        key LOG_ID            : String(100) default 'SYSUUID';
+            PRC_ID            : CDS_DS.PROCESS_ID;
+            USER_ID           : CDS_DS.USER_ID;
+            REPORT_ID         : String(30);
+            ALLOCATION_KEY    : CDS_DS.ALLOCATION_KEY;
+            TEXT              : LargeString;
+            CREATED_TIME      : CDS_DS.DATE_TIME_LOCAL;
+            SHORT_DESCRIPTION : String(256);
+    };
+
+    /*@@layout{"layoutInfo":{"x":261.09375,"y":-975}}*/
+    entity T_JOURNAL_ENTRY {
+            DOC_HEADER_TEXT_KEY     : CDS_DS.GUID;
+            UNIQUE_KEY              : CDS_DS.GUID;
+        key GL_ACC_KEY              : String(100);
+        key ACC_DOC_NUMBER_KEY      : String(10);
+        key FISCAL_PERIOD_KEY       : String(11);
+            POSTING_DATE_KEY        : CDS_DS.DATE_LOCAL;
+            PARKED_BY_KEY           : String(10);
+        key COMPANY_KEY             : String(10);
+            COST_ELEMENT_KEY        : String(50);
+            PROFIT_CENTER_KEY       : String(20);
+            PROFIT_CENTER_NAME      : String(100);
+            ORDER_KEY               : String(100);
+            ORDER_NAME              : String(100);
+            DOC_TYPE_KEY            : String(10);
+            GL_ACC_NAME             : String(100);
+            VENDOR_KEY              : String(30);
+            VENDOR_NAME             : String(100);
+            SEGMENT_KEY             : String(100);
+            REF_DOCUMENT_NUMBER_KEY : String(100);
+            TOTAL_JOURNAL_USD       : Decimal(13, 2);
+            DATE_OF_ENTRY           : CDS_DS.DATE_LOCAL;
+    };
+
+    entity T_JOURNAL_ENTRY_DATA {
+            DOC_HEADER_TEXT_KEY     : CDS_DS.GUID;
+        key UNIQUE_KEY              : CDS_DS.GUID;
+        key GL_ACC_KEY              : String(100);
+        key ACC_DOC_NUMBER_KEY      : Integer64;
+            FISCAL_PERIOD_KEY       : String(11);
+            POSTING_DATE_KEY        : CDS_DS.DATE_LOCAL;
+            PARKED_BY_KEY           : String(10);
+            COMPANY_KEY             : String(10);
+            COST_ELEMENT_KEY        : String(50);
+            PROFIT_CENTER_KEY       : String(20);
+            PROFIT_CENTER_NAME      : String(100);
+        key ORDER_KEY               : String(100);
+            ORDER_NAME              : String(100);
+            DOC_TYPE_KEY            : String(10);
+            GL_ACC_NAME             : String(100);
+            VENDOR_KEY              : String(30);
+            VENDOR_NAME             : String(100);
+            REF_DOCUMENT_NUMBER_KEY : String(100);
+            TOTAL_JOURNAL_USD       : Decimal(38, 0);
+            DATE_OF_ENTRY           : CDS_DS.DATE_LOCAL;
+    };
+
+    /*@@layout{"layoutInfo":{"x":260.564453125,"y":-565}}*/
+    view V_JOURNAL_ENTRY as
+        select from T_JOURNAL_ENTRY
+        {
+            DOC_HEADER_TEXT_KEY,
+            UNIQUE_KEY,
+            ACC_DOC_NUMBER_KEY,
+            FISCAL_PERIOD_KEY,
+            POSTING_DATE_KEY,
+            PARKED_BY_KEY,
+            COMPANY_KEY,
+            COST_ELEMENT_KEY,
+            PROFIT_CENTER_KEY,
+            PROFIT_CENTER_NAME,
+            ORDER_KEY,
+            ORDER_NAME,
+            DOC_TYPE_KEY,
+            GL_ACC_KEY,
+            GL_ACC_NAME,
+            VENDOR_KEY,
+            VENDOR_NAME,
+            REF_DOCUMENT_NUMBER_KEY,
+            TOTAL_JOURNAL_USD,
+            DATE_OF_ENTRY
+        }
+        where
+                GL_ACC_KEY not like '%C23%'
+            and GL_ACC_KEY not like '%C146%';
+
+
+    /*@@layout{"layoutInfo":{"x":-591.435546875,"y":-627}}*/
+    view V_PRC_EXP_STATS as
+        select from V_EXP_PROC_DISP_HEADER
+        {
+            V_EXP_PROC_DISP_HEADER.PRC_ID,
+            1 as                              SAMPLE_COUNT,
+            TOTAL_APPROVED_AMOUNT,
+            case
+                when SYS_STATUS = 'SYSTEM_EXCLUDED' then TOTAL_APPROVED_AMOUNT
+                else                                     0
+            end                            as SYSTEM_EXCLUDED_AMOUNT,
+            case
+                when REP_STATUS = 'REVIEWER_EXCLUDED' then TOTAL_APPROVED_AMOUNT
+                else                                       0
+            end                            as MANUAL_EXCLUDED_AMOUNT
+        };
+
+    /*@@layout{"layoutInfo":{"x":-595.54296875,"y":-659}}*/
+    view V_STATS_BY_PRC as
+        select from V_PRC_EXP_STATS
+        {
+            PRC_ID,
+            sum(SAMPLE_COUNT)           as POPULATION_SAMPLES,
+            sum(TOTAL_APPROVED_AMOUNT)  as POPULATION_AMOUNT,
+            sum(SYSTEM_EXCLUDED_AMOUNT) as POPULATION_SYSTEM_EXCLUDED_AMOUNT,
+            sum(MANUAL_EXCLUDED_AMOUNT) as POPULATION_MANUAL_EXCLUDED_AMOUNT
+            //SUM(TOTAL_EXCLUDED_AMOUNT) as POPULATION_EXCLUDED_AMOUNT
+        }
+        group by
+            PRC_ID;
+
+
+    /*@@layout{"layoutInfo":{"x":-1230.54296875,"y":-702}}*/
+    entity T_REGULATORS {
+        key REGULATOR_ID       : CDS_DS.USER_ID;
+            REGULATOR_NAME     : String(100);
+            CONFIGURATION_NAME : String(100);
+            USER_GROUP         : CDS_DS.USER_GRP;
+    };
+
+    /*@@layout{"layoutInfo":{"x":-816.90625,"y":-427}}*/
+    entity T_RECEIVING_COMPANY_CODE {
+        key COMPANY_CODE       : String(64);
+            CONFIGURATION_NAME : String(100);
+            USER_GROUP         : CDS_DS.USER_GRP;
+    };
+
+    /*@@layout{"layoutInfo":{"x":-587.798828125,"y":-475}}*/
+    view V_PROCESS_LOGS as
+        select from T_PROCESS_LOGS
+        {
+            LOG_ID,
+            PRC_ID,
+            USER_ID,
+            REPORT_ID,
+            ALLOCATION_KEY,
+            TEXT,
+            CREATED_TIME
+        };
+
+    /* AFTER THIS USED IN TA */
+/*@@layout{"layoutInfo":{"x":-862.90625,"y":450}}*/
+    entity T_CONFIGURATIONS {
+        key CONFIGURATION_NAME : String(100);
+        key RULESET_NAME       : String(100);
+        key ENTITY_GROUP       : String(100);
+            CONF_STATUS        : String(30);
+            LAST_DEPLOYED      : UTCTimestamp;
+    };
+
+    /*@@layout{"layoutInfo":{"x":-587.681640625,"y":-58}}*/
+    view V_CONFIGURATIONS as
+        select from T_CONFIGURATIONS distinct
+        {
+            CONFIGURATION_NAME,
+            RULESET_NAME,
+            CONF_STATUS,
+            LAST_DEPLOYED
+        };
+
+
+    /*@@layout{"layoutInfo":{"x":-1062.90625,"y":406}}*/
+    entity T_ENTITIES {
+        key ENTITY_GROUP     : String(100);
+        key ENTITY_NAME      : String(100);
+            ENTITY_VARIATION : String(100);
+    };
+
+    /*@@layout{"layoutInfo":{"x":-660.681640625,"y":187}}*/
+    view V_ENTITY_GROUPS as
+        select from T_ENTITIES distinct
+        {
+            ENTITY_GROUP
+        };
+
+    /*@@layout{"layoutInfo":{"x":-862.90625,"y":361}}*/
+    entity T_RULES {
+        key RULE_NAME            : String(30);
+            RULE_DESCRIPTION     : String(200);
+            RULE_EXPRESSION      : String(1000);
+            RULE_PRIORITY        : String(100);
+            RULE_EXPRESSION_JSON : hana.CLOB;
+    }
+
+    /*@@layout{"layoutInfo":{"x":-1062.90625,"y":316}}*/
+    entity T_RULESETS {
+        key RULESET_NAME        : String(30);
+        key RULE_NAME           : String(30);
+            RULESET_DESCRIPTION : String(200);
+    }
+
+    /*@@layout{"layoutInfo":{"x":-587.65234375,"y":-89}}*/
+    view V_RULESET_GROUPS as
+        select from T_RULESETS distinct
+        {
+            RULESET_NAME
+        };
+
+
+    /*@@layout{"layoutInfo":{"x":-793.90625,"y":-211}}*/
+    entity T_USER_GROUPS {
+        key USER_GROUP : CDS_DS.USER_GRP;
+        key EMAIL      : String(50);
+            USER       : String(50);
+            DESC       : String(100);
+    };
+
+    /*@@layout{"layoutInfo":{"x":-587.798828125,"y":-24}}*/
+    view V_USER_GROUP as
+        select from T_USER_GROUPS distinct
+        {
+            USER_GROUP
+        };
+
+    /*@@layout{"layoutInfo":{"x":-587.798828125,"y":9}}*/
+    view V_CONFIGURATION_DETAILS as
+        select from (
+                       T_CONFIGURATIONS
+            inner join T_ENTITIES       on
+                T_CONFIGURATIONS.ENTITY_GROUP = T_ENTITIES.ENTITY_GROUP
+        )
+        {
+            T_CONFIGURATIONS.CONFIGURATION_NAME,
+            T_CONFIGURATIONS.ENTITY_GROUP,
+            T_ENTITIES.ENTITY_NAME
+        };
+
+    /*@@layout{"layoutInfo":{"x":1180.09375,"y":-974}}*/
+    entity T_DS_STATUS {
+        key PRC_ID            : CDS_DS.PROCESS_ID;
+        key REPORT_ID         : CDS_DS.REPORT_ID;
+            REPORT_STATUS     : CDS_DS.STATUS_ID;
+            SYSTEM_STATUS     : CDS_DS.STATUS_ID;
+            PRIORITY          : String(100);
+            MANUAL_STATUS     : CDS_DS.STATUS_ID;
+            MATCHING_RULES    : String(1000);
+            MATCHING_ENTITIES : String(1000);
+    };
+
+    entity T_DS_STATUS_ITEM {
+        key PRC_ID         : CDS_DS.PROCESS_ID;
+        key REPORT_ID      : CDS_DS.REPORT_ID;
+        key ALLOCATION_KEY : CDS_DS.ALLOCATION_KEY;
+            REPORT_STATUS  : CDS_DS.STATUS_ID;
+            SYSTEM_STATUS  : CDS_DS.STATUS_ID;
+            PRIORITY       : String(100);
+            MANUAL_STATUS  : CDS_DS.STATUS_ID;
+    };
+
+    /*@@layout{"layoutInfo":{"x":-806.90625,"y":-344}}*/
+    entity T_ALLOCATION_CODES {
+        key ALLOCATION_CODE        : String(10);
+        key ALLOCATED_COMPANY_CODE : String(64);
+        key FISCPER                : String(10);
+            DATE_OF_ENTRY          : CDS_DS.DATE_LOCAL;
+    };
+
+    view V_ALLOCATION_CODES as
+        select from T_ALLOCATION_CODES
+        {
+            ALLOCATION_CODE,
+            ALLOCATED_COMPANY_CODE,
+            FISCPER,
+            DATE_OF_ENTRY,
+            month(DATE_OF_ENTRY)    as DATE_MONTH,
+            year(DATE_OF_ENTRY)     as DATE_YEAR
+        };
+
+    /*@@layout{"layoutInfo":{"x":508,"y":-907.5}}*/
+    view V_CONCUR_EXPENSES as
+        select from T_CONCUR_EXPENSES
+        {
+            EXPENSE_KEY.REPORT_ID,
+            EXPENSE_KEY.ALLOCATION_KEY,
+            EXPENSE.EMPLOYEE_ID,
+            EXPENSE.EMPLOYEE_NAME,
+            EXPENSE.EMPLOYEE_COMPANY,
+            EXPENSE.REPORT_NAME,
+            EXPENSE.PURPOSE,
+            EXPENSE.SENT_FOR_PAYMENT,
+            EXPENSE.TOTAL_APPROVED_AMOUNT,
+            EXPENSE.PAYMENT_TYPE,
+            EXPENSE.EXPENSE_TYPE,
+            EXPENSE.APPROVAL_STATUS,
+            EXPENSE.PAYMENT_STATUS,
+            EXPENSE.APPROVED_AMOUNT_RPT,
+            EXPENSE.APPROVED_AMOUNT,
+            EXPENSE.TRANSACTION_DATE,
+            EXPENSE.PERCENTAGE,
+            EXPENSE.RECIEVING_COMPANY_CODE,
+            EXPENSE.ORDER_NUMBER,
+            EXPENSE.OPERATION_KEY,
+            substring(EXPENSE.ORDER_NUMBER, 2, 4) as ALLOCATION_CODE
+        };
+
+    /*@@layout{"layoutInfo":{"x":780,"y":-728.5}}*/
+    view V_PROCESSES as
+        select from T_DS_PROCESSES
+        join        T_USER_GROUPS  on
+            T_DS_PROCESSES.USER_GROUP = T_USER_GROUPS.USER_GROUP
+        {
+            DATA_SCRUB_DESC,
+            PRC_ID,
+            DATA_SCRUB_NAME,
+            COMPANY_CODE,
+            START_DATE,
+            END_DATE,
+            STATUS_ID,
+            CREATED_AT,
+            OWNER,
+            CONFIGURATION_NAME,
+            T_DS_PROCESSES.USER_GROUP,
+            EMAIL,
+            ITEM_SET
+        }
+        where
+            EMAIL = session_context('XS_EMAIL');
+
+    view V_PROCESSES_NAV as
+        select from T_DS_PROCESSES
+        {
+            DATA_SCRUB_DESC,
+            PRC_ID,
+            DATA_SCRUB_NAME,
+            COMPANY_CODE,
+            START_DATE,
+            END_DATE,
+            STATUS_ID,
+            CREATED_AT,
+            OWNER,
+            CONFIGURATION_NAME,
+            USER_GROUP,
+            ITEM_SET
+        };
+
+    /*@@layout{"layoutInfo":{"x":980,"y":-744.5}}*/
+    view V_DISPOSITIONS as
+        select from T_DISPOSITIONS
+        {
+            EXPENSE_KEY.REPORT_ID,
+            EXPENSE_KEY.ALLOCATION_KEY,
+            DISPOSITION_ID,
+            PRC_ID,
+            DISPOSITION_REASON,
+            DISPOSITION_ENTITY,
+            TA_COLUMN,
+            PRIORITY,
+            CREATED_BY,
+            LAST_CHANGED_BY,
+            DISPOSITION_TYPE
+        };
+
+    /*@@layout{"layoutInfo":{"x":980,"y":-744.5}}*/
+    view V_DISPOSITIONS_ENTITY as
+        select from T_DISPOSITIONS distinct
+        {
+            PRC_ID,
+            DISPOSITION_ENTITY,
+            DISPOSITION_TYPE
+        };
+
+    /*@@layout{"layoutInfo":{"x":1180,"y":-843.5}}*/
+    view V_STATUS as
+        select from T_DS_STATUS
+        {
+            PRC_ID,
+            REPORT_ID,
+            REPORT_STATUS,
+            SYSTEM_STATUS,
+            PRIORITY,
+            MATCHING_RULES,
+            MATCHING_ENTITIES
+        };
+
+    /*@@layout{"layoutInfo":{"x":1380,"y":-843.5}}*/
+    view V_EMP_DEF_ACC as
+        select from T_EMP_DEF_ACC distinct
+        {
+            PERSONNEL_ID,
+            // ORDER_NUM,
+            BAND_LEVEL,
+            JOB_DESC,
+            ORDER_DESC
+        };
+
+    /*@@layout{"layoutInfo":{"x":326,"y":-93.5}}*/
+    view V_JE_EXP as
+        select from (
+                            V_JOURNAL_ENTRY
+            left outer join V_CONCUR_EXPENSES on
+                V_JOURNAL_ENTRY.UNIQUE_KEY = V_CONCUR_EXPENSES.REPORT_ID
+        )
+        {
+            V_JOURNAL_ENTRY.DOC_HEADER_TEXT_KEY,
+            V_JOURNAL_ENTRY.UNIQUE_KEY,
+            V_JOURNAL_ENTRY.ACC_DOC_NUMBER_KEY,
+            V_JOURNAL_ENTRY.FISCAL_PERIOD_KEY,
+            V_JOURNAL_ENTRY.PARKED_BY_KEY,
+            V_JOURNAL_ENTRY.COMPANY_KEY,
+            V_JOURNAL_ENTRY.COST_ELEMENT_KEY,
+            V_JOURNAL_ENTRY.PROFIT_CENTER_KEY,
+            V_JOURNAL_ENTRY.PROFIT_CENTER_NAME,
+            V_JOURNAL_ENTRY.ORDER_KEY,
+            V_JOURNAL_ENTRY.ORDER_NAME,
+            V_JOURNAL_ENTRY.DOC_TYPE_KEY,
+            V_JOURNAL_ENTRY.GL_ACC_KEY,
+            V_JOURNAL_ENTRY.GL_ACC_NAME,
+            V_JOURNAL_ENTRY.VENDOR_KEY,
+            V_JOURNAL_ENTRY.VENDOR_NAME,
+            V_JOURNAL_ENTRY.REF_DOCUMENT_NUMBER_KEY,
+            V_JOURNAL_ENTRY.TOTAL_JOURNAL_USD,
+            V_JOURNAL_ENTRY.POSTING_DATE_KEY,
+            V_CONCUR_EXPENSES.REPORT_ID,
+            V_CONCUR_EXPENSES.ALLOCATION_KEY,
+            V_CONCUR_EXPENSES.EMPLOYEE_ID,
+            V_CONCUR_EXPENSES.EMPLOYEE_NAME,
+            V_CONCUR_EXPENSES.EMPLOYEE_COMPANY,
+            V_CONCUR_EXPENSES.REPORT_NAME,
+            V_CONCUR_EXPENSES.PURPOSE,
+            V_CONCUR_EXPENSES.SENT_FOR_PAYMENT,
+            V_CONCUR_EXPENSES.TOTAL_APPROVED_AMOUNT,
+            V_CONCUR_EXPENSES.PAYMENT_TYPE,
+            V_CONCUR_EXPENSES.EXPENSE_TYPE,
+            V_CONCUR_EXPENSES.APPROVAL_STATUS,
+            V_CONCUR_EXPENSES.PAYMENT_STATUS,
+            V_CONCUR_EXPENSES.APPROVED_AMOUNT_RPT,
+            V_CONCUR_EXPENSES.APPROVED_AMOUNT,
+            V_CONCUR_EXPENSES.TRANSACTION_DATE,
+            V_CONCUR_EXPENSES.PERCENTAGE,
+            V_CONCUR_EXPENSES.RECIEVING_COMPANY_CODE,
+            V_CONCUR_EXPENSES.ORDER_NUMBER,
+            V_CONCUR_EXPENSES.OPERATION_KEY,
+            V_CONCUR_EXPENSES.ALLOCATION_CODE
+        };
+
+    view V_PROC_EXPENSES as
+        select from (
+                            V_PROC_EXP_KEYS
+            left outer join V_CONCUR_EXPENSES on
+                V_PROC_EXP_KEYS.UNIQUE_KEY = V_CONCUR_EXPENSES.REPORT_ID
+        )
+        {
+            V_PROC_EXP_KEYS.DATA_SCRUB_DESC,
+            V_PROC_EXP_KEYS.PRC_ID,
+            V_PROC_EXP_KEYS.DATA_SCRUB_NAME,
+            V_PROC_EXP_KEYS.COMPANY_CODE,
+            V_PROC_EXP_KEYS.START_DATE,
+            V_PROC_EXP_KEYS.END_DATE,
+            V_PROC_EXP_KEYS.STATUS_ID,
+            V_PROC_EXP_KEYS.CREATED_AT,
+            V_PROC_EXP_KEYS.OWNER,
+            V_PROC_EXP_KEYS.CONFIGURATION_NAME,
+            V_PROC_EXP_KEYS.USER_GROUP,
+            V_PROC_EXP_KEYS.ITEM_SET,
+            V_PROC_EXP_KEYS.UNIQUE_KEY,
+            V_CONCUR_EXPENSES.REPORT_ID,
+            V_CONCUR_EXPENSES.ALLOCATION_KEY,
+            V_CONCUR_EXPENSES.EMPLOYEE_ID,
+            V_CONCUR_EXPENSES.EMPLOYEE_NAME,
+            V_CONCUR_EXPENSES.EMPLOYEE_COMPANY,
+            V_CONCUR_EXPENSES.REPORT_NAME,
+            V_CONCUR_EXPENSES.PURPOSE,
+            V_CONCUR_EXPENSES.SENT_FOR_PAYMENT,
+            V_CONCUR_EXPENSES.TOTAL_APPROVED_AMOUNT,
+            V_CONCUR_EXPENSES.PAYMENT_TYPE,
+            V_CONCUR_EXPENSES.EXPENSE_TYPE,
+            V_CONCUR_EXPENSES.APPROVAL_STATUS,
+            V_CONCUR_EXPENSES.PAYMENT_STATUS,
+            V_CONCUR_EXPENSES.APPROVED_AMOUNT_RPT,
+            V_CONCUR_EXPENSES.APPROVED_AMOUNT,
+            V_CONCUR_EXPENSES.TRANSACTION_DATE,
+            V_CONCUR_EXPENSES.PERCENTAGE,
+            V_CONCUR_EXPENSES.RECIEVING_COMPANY_CODE,
+            V_CONCUR_EXPENSES.ORDER_NUMBER,
+            V_CONCUR_EXPENSES.OPERATION_KEY,
+            V_CONCUR_EXPENSES.ALLOCATION_CODE
+        } ;
+
+    view V_PROC_EXPENSES_LINE_STATUS as
+        select from (
+                            V_PROC_EXPENSES_STATUS as V_PROC_EXPENSES
+            left outer join T_DS_STATUS_ITEM                          on
+                    V_PROC_EXPENSES.PRC_ID         = T_DS_STATUS_ITEM.PRC_ID
+                and V_PROC_EXPENSES.REPORT_ID      = T_DS_STATUS_ITEM.REPORT_ID
+                and V_PROC_EXPENSES.ALLOCATION_KEY = T_DS_STATUS_ITEM.ALLOCATION_KEY
+        )
+        {
+            V_PROC_EXPENSES.DATA_SCRUB_DESC,
+            V_PROC_EXPENSES.PRC_ID,
+            V_PROC_EXPENSES.DATA_SCRUB_NAME,
+            V_PROC_EXPENSES.COMPANY_CODE,
+            V_PROC_EXPENSES.START_DATE,
+            V_PROC_EXPENSES.END_DATE,
+            V_PROC_EXPENSES.STATUS_ID,
+            V_PROC_EXPENSES.CREATED_AT,
+            V_PROC_EXPENSES.OWNER,
+            V_PROC_EXPENSES.CONFIGURATION_NAME,
+            V_PROC_EXPENSES.USER_GROUP,
+            V_PROC_EXPENSES.ITEM_SET,
+            V_PROC_EXPENSES.REPORT_ID,
+            V_PROC_EXPENSES.ALLOCATION_KEY,
+            V_PROC_EXPENSES.EMPLOYEE_ID,
+            V_PROC_EXPENSES.EMPLOYEE_NAME,
+            V_PROC_EXPENSES.EMPLOYEE_COMPANY,
+            V_PROC_EXPENSES.REPORT_NAME,
+            V_PROC_EXPENSES.PURPOSE,
+            V_PROC_EXPENSES.SENT_FOR_PAYMENT,
+            V_PROC_EXPENSES.TOTAL_APPROVED_AMOUNT,
+            V_PROC_EXPENSES.PAYMENT_TYPE,
+            V_PROC_EXPENSES.EXPENSE_TYPE,
+            V_PROC_EXPENSES.APPROVAL_STATUS,
+            V_PROC_EXPENSES.PAYMENT_STATUS,
+            V_PROC_EXPENSES.APPROVED_AMOUNT_RPT,
+            V_PROC_EXPENSES.APPROVED_AMOUNT,
+            V_PROC_EXPENSES.TRANSACTION_DATE,
+            V_PROC_EXPENSES.PERCENTAGE,
+            V_PROC_EXPENSES.RECIEVING_COMPANY_CODE,
+            V_PROC_EXPENSES.ORDER_NUMBER,
+            V_PROC_EXPENSES.OPERATION_KEY,
+            V_PROC_EXPENSES.ALLOCATION_CODE,
+            V_PROC_EXPENSES.BAND_LEVEL,
+            V_PROC_EXPENSES.JOB_DESC,
+            //            V_PROC_EXPENSES.ORDER_DESC,
+            T_DS_STATUS_ITEM.MANUAL_STATUS,
+            T_DS_STATUS_ITEM.SYSTEM_STATUS
+        };
+
+    /*@@layout{"layoutInfo":{"x":542,"y":-32.5}}*/
+    view V_JE_EXP_PROC as
+        select from (
+                       V_JE_EXP
+            inner join V_PROCESSES_NAV V_PROCESSES on
+                    V_PROCESSES.START_DATE   <= V_JE_EXP.POSTING_DATE_KEY
+                and V_PROCESSES.END_DATE     >= V_JE_EXP.POSTING_DATE_KEY
+                and V_PROCESSES.COMPANY_CODE =  V_JE_EXP.COMPANY_KEY
+        )
+        {
+            V_PROCESSES.DATA_SCRUB_DESC,
+            V_PROCESSES.PRC_ID,
+            V_PROCESSES.DATA_SCRUB_NAME,
+            V_PROCESSES.COMPANY_CODE,
+            V_PROCESSES.START_DATE,
+            V_PROCESSES.END_DATE,
+            V_PROCESSES.STATUS_ID,
+            V_PROCESSES.CREATED_AT,
+            V_PROCESSES.OWNER,
+            V_PROCESSES.CONFIGURATION_NAME,
+            V_PROCESSES.USER_GROUP,
+            V_PROCESSES.ITEM_SET,
+            V_JE_EXP.DOC_HEADER_TEXT_KEY,
+            V_JE_EXP.UNIQUE_KEY,
+            V_JE_EXP.ACC_DOC_NUMBER_KEY,
+            V_JE_EXP.FISCAL_PERIOD_KEY,
+            V_JE_EXP.PARKED_BY_KEY,
+            V_JE_EXP.COMPANY_KEY,
+            V_JE_EXP.COST_ELEMENT_KEY,
+            V_JE_EXP.PROFIT_CENTER_KEY,
+            V_JE_EXP.PROFIT_CENTER_NAME,
+            V_JE_EXP.POSTING_DATE_KEY,
+            V_JE_EXP.ORDER_KEY,
+            V_JE_EXP.ORDER_NAME,
+            V_JE_EXP.DOC_TYPE_KEY,
+            V_JE_EXP.GL_ACC_KEY,
+            V_JE_EXP.GL_ACC_NAME,
+            V_JE_EXP.VENDOR_KEY,
+            V_JE_EXP.VENDOR_NAME,
+            V_JE_EXP.REF_DOCUMENT_NUMBER_KEY,
+            V_JE_EXP.TOTAL_JOURNAL_USD,
+            V_JE_EXP.REPORT_ID,
+            V_JE_EXP.ALLOCATION_KEY,
+            V_JE_EXP.EMPLOYEE_ID,
+            V_JE_EXP.EMPLOYEE_NAME,
+            V_JE_EXP.EMPLOYEE_COMPANY,
+            V_JE_EXP.REPORT_NAME,
+            V_JE_EXP.PURPOSE,
+            V_JE_EXP.SENT_FOR_PAYMENT,
+            V_JE_EXP.TOTAL_APPROVED_AMOUNT,
+            V_JE_EXP.PAYMENT_TYPE,
+            V_JE_EXP.EXPENSE_TYPE,
+            V_JE_EXP.APPROVAL_STATUS,
+            V_JE_EXP.PAYMENT_STATUS,
+            V_JE_EXP.APPROVED_AMOUNT_RPT,
+            V_JE_EXP.APPROVED_AMOUNT,
+            V_JE_EXP.TRANSACTION_DATE,
+            V_JE_EXP.PERCENTAGE,
+            V_JE_EXP.RECIEVING_COMPANY_CODE,
+            V_JE_EXP.ORDER_NUMBER,
+            V_JE_EXP.OPERATION_KEY,
+            V_JE_EXP.ALLOCATION_CODE
+        };
+
+    view V_PROC_EXP_KEYS as
+        select from (
+                       V_JOURNAL_ENTRY
+            inner join V_PROCESSES_NAV V_PROCESSES on
+                    V_PROCESSES.START_DATE   <= V_JOURNAL_ENTRY.POSTING_DATE_KEY
+                and V_PROCESSES.END_DATE     >= V_JOURNAL_ENTRY.POSTING_DATE_KEY
+                and V_PROCESSES.COMPANY_CODE =  V_JOURNAL_ENTRY.COMPANY_KEY
+        )
+        {
+            V_PROCESSES.DATA_SCRUB_DESC,
+            V_PROCESSES.PRC_ID,
+            V_PROCESSES.DATA_SCRUB_NAME,
+            V_PROCESSES.COMPANY_CODE,
+            V_PROCESSES.START_DATE,
+            V_PROCESSES.END_DATE,
+            V_PROCESSES.STATUS_ID,
+            V_PROCESSES.CREATED_AT,
+            V_PROCESSES.OWNER,
+            V_PROCESSES.CONFIGURATION_NAME,
+            V_PROCESSES.USER_GROUP,
+            V_PROCESSES.ITEM_SET,
+            V_JOURNAL_ENTRY.UNIQUE_KEY
+        };
+
+
+    /*@@layout{"layoutInfo":{"x":992.611328125,"y":61}}*/
+    view V_EXP_PROC_DISP_HEADER as
+        //     select from V_JE_EXP_PROC_DISP distinct
+        select from V_PROC_EXPENSES_STATUS distinct
+        {
+            PRC_ID,
+            REPORT_ID,
+            EMPLOYEE_ID,
+            EMPLOYEE_NAME,
+            EMPLOYEE_COMPANY,
+            REPORT_NAME,
+            TOTAL_APPROVED_AMOUNT,
+            SYSTEM_STATUS          as SYS_STATUS,
+            REPORT_STATUS          as REP_STATUS,
+            BAND_LEVEL,
+            JOB_DESC,
+            //   ORDER_DESC,
+            ITEM_SET,
+            MATCHING_RULES,
+            MATCHING_ENTITIES
+        };
+
+    view V_JE_EXP_PROC_DISP_HEADER_DISTINCT as
+        select from V_JE_EXP_PROC_DISP distinct
+        {
+            PRC_ID,
+            REPORT_ID
+        };
+
+    /*@@layout{"layoutInfo":{"x":762,"y":19.5,"inner":{"unconnected":[{"type":"SimpleDS","id":"V_JE_EXP_PROC_DISP.V_STATUS"}],"connected":{"type":"JoinDS","id":"join_1","left":{"type":"SimpleDS","id":"V_JE_EXP_PROC"},"right":{"type":"SimpleDS","id":"V_DISPOSITIONS"}}}}}*/
+    view V_JE_EXP_PROC_DISP as
+        select from (
+                            V_JE_EXP_PROC
+            left outer join V_DISPOSITIONS                     on
+                    V_JE_EXP_PROC.REPORT_ID      = V_DISPOSITIONS.REPORT_ID
+                and V_JE_EXP_PROC.ALLOCATION_KEY = V_DISPOSITIONS.ALLOCATION_KEY
+                and V_JE_EXP_PROC.PRC_ID         = V_DISPOSITIONS.PRC_ID
+            left outer join V_STATUS                           on
+                    V_JE_EXP_PROC.PRC_ID    = V_STATUS.PRC_ID
+                and V_JE_EXP_PROC.REPORT_ID = V_STATUS.REPORT_ID
+            left outer join V_EMP_ORD_DEF_ACC as V_EMP_DEF_ACC on
+                    V_JE_EXP_PROC.EMPLOYEE_ID = V_EMP_DEF_ACC.PERSONNEL_ID
+        )
+        {
+            V_JE_EXP_PROC.PRC_ID,
+            V_JE_EXP_PROC.DATA_SCRUB_NAME,
+            V_JE_EXP_PROC.DATA_SCRUB_DESC,
+            V_JE_EXP_PROC.START_DATE,
+            V_JE_EXP_PROC.END_DATE,
+            V_JE_EXP_PROC.STATUS_ID,
+            V_JE_EXP_PROC.CREATED_AT,
+            V_JE_EXP_PROC.OWNER,
+            V_JE_EXP_PROC.REPORT_ID,
+            V_JE_EXP_PROC.EMPLOYEE_ID,
+            V_JE_EXP_PROC.ALLOCATION_KEY,
+            V_JE_EXP_PROC.EMPLOYEE_NAME,
+            V_JE_EXP_PROC.EMPLOYEE_COMPANY,
+            V_JE_EXP_PROC.REPORT_NAME,
+            V_JE_EXP_PROC.PURPOSE,
+            V_JE_EXP_PROC.SENT_FOR_PAYMENT,
+            V_JE_EXP_PROC.TOTAL_APPROVED_AMOUNT,
+            V_JE_EXP_PROC.PAYMENT_TYPE,
+            V_JE_EXP_PROC.EXPENSE_TYPE,
+            V_JE_EXP_PROC.APPROVAL_STATUS,
+            V_JE_EXP_PROC.PAYMENT_STATUS,
+            V_JE_EXP_PROC.APPROVED_AMOUNT_RPT,
+            V_JE_EXP_PROC.APPROVED_AMOUNT,
+            V_JE_EXP_PROC.TRANSACTION_DATE,
+            V_JE_EXP_PROC.PERCENTAGE,
+            V_JE_EXP_PROC.RECIEVING_COMPANY_CODE,
+            V_JE_EXP_PROC.ORDER_NUMBER,
+            V_JE_EXP_PROC.OPERATION_KEY,
+            V_JE_EXP_PROC.ALLOCATION_CODE,
+            V_DISPOSITIONS.DISPOSITION_ID,
+            V_DISPOSITIONS.DISPOSITION_ENTITY,
+            V_DISPOSITIONS.DISPOSITION_REASON,
+            V_DISPOSITIONS.DISPOSITION_TYPE,
+            V_STATUS.SYSTEM_STATUS,
+            V_STATUS.REPORT_STATUS,
+            V_EMP_DEF_ACC.BAND_LEVEL,
+            V_EMP_DEF_ACC.JOB_DESC,
+            V_EMP_DEF_ACC.ORDER_DESC,
+            year(V_JE_EXP_PROC.SENT_FOR_PAYMENT)  as PAYMENT_YEAR,
+            month(V_JE_EXP_PROC.SENT_FOR_PAYMENT) as PAYMENT_MONTH
+        };
+
+    view V_PROC_EXPENSES_STATUS as
+        select from (
+                            V_PROC_EXPENSES
+            left outer join V_STATUS               on
+                    V_PROC_EXPENSES.PRC_ID    = V_STATUS.PRC_ID
+                and V_PROC_EXPENSES.REPORT_ID = V_STATUS.REPORT_ID
+            left outer join T_EMP_BAND as EMP_BAND on
+                    V_PROC_EXPENSES.EMPLOYEE_ID = EMP_BAND.PERNR
+            //                 and V_PROC_EXPENSES.SENT_FOR_PAYMENT >= V_EMP_DEF_ACC.VALID_FROM
+            //                  and V_PROC_EXPENSES.SENT_FOR_PAYMENT <= V_EMP_DEF_ACC.VALID_TO
+        )
+        {
+            V_PROC_EXPENSES.PRC_ID,
+            V_PROC_EXPENSES.DATA_SCRUB_NAME,
+            V_PROC_EXPENSES.DATA_SCRUB_DESC,
+            V_PROC_EXPENSES.START_DATE,
+            V_PROC_EXPENSES.END_DATE,
+            V_PROC_EXPENSES.STATUS_ID,
+            V_PROC_EXPENSES.CREATED_AT,
+            V_PROC_EXPENSES.OWNER,
+            V_PROC_EXPENSES.CONFIGURATION_NAME,
+            V_PROC_EXPENSES.USER_GROUP,
+            V_PROC_EXPENSES.COMPANY_CODE,
+            V_PROC_EXPENSES.REPORT_ID,
+            V_PROC_EXPENSES.ALLOCATION_KEY,
+            V_PROC_EXPENSES.EMPLOYEE_ID,
+            V_PROC_EXPENSES.EMPLOYEE_NAME,
+            V_PROC_EXPENSES.EMPLOYEE_COMPANY,
+            V_PROC_EXPENSES.REPORT_NAME,
+            V_PROC_EXPENSES.PURPOSE,
+            V_PROC_EXPENSES.SENT_FOR_PAYMENT,
+            V_PROC_EXPENSES.TOTAL_APPROVED_AMOUNT,
+            V_PROC_EXPENSES.PAYMENT_TYPE,
+            V_PROC_EXPENSES.EXPENSE_TYPE,
+            V_PROC_EXPENSES.APPROVAL_STATUS,
+            V_PROC_EXPENSES.PAYMENT_STATUS,
+            V_PROC_EXPENSES.APPROVED_AMOUNT_RPT,
+            V_PROC_EXPENSES.APPROVED_AMOUNT,
+            V_PROC_EXPENSES.TRANSACTION_DATE,
+            V_PROC_EXPENSES.PERCENTAGE,
+            V_PROC_EXPENSES.RECIEVING_COMPANY_CODE,
+            V_PROC_EXPENSES.ORDER_NUMBER,
+            V_PROC_EXPENSES.OPERATION_KEY,
+            V_PROC_EXPENSES.ALLOCATION_CODE,
+            V_PROC_EXPENSES.ITEM_SET,
+            V_STATUS.SYSTEM_STATUS,
+            V_STATUS.REPORT_STATUS,
+            V_STATUS.MATCHING_RULES,
+            V_STATUS.MATCHING_ENTITIES,
+            EMP_BAND.BAND_LEVEL,
+            EMP_BAND.STEXT                          as JOB_DESC
+        };
+
+    view V_PRC_STATUS as
+        select from T_STATUS_DESC
+        {
+            STATUS_ID,
+            STATUS_TYPE,
+            DESC,
+            RANK
+        }
+        where
+            STATUS_TYPE = 'PRC'
+        order by
+            RANK asc;
+
+    view V_SYSTEM_STATUS as
+        select from T_STATUS_DESC
+        {
+            STATUS_ID,
+            STATUS_TYPE,
+            DESC,
+            RANK
+        }
+        where
+            STATUS_TYPE = 'DSPTN_S'
+        order by
+            RANK asc;
+
+    view V_REPORT_STATUS as
+        select from T_STATUS_DESC
+        {
+            STATUS_ID,
+            STATUS_TYPE,
+            DESC,
+            RANK
+        }
+        where
+            STATUS_TYPE in ('DSPTN_SC', 'DSPTN_RE')
+        order by
+            RANK asc;
+
+    view V_MANUAL_STATUS as
+        select from T_STATUS_DESC
+        {
+            STATUS_ID,
+            STATUS_TYPE,
+            DESC,
+            RANK
+        }
+        where
+            STATUS_TYPE in ('DSPTN_M')
+        order by
+            RANK asc;
+
+    /*@@layout{"layoutInfo":{"x":-191,"y":-404.5}}*/
+    entity T_SAMPLING {
+        key PRC_ID     : CDS_DS.PROCESS_ID;
+        key STATUS     : String(100);
+            PERCENTAGE : Integer;
+            USER       : CDS_DS.USER_ID;
+    };
+
+    view V_DISPOSITIONS_BY_REPORT as
+        select from T_DISPOSITIONS distinct
+        {
+            EXPENSE_KEY.REPORT_ID,
+            PRC_ID,
+            DISPOSITION_REASON,
+            DISPOSITION_ENTITY,
+            TA_COLUMN,
+            PRIORITY,
+            CREATED_BY,
+            LAST_CHANGED_BY,
+            DISPOSITION_TYPE
+        };
+
+    view V_DISPOSITIONS_BY_ITEM as
+        select from T_DISPOSITIONS distinct
+        {
+            EXPENSE_KEY.REPORT_ID,
+            EXPENSE_KEY.ALLOCATION_KEY,
+            PRC_ID,
+            DISPOSITION_REASON,
+            DISPOSITION_ENTITY,
+            TA_COLUMN,
+            PRIORITY,
+            CREATED_BY,
+            LAST_CHANGED_BY,
+            DISPOSITION_TYPE
+        };
+
+    entity T_PRC_CONFIGURATIONS {
+        key PRC_ID             : CDS_DS.PROCESS_ID;
+        key CONFIGURATION_NAME : String(100);
+        key RULESET_NAME       : String(100) default '';
+        key ENTITY_GROUP       : String(100) default '';
+            //   CONFIGURATION_ID  : String(100) default 'SYSUUID';
+            CONF_STATUS        : String(30);
+    };
+
+    entity T_PRC_ENTITIES {
+        key PRC_ID           : CDS_DS.PROCESS_ID;
+        key ENTITY_GROUP     : String(100);
+        key ENTITY_NAME      : String(1000);
+            ENTITY_VARIATION : String(100);
+    };
+
+    entity T_PRC_RULES {
+        key PRC_ID           : CDS_DS.PROCESS_ID;
+        key RULE_NAME        : String(30);
+            RULE_DESCRIPTION : String(200);
+            RULE_EXPRESSION  : String(1000);
+            RULE_PRIORITY    : String(100);
+    }
+
+    entity T_PRC_RULESETS {
+        key PRC_ID              : CDS_DS.PROCESS_ID;
+        key RULESET_NAME        : String(30);
+        key RULE_NAME           : String(30);
+            RULESET_DESCRIPTION : String(200);
+    }
+
+    entity T_CHECKLIST {
+        key ITEM        : String(100);
+            DESCRIPTION : String(200);
+    }
+
+    entity T_CHECKLIST_SET {
+        key ITEM_SET : String(100);
+        key ITEM     : String(100);
+    }
+
+    view V_CHECKLIST_GROUP as
+        select from T_CHECKLIST_SET distinct
+        {
+            ITEM_SET
+        };
+
+    view V_CHECKLIST_DETAILS as
+        select from     T_CHECKLIST
+        left outer join T_CHECKLIST_SET on
+            T_CHECKLIST.ITEM = T_CHECKLIST_SET.ITEM
+        {
+            T_CHECKLIST.ITEM,
+            DESCRIPTION,
+            ITEM_SET
+        };
+
+    /*@@layout{"layoutInfo":{"x":-227,"y":343.5,"inner":{"unconnected":[],"connected":{"type":"JoinDS","id":"join_1","left":{"type":"SimpleDS","id":"T_PRC_CONFIGURATIONS","x":-231,"y":25},"right":{"type":"SimpleDS","id":"T_PRC_ENTITIES","x":68,"y":0}}}}}*/
+    view V_PRC_CONFIG_ENTITY as
+        select from (
+                            T_PRC_CONFIGURATIONS
+            left outer join T_PRC_ENTITIES       on
+                    T_PRC_CONFIGURATIONS.PRC_ID       = T_PRC_ENTITIES.PRC_ID
+                and T_PRC_CONFIGURATIONS.ENTITY_GROUP = T_PRC_ENTITIES.ENTITY_GROUP
+        )
+        {
+            T_PRC_CONFIGURATIONS.PRC_ID,
+            T_PRC_CONFIGURATIONS.CONFIGURATION_NAME,
+            T_PRC_CONFIGURATIONS.RULESET_NAME,
+            T_PRC_CONFIGURATIONS.ENTITY_GROUP,
+            T_PRC_ENTITIES.ENTITY_NAME
+        };
+
+    /*@@layout{"layoutInfo":{"x":-89,"y":59.5,"inner":{"unconnected":[{"type":"SimpleDS","id":"CDS_DS.V_CONFIG_ENTITY_RULES.V_PRC_CONFIG_ENTITY","x":-100.9853515625,"y":88}]}}}*/
+    view V_CONFIG_ENTITY_RULES as
+        select from (
+            (
+                                V_PRC_CONFIG_ENTITY
+                left outer join T_PRC_RULESETS      on
+                        V_PRC_CONFIG_ENTITY.PRC_ID       = T_PRC_RULESETS.PRC_ID
+                    and V_PRC_CONFIG_ENTITY.RULESET_NAME = T_PRC_RULESETS.RULESET_NAME
+            )
+            inner join          T_PRC_RULES         on
+                    T_PRC_RULESETS.PRC_ID    = T_PRC_RULES.PRC_ID
+                and T_PRC_RULESETS.RULE_NAME = T_PRC_RULES.RULE_NAME
+        )
+        {
+            V_PRC_CONFIG_ENTITY.PRC_ID,
+            V_PRC_CONFIG_ENTITY.CONFIGURATION_NAME,
+            V_PRC_CONFIG_ENTITY.RULESET_NAME,
+            V_PRC_CONFIG_ENTITY.ENTITY_GROUP,
+            V_PRC_CONFIG_ENTITY.ENTITY_NAME,
+            T_PRC_RULESETS.RULE_NAME,
+            T_PRC_RULES.RULE_DESCRIPTION,
+            T_PRC_RULES.RULE_EXPRESSION,
+            T_PRC_RULES.RULE_PRIORITY
+        };
+
+    /*  view V_PRC_EXP_DISP_CONF as
+          select from (
+                              V_JE_EXP_PROC_DISP as PRC_EXP
+              left outer join V_CONFIG_ENTITY_RULES as CONF   on
+                      PRC_EXP.CONFIGURATION_NAME = CONF.CONFIGURATION_NAME
+              left outer join T_MANUAL_DISPOSITIONS as M_DISP on
+                      PRC_EXP.PRC_ID         = M_DISP.PRC_ID
+                  and PRC_EXP.REPORT_ID      = M_DISP.REPORT_ID
+                  and PRC_EXP.ALLOCATION_KEY = M_DISP.ALLOCATION_KEY
+              left outer join T_DS_STATUS_ITEM as I_STATUS    on
+                      PRC_EXP.PRC_ID         = I_STATUS.PRC_ID
+                  and PRC_EXP.REPORT_ID      = I_STATUS.REPORT_ID
+                  and PRC_EXP.ALLOCATION_KEY = I_STATUS.ALLOCATION_KEY
+          )
+          {
+              CONF.PRC_ID,
+              CONF.CONFIGURATION_NAME,
+              CONF.RULESET_NAME,
+              CONF.ENTITY_GROUP,
+              CONF.ENTITY_NAME,
+              CONF.RULE_NAME,
+              CONF.RULE_DESCRIPTION,
+              CONF.RULE_EXPRESSION,
+              CONF.RULE_PRIORITY,
+              PRC_EXP.DATA_SCRUB_NAME,
+              PRC_EXP.DATA_SCRUB_DESC,
+              PRC_EXP.START_DATE,
+              PRC_EXP.END_DATE,
+              PRC_EXP.STATUS_ID,
+              PRC_EXP.CREATED_AT,
+              PRC_EXP.OWNER,
+              PRC_EXP.REPORT_ID,
+              PRC_EXP.ALLOCATION_KEY,
+              PRC_EXP.EMPLOYEE_ID,
+              PRC_EXP.EMPLOYEE_NAME,
+              PRC_EXP.EMPLOYEE_COMPANY,
+              PRC_EXP.REPORT_NAME,
+              PRC_EXP.PURPOSE,
+              PRC_EXP.SENT_FOR_PAYMENT,
+              PRC_EXP.TOTAL_APPROVED_AMOUNT,
+              PRC_EXP.DOC_HEADER_TEXT_KEY,
+              PRC_EXP.UNIQUE_KEY,
+              PRC_EXP.ACC_DOC_NUMBER_KEY,
+              PRC_EXP.POSTING_DATE_KEY,
+              PRC_EXP.DOC_TYPE_KEY,
+              PRC_EXP.GL_ACC_KEY,
+              PRC_EXP.REF_DOCUMENT_NUMBER_KEY,
+              PRC_EXP.TOTAL_JOURNAL_USD,
+              PRC_EXP.PAYMENT_TYPE,
+              PRC_EXP.EXPENSE_TYPE,
+              PRC_EXP.APPROVAL_STATUS,
+              PRC_EXP.PAYMENT_STATUS,
+              PRC_EXP.APPROVED_AMOUNT_RPT,
+              PRC_EXP.APPROVED_AMOUNT,
+              PRC_EXP.TRANSACTION_DATE,
+              PRC_EXP.PERCENTAGE,
+              PRC_EXP.RECIEVING_COMPANY_CODE,
+              PRC_EXP.ORDER_NUMBER,
+              PRC_EXP.OPERATION_KEY,
+              PRC_EXP.ALLOCATION_CODE,
+              PRC_EXP.DISPOSITION_ID,
+              PRC_EXP.DISPOSITION_ENTITY,
+              PRC_EXP.DISPOSITION_REASON,
+              PRC_EXP.DISPOSITION_TYPE,
+              PRC_EXP.SYSTEM_STATUS,
+              PRC_EXP.REPORT_STATUS,
+              PRC_EXP.MANUAL_STATUS,
+              I_STATUS.SYSTEM_STATUS          as ITEM_SYSTEM_STATUS,
+              I_STATUS.REPORT_STATUS          as ITEM_REPORT_STATUS,
+              I_STATUS.MANUAL_STATUS          as ITEM_MANUAL_STATUS,
+              PRC_EXP.BAND_LEVEL,
+              PRC_EXP.JOB_DESC,
+              PRC_EXP.ORDER_DESC,
+              M_DISP.ITEM       as M_ITEM,
+              M_DISP.DISPOSITION_ENTITY       as M_DISPOSITION_ENTITY,
+              M_DISP.DISPOSITION_REASON       as M_DISPOSITION_REASON,
+              M_DISP.CREATED_BY               as M_CREATED_BY,
+              M_DISP.LAST_CHANGED_BY          as M_LAST_CHANGED_BY,
+              M_DISP.REVIEWER_COMMENTS        as M_REVIEWER_COMMENTS,
+              M_DISP.SCRUBBER_COMMENTS        as M_SCRUBBER_COMMENTS
+          };
+    */
+    entity T_DATA_SCRUB_REPORT {
+        REPORT_ID               : String(64);
+        ALLOCATION_KEY          : CDS_DS.ALLOCATION_KEY;
+        EMPLOYEE_ID             : String(32);
+        EMPLOYEE_NAME           : String(128);
+        EMPLOYEE_COMPANY        : String(64);
+        REPORT_NAME             : String(128);
+        PURPOSE                 : String(128);
+        SENT_FOR_PAYMENT        : DATE_LOCAL;
+        TOTAL_APPROVED_AMOUNT   : Decimal(13, 2);
+        PAYMENT_TYPE            : String(64);
+        EXPENSE_TYPE            : String(64);
+        APPROVAL_STATUS         : String(64);
+        PAYMENT_STATUS          : String(64);
+        APPROVED_AMOUNT_RPT     : Decimal(13, 2);
+        APPROVED_AMOUNT         : Decimal(13, 2);
+        TRANSACTION_DATE        : DATE_LOCAL;
+        PERCENTAGE              : Decimal(11, 8);
+        RECIEVING_COMPANY_CODE  : String(64);
+        ORDER_NUMBER            : String(64);
+        OPERATION_KEY           : String(64);
+        DOC_HEADER_TEXT_KEY     : CDS_DS.GUID;
+        UNIQUE_KEY              : CDS_DS.GUID;
+        GL_ACC_KEY              : String(100);
+        ACC_DOC_NUMBER_KEY      : Integer64;
+        POSTING_DATE_KEY        : CDS_DS.DATE_LOCAL;
+        DOC_TYPE_KEY            : String(10);
+        REF_DOCUMENT_NUMBER_KEY : String(100);
+        TOTAL_JOURNAL_USD       : Decimal(13, 2);
+        PRC_ID                  : CDS_DS.PROCESS_ID;
+        DISPOSITION_REASON      : String(1000);
+        DISPOSITION_ENTITY      : String(100);
+        CREATED_BY              : CDS_DS.USER_ID;
+        LAST_CHANGED_BY         : CDS_DS.USER_ID;
+        DISPOSITION_TYPE        : String(30);
+        ITEM                    : String(100);
+        REVIEWER_COMMENTS       : String(1000);
+        SCRUBBER_COMMENTS       : String(1000);
+        RULESET_NAME            : String(100);
+        ENTITY_GROUP            : String(100);
+        ENTITY_NAME             : String(1000);
+        RULE_NAME               : String(30);
+        RULE_EXPRESSION         : String(1000);
+        REPORT_STATUS           : CDS_DS.STATUS_ID;
+        SYSTEM_STATUS           : CDS_DS.STATUS_ID;
+        DATA_SCRUB_NAME         : String(100);
+        DATA_SCRUB_DESC         : String(300);
+        COMPANY_CODE            : String(64);
+        START_DATE              : CDS_DS.DATE_LOCAL;
+        END_DATE                : CDS_DS.DATE_LOCAL;
+        STATUS_ID               : CDS_DS.STATUS_ID;
+        CREATED_AT              : CDS_DS.DATE_TIME_LOCAL;
+        OWNER                   : CDS_DS.USER_ID;
+        CONFIGURATION_NAME      : String(100);
+        USER_GROUP              : CDS_DS.USER_GRP;
+        ITEM_SET                : String(100);
+        ITEM_MANUAL_STATUS      : CDS_DS.STATUS_ID;
+        ITEM_SYSTEM_STATUS      : CDS_DS.STATUS_ID;
+    };
+
+    view V_COMPANY_CODE_VH as
+        select from T_JOURNAL_ENTRY distinct
+        {
+            COMPANY_KEY
+        };
+
+    entity T_EMP_ORDER {
+        key PERNR : String(8);
+        key BEGDA : CDS_DS.DATE_LOCAL;
+        key ENDDA : CDS_DS.DATE_LOCAL;
+        key AUFNR : String(12);
+            KTEXT : String(40);
+            VORNR : String(4);
+            AEDTM : CDS_DS.DATE_LOCAL;
+            PROZT : Decimal(5, 2);
+    };
+
+    entity T_EMP_BAND {
+        key PERNR      : String(8);
+            AEDTM      : CDS_DS.DATE_LOCAL;
+            BAND_LEVEL : String(10);
+            STEXT      : String(40);
+    };
+
+    view V_EMP_ORD_BAND as
+        select from (
+                       T_EMP_ORDER
+            inner join T_EMP_BAND  on
+                T_EMP_ORDER.PERNR = T_EMP_BAND.PERNR
+        )
+        {
+            T_EMP_ORDER.PERNR     as PERSONNEL_ID,
+            T_EMP_ORDER.BEGDA     as VALID_FROM,
+            T_EMP_ORDER.ENDDA     as VALID_TO,
+            T_EMP_ORDER.AUFNR     as ORDER_NUMER,
+            T_EMP_ORDER.KTEXT     as ORDER_DESC,
+            T_EMP_BAND.BAND_LEVEL as BAND_LEVEL,
+            T_EMP_BAND.STEXT      as JOB_DESC
+        };
+
+    view V_EMP_ORD_DEF_ACC as
+        select from V_EMP_ORD_BAND distinct
+        {
+            PERSONNEL_ID,
+            // ORDER_NUM,
+            VALID_FROM,
+            VALID_TO,
+            BAND_LEVEL,
+            JOB_DESC,
+            ORDER_DESC
+        };
+
+    view V_EXP_DEFAULT_ORDER as
+        select from (
+                       V_CONCUR_EXPENSES as e
+            inner join T_EMP_ORDER as o       on
+                    e.EMPLOYEE_ID      =  o.PERNR
+                and e.SENT_FOR_PAYMENT >= o.BEGDA
+                and e.SENT_FOR_PAYMENT <= o.ENDDA
+        )
+        {
+            e.REPORT_ID,
+            e.EMPLOYEE_ID,
+            o.AUFNR        as ORDER_NUMBER,
+            o.KTEXT        as ORDER_DESC,
+            o.BEGDA        as VALID_FROM,
+            o.ENDDA        as VALID_TO
+        };
+
+    entity T_EXP_DI {
+        key REPORT_ID              : String(64);
+        key ALLOCATION_KEY         : CDS_DS.ALLOCATION_KEY;
+            EMPLOYEE_ID            : String(32);
+            EMPLOYEE_NAME          : String(128);
+            EMPLOYEE_COMPANY       : String(64);
+            REPORT_NAME            : String(128);
+            PURPOSE                : String(128);
+            SENT_FOR_PAYMENT       : DATE_LOCAL;
+            TOTAL_APPROVED_AMOUNT  : Decimal(13, 2);
+            PAYMENT_TYPE           : String(64);
+            EXPENSE_TYPE           : String(64);
+            APPROVAL_STATUS        : String(64);
+            PAYMENT_STATUS         : String(64);
+            APPROVED_AMOUNT_RPT    : Decimal(13, 2);
+            APPROVED_AMOUNT        : Decimal(13, 2);
+            TRANSACTION_DATE       : DATE_LOCAL;
+            PERCENTAGE             : Decimal(11, 8);
+            RECIEVING_COMPANY_CODE : String(64);
+            ORDER_NUMBER           : String(64);
+            OPERATION_KEY          : String(64);
+    }
+}

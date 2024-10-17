@@ -1,0 +1,53 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.ng.datascrubautomation.controller.CreateDataScrub" xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Page showHeader="false" title="{i18n>CREATE_DATA_SCRUB}" showFooter="true" showNavButton="false">
+		<content>
+			<VBox class="sapUiSmallMargin">
+				<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="{i18n>CREATE_SCRUB_TITLE}" labelSpanXL="4" labelSpanL="4" labelSpanM="4"
+					labelSpanS="12" adjustLabelSpan="false" emptySpanXL="1" emptySpanL="1" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+					singleContainerFullSize="false">
+					<f:content>
+						<Label text="{i18n>SCRUB_NAME}"/>
+						<Input type="Text" showValueHelp="false" width="auto" valueHelpOnly="false" maxLength="0" value="{changeModel>/DATA_SCRUB_NAME}"/>
+						<Label text="{i18n>DESCRIPTION}"/>
+						<TextArea rows="2" cols="20" maxLength="0" wrapping="None" value="{changeModel>/DATA_SCRUB_DESC}"/>
+						<Label text="{i18n>COMPANY_CODE}"/>
+						<Select forceSelection="false" selectedKey="{changeModel>/COMPANY_CODE}" items="{path: '/DS_COMAPNY_CODES'}">
+							<core:Item key="{COMPANY_KEY}" text="{COMPANY_KEY}"/>
+						</Select>
+						<Label text="{i18n>CONFIGURATION_NAME}"/>
+						<Select forceSelection="false" selectedKey="{changeModel>/CONFIGURATION_NAME}"
+							items="{path: '/DS_CONFIGURATIONS', filters: [{ path: 'CONF_STATUS', operator: 'EQ', value1: 'DEPLOYED' }]}">
+							<core:Item key="{CONFIGURATION_NAME}" text="{CONFIGURATION_NAME}"/>
+						</Select>
+						<Label text="{i18n>CHECKLIST_GROUP}"/>
+						<Select forceSelection="false" selectedKey="{changeModel>/ITEM_SET}"
+							items="{path: '/DS_CHECKLIST_SET'}">
+							<core:Item key="{ITEM_SET}" text="{ITEM_SET}"/>
+						</Select>
+						<Label text="{i18n>USER_GROUP}"/>
+						<Select forceSelection="false" selectedKey="{changeModel>/USER_GROUP}" items="{/DS_USERGROUPS}">
+							<core:Item key="{USER_GROUP}" text="{USER_GROUP}"/>
+						</Select>
+						<Label text="{i18n>TRANSACTION_DATE}"/>
+						<DateRangeSelection id="daterangeselection" width="auto" displayFormat="medium"
+							minDate="{path: 'dateModel>/minDate', formatter: '.formateMinDate'}" maxDate="{path: 'dateModel>/maxDate', formatter: '.formateMaxDate'}"
+							change="_onDateRangeSelectionChange"/>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+		</content>
+		<footer>
+			<OverflowToolbar width="100%" design="Auto">
+				<content>
+					<ToolbarSpacer width=""/>
+					<Button text="{i18n>SAVE}" type="Emphasized" iconFirst="true" width="auto" iconDensityAware="false" press="_onSavePress"/>
+					<Button text="{i18n>CANCEL}" type="Default" iconFirst="true" width="auto" iconDensityAware="false" press="_onNavBack"/>
+				</content>
+			</OverflowToolbar>
+		</footer>
+		<headerContent/>
+		<subHeader/>
+		<customHeader/>
+	</Page>
+</mvc:View>

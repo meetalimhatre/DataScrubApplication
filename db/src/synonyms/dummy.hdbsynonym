@@ -1,0 +1,38 @@
+{
+  "DUMMY": {
+    "target": {
+      "object": "DUMMY",
+      "schema": "SYS"
+    }
+  },
+  "TEXT_CONFIGURATION_CREATE_2": {
+    "target": {
+      "object": "TEXT_CONFIGURATION_CREATE",
+      "schema": "SYS"
+    }
+  },
+  "M_TABLES": {
+    "target": {
+      "object": "M_TABLES",
+      "schema": "SYS"
+    }
+  },
+  "TEXT_CONFIGURATION_DROP": {
+    "target": {
+      "object": "TEXT_CONFIGURATION_DROP",
+      "schema": "SYS"
+    }
+  },
+  "TABLE_COLUMNS": {
+    "target": {
+      "object": "TABLE_COLUMNS",
+      "schema": "SYS"
+    }
+  },
+  "TEXT_CONFIGURATION_CLEAR": {
+    "target": {
+      "object": "TEXT_CONFIGURATION_CLEAR",
+      "schema": "SYS"
+    }
+  }
+}

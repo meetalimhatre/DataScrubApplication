@@ -1,0 +1,21 @@
+#subgroup Retirements_lunch: <\p{ci}retirement><>*<\p{ci}lunch>
+#group Retirement_Exclude_L: %(Retirements_lunch)
+#subgroup n1: <house.*-.*wife>
+#group n1_g: %(n1)
+
+#subgroup n2: <~(professional)><play>
+#group n2_g: %(n2)
+!#subgroup n3: <house.* .*~(wife).*>
+!#group n3_g: %(n3)
+#subgroup n4: <me><~(you)>
+#group n4_g: %(n4)
+
+#subgroup n5: <flower|funeral><>*<arrangements>
+#group n5_g: %(n5)
+!travel,arrangement,award,ceremony
+#subgroup n7: <\p{ci}travel><>*<\p{ci}arrangement|\p{ci}arrangements><>*<\p{ci}award><>*<\p{ci}ceremony>
+#group n7_g: %(n7)
+#subgroup n8: <\p{ci}travel><\p{ci}>*<\p{ci}arrangement|\p{ci}arrangements><\p{ci}>*<\p{ci}award><\p{ci}>*<\p{ci}ceremony>
+#group n8_g: %(n8)
+!#subgroup n6: <~(travel|trip|rental|airfair)><arrangements|arrangement>
+!#group n6_g: %(n6)

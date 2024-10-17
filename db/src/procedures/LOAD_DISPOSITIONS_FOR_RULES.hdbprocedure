@@ -1,0 +1,105 @@
+PROCEDURE "LOAD_DISPOSITIONS_FOR_RULES" ( IN I_PROCESS_ID BIGINT )
+   LANGUAGE SQLSCRIPT
+   SQL SECURITY INVOKER
+   --DEFAULT SCHEMA <default_schema_name>
+   AS
+BEGIN
+
+-- DERIVE THE CONFIGURATION FROM PROCESS 
+declare C_REPORTS NVARCHAR(100) array;
+declare RULES_name NVARCHAR(100) array;	
+declare EXPRESSIONs NVARCHAR(1000) array;
+declare expression nvarchar(1000);
+declare i integer ;
+declare report_ids NVARCHAR(100) array;
+declare report_id NVARCHAR(100);
+
+-- -
+declare ruleset nvarchar(100);
+declare rule_priority nvarchar(100);
+-- -
+        
+TAB_RULESETS =  SELECT C.RULESET_NAME FROM "CDS_DS.T_DS_PROCESSES" PS INNER JOIN "CDS_DS.T_CONFIGURATIONS" C ON Ps.CONFIGURATION_NAME = C.CONFIGURATION_NAME WHERE Ps.PRC_ID = :I_PROCESS_ID;             
+tab_rules  = SELECT RS.RULE_NAME FROM :TAB_RULESETS C INNER JOIN "CDS_DS.T_RULESETS" RS on ( C.RULESET_NAME = RS.RULESET_NAME );    
+tab_expressions = select distinct RE.RULE_NAME,RE.RULE_EXPRESSION FROM :TAB_RULES TR INNER JOIN "CDS_DS.T_RULES" RE ON TR.RULE_NAME = RE.RULE_NAME;
+
+RULES_NAME = array_agg(:tab_expressions.rule_name);
+EXPRESSIONs = array_agg(:tab_expressions.rule_expression);
+
+/*
+insert into "CDS_DS.T_DISPOSITIONS"("DISPOSITION_ID", "PRC_ID", "EXPENSE_KEY.REPORT_ID", "DISPOSITION_REASON", "DISPOSITION_TYPE", "DISPOSITION_ENTITY")
+(
+select SYSUUID, :I_PROCESS_ID, d."EXPENSE_KEY.REPORT_ID", 'StoppageRule', 'RULE', d.DISPOSITION_ENTITY  from 
+
+(select distinct "PRC_ID", "EXPENSE_KEY.REPORT_ID","DISPOSITION_ENTITY"  from "CDS_DS.T_DISPOSITIONS") as d join "CDS_DS.T_CONCUR_EXPENSES" c
+on d."EXPENSE_KEY.REPORT_ID" = c."EXPENSE_KEY.REPORT_ID"
+where "PRC_ID" = :I_PROCESS_ID
+-- and c."EXPENSE.RECIEVING_COMPANY_CODE" not in ('5110','5230','5340')
+and d."DISPOSITION_ENTITY" = 'WorkStoppage_exclude'
+);  
+*/
+
+
+
+i = 1;
+-- performance can be improved with parallel execution of inserts
+
+FOR i IN 1 .. CARDINALITY(:RULES_NAME) DO
+	-- try to keep this the same
+	expression := 'PRC_ID = '||:I_PROCESS_ID||' and ('||:EXPRESSIONs[i]||')';
+	-- change V_EXP_RULE_DATA to view that has data joined with JE
+	tab_filtered =  apply_filter("CDS_DS.V_EXP_RULE_DATA",:expression );
+	tab_distinct = select distinct REPORT_ID, ALLOCATION_KEY from :tab_filtered;
+	
+	-- -
+	select RULE_PRIORITY into rule_priority from "CDS_DS.T_RULES" WHERE RULE_NAME = :RULES_NAME[i];
+	select DISTINCT RS_F.RULESET_NAME into ruleset from "CDS_DS.T_RULESETS" RS inner join :TAB_RULESETS RS_F on RS.RULESET_NAME = RS_F.RULESET_NAME WHERE RULE_NAME = :RULES_NAME[i];
+	-- -
+	
+	insert into "CDS_DS.T_DISPOSITIONS"("DISPOSITION_ID", "PRC_ID", "EXPENSE_KEY.REPORT_ID","EXPENSE_KEY.ALLOCATION_KEY", "DISPOSITION_REASON", "DISPOSITION_TYPE", "DISPOSITION_ENTITY", "PRIORITY") 
+	select SYSUUID, :I_PROCESS_ID,REPORT_ID, ALLOCATION_KEY, :RULES_NAME[i],'Rule',:RULES_NAME[i], :rule_priority from :tab_distinct;  	
+	i=i+1;
+END FOR;
+
+i := 1;
+tab_report_ids = SELECT DISTINCT "EXPENSE_KEY.REPORT_ID" FROM "CDS_DS.T_DISPOSITIONS" WHERE PRC_ID = :I_PROCESS_ID AND DISPOSITION_TYPE = 'Rule';
+
+t_matching_rules = SELECT DISTINCT  PRC_ID ,"EXPENSE_KEY.REPORT_ID",PRIORITY ,DISPOSITION_REASON
+ FROM "CDS_DS.T_DISPOSITIONS" WHERE PRC_ID = :I_PROCESS_ID AND DISPOSITION_TYPE = 'Rule' ;
+ 
+t_reports_status_rules =  SELECT DISTINCT  PRC_ID ,"EXPENSE_KEY.REPORT_ID",PRIORITY ,STRing_AGG(DISPOSITION_REASON,'/' ) as MATCHING_RULES 
+ FROM :t_matching_rules WHERE PRC_ID = :I_PROCESS_ID  GROUP BY PRC_ID,"EXPENSE_KEY.REPORT_ID","PRIORITY"  ;
+ 
+ t_report_status_final = select r.PRC_ID,r."EXPENSE_KEY.REPORT_ID",s.matching_entities,r.MATCHING_RULES from :t_reports_status_rules r left outer join "CDS_DS.T_DS_STATUS" s
+ on r.PRC_ID = s.PRC_ID and r."EXPENSE_KEY.REPORT_ID" = s.REPORT_ID;
+ 
+report_ids = array_agg(:tab_report_ids."EXPENSE_KEY.REPORT_ID");
+FOR i IN 1..CARDINALITY(:report_ids) DO
+	report_id = :report_ids[i];
+	
+	tab_high_reports = select * from "CDS_DS.T_DISPOSITIONS" where REPORT_ID  = report_id AND prc_id = :I_Process_id and priority = 'High'; 
+	tab_medium_reports = select * from "CDS_DS.T_DISPOSITIONS" where REPORT_ID  = report_id AND prc_id = :I_Process_id and priority = 'Medium'; 
+	tab_low_reports = select * from "CDS_DS.T_DISPOSITIONS" where REPORT_ID  = report_id AND prc_id = :I_Process_id and priority = 'Low';
+	
+	if RECORD_COUNT(:tab_high_reports) > 0 then
+	/*
+		UPSERT "CDS_DS.T_DS_STATUS" VALUES(:I_PROCESS_ID, :report_id, '', 'SYSTEM_EXCLUDED', 'High','') WHERE PRC_ID=:I_PROCESS_ID AND REPORT_ID=:report_id;
+		elseif RECORD_COUNT(:tab_medium_reports) > 0 then
+		UPSERT "CDS_DS.T_DS_STATUS" VALUES(:I_PROCESS_ID, :report_id, '', 'SYSTEM_EXCLUDED', 'Medium','') WHERE PRC_ID=:I_PROCESS_ID AND REPORT_ID=:report_id;
+		elseif RECORD_COUNT(:tab_low_reports) > 0 then
+			UPSERT "CDS_DS.T_DS_STATUS" VALUES(:I_PROCESS_ID, :report_id, '', 'SYSTEM_EXCLUDED', 'Low','') WHERE PRC_ID=:I_PROCESS_ID AND REPORT_ID=:report_id;
+	end if;
+--	highs = select * from repirts 
+*/
+
+UPSERT "CDS_DS.T_DS_STATUS" SELECT PRC_ID,"EXPENSE_KEY.REPORT_ID",'', 'SYSTEM_EXCLUDED', 'High','',MATCHING_RULES, MATCHING_ENTITIES  FROM :t_report_status_final WHERE PRC_ID=:I_PROCESS_ID AND "EXPENSE_KEY.REPORT_ID"=:report_id;
+		elseif RECORD_COUNT(:tab_medium_reports) > 0 then
+		UPSERT "CDS_DS.T_DS_STATUS" SELECT PRC_ID,"EXPENSE_KEY.REPORT_ID",'', 'SYSTEM_EXCLUDED', 'Medium','',MATCHING_RULES, MATCHING_ENTITIES  FROM :t_report_status_final WHERE PRC_ID=:I_PROCESS_ID AND "EXPENSE_KEY.REPORT_ID"=:report_id;
+		elseif RECORD_COUNT(:tab_low_reports) > 0 then
+		UPSERT "CDS_DS.T_DS_STATUS" SELECT PRC_ID,"EXPENSE_KEY.REPORT_ID",'', 'SYSTEM_EXCLUDED', 'Low','',MATCHING_RULES, MATCHING_ENTITIES  FROM :t_report_status_final WHERE PRC_ID=:I_PROCESS_ID AND "EXPENSE_KEY.REPORT_ID"=:report_id;
+	end if;
+END FOR;
+
+UPSERT "CDS_DS.T_DS_STATUS_ITEM" select :I_PROCESS_ID,"EXPENSE_KEY.REPORT_ID","EXPENSE_KEY.ALLOCATION_KEY", '', 'SYSTEM_EXCLUDED',"PRIORITY" ,'' FROM "CDS_DS.T_DISPOSITIONS"  WHERE PRC_ID=:I_PROCESS_ID AND DISPOSITION_TYPE = 'Rule' ;
+
+end

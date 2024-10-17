@@ -1,0 +1,16 @@
+<!--Not Used-->
+<core:FragmentDefinition xmlns:core="sap.ui.core" controllerName="com.ng.datascrubautomation.controller.ScubberReviewerQuickview" xmlns="sap.m">
+    <QuickView placement="Auto" width="320px">
+        <pages>
+            <QuickViewPage header="Header" title="{Name}" titleUrl="" description="{Role}">
+                <groups>
+                    <QuickViewGroup visible="true" heading="">
+                        <elements>
+                            <QuickViewGroupElement label="Email" value="{Email}" emailSubject="" pageLinkId="" url="" target="_blank" visible="true"/>
+                        </elements>
+                    </QuickViewGroup>
+                </groups>
+            </QuickViewPage>
+        </pages>
+    </QuickView>
+</core:FragmentDefinition>

@@ -1,0 +1,74 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" controllerName="com.ng.datascrubautomation.controller.DataScrubStatus"
+	xmlns:f="sap.f" xmlns:variants="sap.ui.comp.variants" xmlns="sap.m" xmlns:filterbar="sap.ui.comp.filterbar" xmlns:core="sap.ui.core"
+	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar">
+	<l:DynamicSideContent id="DynamicSideContentStatusPage" class="sapUiDSCExplored sapUiContentPadding" sideContentFallDown="BelowM"
+		containerQuery="true" showSideContent="false">
+		<l:mainContent>
+			<f:DynamicPage headerExpanded="true" showFooter="false" class="sapUiSizeCompact">
+				<f:title>
+					<f:DynamicPageTitle>
+						<f:heading>
+							<Title text="{DATA_SCRUB_NAME} - {DATA_SCRUB_DESC}"/>
+						</f:heading>
+						<f:expandedContent>
+							<HBox width="100%">
+								<l:VerticalLayout class="sapUiSmallMarginEnd">
+									<ObjectStatus title="{i18n>COMPANY_CODE}" text="{COMPANY_CODE}"/>
+									<ObjectStatus title="{i18n>USER_GROUP}" text="{USER_GROUP}"/>
+									<ObjectStatus title="{i18n>START_DATE}" text="{path: 'START_DATE', formatter: '.formatter.formatDateUTCtoLocale'}"/>
+									<ObjectStatus title="{i18n>END_DATE}" text="{path: 'END_DATE', formatter: '.formatter.formatDateUTCtoLocale'}"/>
+									<ObjectStatus title="{i18n>STATUS}" text="{STATUS_ID}" inverted="true" active="true"
+										state="{path: 'STATUS_ID', formatter: '.formatter.formatDSState'}"/>
+								</l:VerticalLayout>
+								<l:VerticalLayout id="idAggregationBox" class="sapUiSmallMarginEnd">
+									<ObjectStatus title="{i18n>TOTAL_AMOUNT}" text="{POPULATION_AMOUNT}"/>
+									<ObjectStatus title="{i18n>SYSTEM_EXCLUDED_AMOUNT}" text="{POPULATION_SYSTEM_EXCLUDED_AMOUNT}"/>
+									<ObjectStatus title="{i18n>MANUAL_EXCLUDED_AMOUNT}" text="{POPULATION_MANUAL_EXCLUDED_AMOUNT}"/>
+								</l:VerticalLayout>
+							</HBox>
+						</f:expandedContent>
+						<f:actions>
+							<ToolbarSpacer/>
+							<Button text="{i18n>SAMPLE}" type="Transparent" press="_onSampleDispositions"
+								visible="{parts:[{path: 'STATUS_ID'}, {path: 'authorization>/sampledatascrub'}], formatter: '.formatter.formatSamplingAssignButtonVisibility'}"/>
+							<Button text="{i18n>SET_TO_COMPLETE}" type="Transparent" press="_onCompleteDataScrub"
+								visible="{parts:[{path: 'STATUS_ID'}, {path: 'authorization>/completedatascrub'}],formatter: '.formatter.formatSetToCompleteVisibility'}"/>
+						</f:actions>
+					</f:DynamicPageTitle>
+				</f:title>
+				<f:header>
+					<f:DynamicPageHeader pinnable="true">
+						<f:content>
+							<smartFilterBar:SmartFilterBar id="idDataScrubsmartFilterBar" showFilterConfiguration="false" entitySet="EXP_DISPOSITIONS_HEADER"
+								enableBasicSearch="false" liveMode="true" initialized="_loadMatchingEntities">
+								<smartFilterBar:layoutData>
+									<FlexItemData shrinkFactor="0"/>
+								</smartFilterBar:layoutData>
+								<smartFilterBar:controlConfiguration>
+									<smartFilterBar:ControlConfiguration key="CustomKeywordFilter" index="4" label="Matching Keyword Groups" visibleInAdvancedArea="true"
+										groupId="_BASIC">
+										<smartFilterBar:customControl>
+											<MultiComboBox items="{/DS_DISPOSITION_ENTITY}" >
+												<core:Item key="{DISPOSITION_ENTITY}" text="{DISPOSITION_ENTITY}"/>
+											</MultiComboBox>
+										</smartFilterBar:customControl>
+									</smartFilterBar:ControlConfiguration>
+									<smartFilterBar:ControlConfiguration key="CustomRuleFilter" index="5" label="Matching Rules" visibleInAdvancedArea="true" groupId="_BASIC">
+										<smartFilterBar:customControl>
+											<MultiComboBox items="{/DS_DISPOSITION_ENTITY}">
+												<core:Item key="{DISPOSITION_ENTITY}" text="{DISPOSITION_ENTITY}"/>
+											</MultiComboBox>
+										</smartFilterBar:customControl>
+									</smartFilterBar:ControlConfiguration>
+								</smartFilterBar:controlConfiguration>
+							</smartFilterBar:SmartFilterBar>
+						</f:content>
+					</f:DynamicPageHeader>
+				</f:header>
+				<f:content>
+					<core:Fragment fragmentName="com.ng.datascrubautomation.fragments.DatascrubReports" type="XML"/>
+				</f:content>
+			</f:DynamicPage>
+		</l:mainContent>
+	</l:DynamicSideContent>
+</mvc:View>

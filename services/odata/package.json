@@ -1,0 +1,33 @@
+{
+  "dependencies": {
+    "@sap/xsenv": "1.2.9",
+    "@sap/xsjs": "3.7.0",
+    "express": "x",
+    "passport": "x",
+    "@sap/xssec": "x",
+    "@sap/hdbext": "x",
+    "@sap/logging": "x"
+  },
+  "description": "my description",
+  "devDependencies": {
+    "@sap/xsenv": "1.3.0",
+    "@sap/xsjs": "3.7.0",
+    "express": "x",
+    "passport": "x",
+    "@sap/xssec": "x",
+    "@sap/hdbext": "x",
+    "@sap/logging": "x"
+  },
+  "files": [],
+  "main": "server.js",
+  "name": "odata",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node testrun.js"
+  },
+  "engines": {
+    "node": "8.x",
+    "npm": "6.4.1"
+  },
+  "version": "1.0.0"
+}

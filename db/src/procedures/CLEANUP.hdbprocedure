@@ -1,0 +1,28 @@
+PROCEDURE "CLEANUP" ( IN I_CONFIGURATION_NAME NVARCHAR(100) )
+   LANGUAGE SQLSCRIPT
+   SQL SECURITY DEFINER
+   --DEFAULT SCHEMA <default_schema_name>
+   AS
+BEGIN
+
+declare drop_column nVARCHAR(1000);
+declare delete_conf_entry nvarchar(1000);
+declare drop_fuzzyindex nvarchar(1000);
+declare drop_table1 nvarchar(1000);
+declare drop_table2 nvarchar(1000);
+declare drop_table3 nvarchar(1000);
+declare drop_table4 nvarchar(1000);
+declare drop_table5 nvarchar(1000);
+
+-- -
+declare index_name nvarchar(1000);
+declare index_drop nvarchar(128);
+declare index_count integer;
+
+drop_table1 = 'DROP TABLE TA_REPORT';
+delete from "CDS_DS.T_CONFIGURATIONS" WHERE CONFIGURATION_NAME = :I_CONFIGURATION_NAME;
+exec :drop_table1;
+
+
+
+end

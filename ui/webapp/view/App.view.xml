@@ -1,0 +1,4 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.ng.datascrubautomation.controller.App">
+	<core:Fragment fragmentName="com.ng.datascrubautomation.fragments.ShellBar" type="XML"/>
+	<App id="App" busy="{appView>/busy}" busyIndicatorDelay="{appView>/delay}" class="ngApp"/>
+</mvc:View>

@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <edmx:DataServices m:DataServiceVersion="2.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+        <Schema Namespace="default" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="DS_PROCESSType">
+                <Key>
+                    <PropertyRef Name="PRC_ID"/>
+                    <PropertyRef Name="EMAIL"/>
+                </Key>
+                <Property Name="DATA_SCRUB_DESC" Type="Edm.String" MaxLength="300"/>
+                <Property Name="PRC_ID" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="DATA_SCRUB_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="COMPANY_CODE" Type="Edm.String" MaxLength="64"/>
+                <Property Name="START_DATE" Type="Edm.DateTime"/>
+                <Property Name="END_DATE" Type="Edm.DateTime"/>
+                <Property Name="STATUS_ID" Type="Edm.String" MaxLength="30"/>
+                <Property Name="CREATED_AT" Type="Edm.DateTime"/>
+                <Property Name="OWNER" Type="Edm.String" MaxLength="100"/>
+                <Property Name="CONFIGURATION_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="USER_GROUP" Type="Edm.String" Nullable="false" MaxLength="80"/>
+                <Property Name="EMAIL" Type="Edm.String" Nullable="false" MaxLength="50"/>
+                <Property Name="ITEM_SET" Type="Edm.String" MaxLength="100"/>
+                <NavigationProperty Name="TO_EXP_HEADER" Relationship="default.PRC_TO_EXP_HEADERType" FromRole="DS_PROCESSPrincipal" ToRole="EXP_DISPOSITIONS_HEADERDependent"/>
+                <NavigationProperty Name="TO_CONFIGURATION" Relationship="default.PRC_TO_CONFIGURATIONType" FromRole="DS_PROCESSPrincipal" ToRole="DS_CONFIGURATIONSDependent"/>
+                <NavigationProperty Name="TO_STATUS_DESC" Relationship="default.PROCESS_TO_STATUS_DESCType" FromRole="DS_PROCESSPrincipal" ToRole="DS_STATUS_DESCDependent"/>
+                <NavigationProperty Name="TO_PROCESS_STATS" Relationship="default.PROCESS_TO_STATSType" FromRole="DS_PROCESSPrincipal" ToRole="DS_PROCESS_STATSDependent"/>
+                <NavigationProperty Name="TO_PROCESS_ENTITIES" Relationship="default.PRC_TO_DISPOSTION_ENTITYType" FromRole="DS_PROCESSPrincipal" ToRole="DS_DISPOSITION_ENTITYDependent"/>
+            </EntityType>
+            <EntityType Name="DS_PROCESS_STATSType">
+                <Key>
+                    <PropertyRef Name="PRC_ID"/>
+                </Key>
+                <Property Name="PRC_ID" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="POPULATION_SAMPLES" Type="Edm.Int32"/>
+                <Property Name="POPULATION_AMOUNT" Type="Edm.Decimal" Precision="18" Scale="2"/>
+                <Property Name="POPULATION_SYSTEM_EXCLUDED_AMOUNT" Type="Edm.Decimal" Precision="18" Scale="2"/>
+                <Property Name="POPULATION_MANUAL_EXCLUDED_AMOUNT" Type="Edm.Decimal" Precision="18" Scale="2"/>
+            </EntityType>
+            <EntityType Name="EXP_DISPOSITIONS_HEADERType">
+                <Key>
+                    <PropertyRef Name="PRC_ID"/>
+                    <PropertyRef Name="REPORT_ID"/>
+                </Key>
+                <Property Name="PRC_ID" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="REPORT_ID" Type="Edm.String" MaxLength="64"/>
+                <Property Name="EMPLOYEE_ID" Type="Edm.String" MaxLength="32"/>
+                <Property Name="EMPLOYEE_NAME" Type="Edm.String" MaxLength="128"/>
+                <Property Name="EMPLOYEE_COMPANY" Type="Edm.String" MaxLength="64"/>
+                <Property Name="REPORT_NAME" Type="Edm.String" MaxLength="128"/>
+                <Property Name="TOTAL_APPROVED_AMOUNT" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="SYS_STATUS" Type="Edm.String" MaxLength="30"/>
+                <Property Name="REP_STATUS" Type="Edm.String" MaxLength="30"/>
+                <Property Name="BAND_LEVEL" Type="Edm.String" MaxLength="10"/>
+                <Property Name="JOB_DESC" Type="Edm.String" MaxLength="40"/>
+                <Property Name="ITEM_SET" Type="Edm.String" MaxLength="100"/>
+                <Property Name="MATCHING_RULES" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="MATCHING_ENTITIES" Type="Edm.String" MaxLength="1000"/>
+                <NavigationProperty Name="TO_ITEMS" Relationship="default.EXP_HEADER_TO_EXP_ITEMSType" FromRole="EXP_DISPOSITIONS_HEADERPrincipal" ToRole="EXP_DISPOSITIONS_ITEMSDependent"/>
+                <NavigationProperty Name="TO_DS_EXP_STATUS" Relationship="default.EXP_DISP_HEADER_TO_DS_STATUSType" FromRole="EXP_DISPOSITIONS_HEADERPrincipal" ToRole="DS_EXP_STATUSDependent"/>
+                <NavigationProperty Name="TO_JOURNAL_ENTRIES" Relationship="default.EXP_JOURNAL_ENTRIESType" FromRole="EXP_DISPOSITIONS_HEADERPrincipal" ToRole="DS_JOURNALENTRIESDependent"/>
+                <NavigationProperty Name="TO_SYSTEM_DISPOSITIONS" Relationship="default.EXP_DISP_HEADER_TO_SYSTEM_DISPOSITIONType" FromRole="EXP_DISPOSITIONS_HEADERPrincipal" ToRole="DS_SYSTEM_DISPOSITIONSDependent"/>
+                <NavigationProperty Name="TO_MANUAL_DISPOSITIONS" Relationship="default.EXP_DISP_HEADER_TO_MANUAL_DISPOSITIONType" FromRole="EXP_DISPOSITIONS_HEADERPrincipal" ToRole="DS_MANUAL_DISPOSITIONSDependent"/>
+                <NavigationProperty Name="TO_LOGS" Relationship="default.REPORT_TO_LOGSType" FromRole="EXP_DISPOSITIONS_HEADERPrincipal" ToRole="DS_PROCESS_LOGSDependent"/>
+                <NavigationProperty Name="TO_EMP_ORDERS" Relationship="default.EXP_DISP_HEADER_TO_EMP_ORDERType" FromRole="EXP_DISPOSITIONS_HEADERPrincipal" ToRole="DS_EMPLOYEE_ORDERSDependent"/>
+            </EntityType>
+            <EntityType Name="DS_EMPLOYEE_ORDERSType">
+                <Key>
+                    <PropertyRef Name="REPORT_ID"/>
+                    <PropertyRef Name="EMPLOYEE_ID"/>
+                </Key>
+                <Property Name="REPORT_ID" Type="Edm.String" Nullable="false" MaxLength="64"/>
+                <Property Name="EMPLOYEE_ID" Type="Edm.String" Nullable="false" MaxLength="32"/>
+                <Property Name="ORDER_NUMBER" Type="Edm.String" Nullable="false" MaxLength="12"/>
+                <Property Name="ORDER_DESC" Type="Edm.String" MaxLength="40"/>
+                <Property Name="VALID_FROM" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="VALID_TO" Type="Edm.DateTime" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="DS_SYSTEM_DISPOSITIONSType">
+                <Key>
+                    <PropertyRef Name="PRC_ID"/>
+                    <PropertyRef Name="REPORT_ID"/>
+                    <PropertyRef Name="DISPOSITION_ENTITY"/>
+                    <PropertyRef Name="DISPOSITION_REASON"/>
+                </Key>
+                <Property Name="REPORT_ID" Type="Edm.String" MaxLength="64"/>
+                <Property Name="PRC_ID" Type="Edm.Int64"/>
+                <Property Name="DISPOSITION_REASON" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="DISPOSITION_ENTITY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="TA_COLUMN" Type="Edm.String" MaxLength="100"/>
+                <Property Name="PRIORITY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="CREATED_BY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="LAST_CHANGED_BY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="DISPOSITION_TYPE" Type="Edm.String" MaxLength="30"/>
+            </EntityType>
+            <EntityType Name="EXP_DISPOSITIONS_ITEMSType">
+                <Key>
+                    <PropertyRef Name="PRC_ID"/>
+                    <PropertyRef Name="ALLOCATION_KEY"/>
+                    <PropertyRef Name="REPORT_ID"/>
+                </Key>
+                <Property Name="DATA_SCRUB_DESC" Type="Edm.String" MaxLength="300"/>
+                <Property Name="PRC_ID" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="DATA_SCRUB_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="COMPANY_CODE" Type="Edm.String" Nullable="false" MaxLength="64"/>
+                <Property Name="START_DATE" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="END_DATE" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="STATUS_ID" Type="Edm.String" MaxLength="30"/>
+                <Property Name="CREATED_AT" Type="Edm.DateTime"/>
+                <Property Name="OWNER" Type="Edm.String" MaxLength="100"/>
+                <Property Name="CONFIGURATION_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="USER_GROUP" Type="Edm.String" MaxLength="80"/>
+                <Property Name="ITEM_SET" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REPORT_ID" Type="Edm.String" MaxLength="64"/>
+                <Property Name="ALLOCATION_KEY" Type="Edm.String" MaxLength="20"/>
+                <Property Name="EMPLOYEE_ID" Type="Edm.String" MaxLength="32"/>
+                <Property Name="EMPLOYEE_NAME" Type="Edm.String" MaxLength="128"/>
+                <Property Name="EMPLOYEE_COMPANY" Type="Edm.String" MaxLength="64"/>
+                <Property Name="REPORT_NAME" Type="Edm.String" MaxLength="128"/>
+                <Property Name="PURPOSE" Type="Edm.String" MaxLength="128"/>
+                <Property Name="SENT_FOR_PAYMENT" Type="Edm.DateTime"/>
+                <Property Name="TOTAL_APPROVED_AMOUNT" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="PAYMENT_TYPE" Type="Edm.String" MaxLength="64"/>
+                <Property Name="EXPENSE_TYPE" Type="Edm.String" MaxLength="64"/>
+                <Property Name="APPROVAL_STATUS" Type="Edm.String" MaxLength="64"/>
+                <Property Name="PAYMENT_STATUS" Type="Edm.String" MaxLength="64"/>
+                <Property Name="APPROVED_AMOUNT_RPT" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="APPROVED_AMOUNT" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="TRANSACTION_DATE" Type="Edm.DateTime"/>
+                <Property Name="PERCENTAGE" Type="Edm.Decimal" Precision="11" Scale="8"/>
+                <Property Name="RECIEVING_COMPANY_CODE" Type="Edm.String" MaxLength="64"/>
+                <Property Name="ORDER_NUMBER" Type="Edm.String" MaxLength="64"/>
+                <Property Name="OPERATION_KEY" Type="Edm.String" MaxLength="64"/>
+                <Property Name="ALLOCATION_CODE" Type="Edm.String" MaxLength="4"/>
+                <Property Name="BAND_LEVEL" Type="Edm.String" MaxLength="10"/>
+                <Property Name="JOB_DESC" Type="Edm.String" MaxLength="40"/>
+                <Property Name="MANUAL_STATUS" Type="Edm.String" MaxLength="30"/>
+                <Property Name="SYSTEM_STATUS" Type="Edm.String" MaxLength="30"/>
+                <NavigationProperty Name="TO_ITEM_LOGS" Relationship="default.DISP_ITEM_TO_LOGType" FromRole="EXP_DISPOSITIONS_ITEMSPrincipal" ToRole="DS_PROCESS_LOGSDependent"/>
+                <NavigationProperty Name="TO_ITEM_STATUS" Relationship="default.DISP_ITEM_TO_STATUSType" FromRole="EXP_DISPOSITIONS_ITEMSPrincipal" ToRole="DS_EXP_STATUS_ITEMDependent"/>
+                <NavigationProperty Name="TO_ITEM_SYSTEM_DISPOSITION" Relationship="default.DISP_ITEM_TO_SYSTEM_ITEM_DISPOSITIONType" FromRole="EXP_DISPOSITIONS_ITEMSPrincipal" ToRole="DS_SYSTEM_ITEM_DISPOSITIONSDependent"/>
+                <NavigationProperty Name="TO_ITEM_MANUAL_DISPOSITION" Relationship="default.DISP_ITEM_TO_MANUAL_DISPOSITIONType" FromRole="EXP_DISPOSITIONS_ITEMSPrincipal" ToRole="DS_MANUAL_DISPOSITIONSDependent"/>
+                <NavigationProperty Name="TO_EMP_ORDERS" Relationship="default.EXP_LINEITEM_TO_EMP_ORDERType" FromRole="EXP_DISPOSITIONS_ITEMSPrincipal" ToRole="DS_EMPLOYEE_ORDERSDependent"/>
+            </EntityType>
+            <EntityType Name="DS_JOURNALENTRIESType">
+                <Key>
+                    <PropertyRef Name="UNIQUE_KEY"/>
+                    <PropertyRef Name="GL_ACC_KEY"/>
+                    <PropertyRef Name="ACC_DOC_NUMBER_KEY"/>
+                    <PropertyRef Name="ORDER_KEY"/>
+                </Key>
+                <Property Name="DOC_HEADER_TEXT_KEY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="UNIQUE_KEY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="ACC_DOC_NUMBER_KEY" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="FISCAL_PERIOD_KEY" Type="Edm.String" Nullable="false" MaxLength="11"/>
+                <Property Name="POSTING_DATE_KEY" Type="Edm.DateTime"/>
+                <Property Name="PARKED_BY_KEY" Type="Edm.String" MaxLength="10"/>
+                <Property Name="COMPANY_KEY" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="COST_ELEMENT_KEY" Type="Edm.String" MaxLength="50"/>
+                <Property Name="PROFIT_CENTER_KEY" Type="Edm.String" MaxLength="20"/>
+                <Property Name="PROFIT_CENTER_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="ORDER_KEY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="ORDER_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="DOC_TYPE_KEY" Type="Edm.String" MaxLength="10"/>
+                <Property Name="GL_ACC_KEY" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="GL_ACC_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="VENDOR_KEY" Type="Edm.String" MaxLength="30"/>
+                <Property Name="VENDOR_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REF_DOCUMENT_NUMBER_KEY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="TOTAL_JOURNAL_USD" Type="Edm.Decimal" Precision="13" Scale="2"/>
+                <Property Name="DATE_OF_ENTRY" Type="Edm.DateTime"/>
+            </EntityType>
+            <EntityType Name="DS_PROCESS_LOGSType">
+                <Key>
+                    <PropertyRef Name="LOG_ID"/>
+                </Key>
+                <Property Name="LOG_ID" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="PRC_ID" Type="Edm.Int64"/>
+                <Property Name="USER_ID" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REPORT_ID" Type="Edm.String" MaxLength="30"/>
+                <Property Name="ALLOCATION_KEY" Type="Edm.String" MaxLength="20"/>
+                <Property Name="TEXT" Type="Edm.String" MaxLength="2147483647"/>
+                <Property Name="CREATED_TIME" Type="Edm.DateTime"/>
+                <Property Name="SHORT_DESCRIPTION" Type="Edm.String" MaxLength="256"/>
+            </EntityType>
+            <EntityType Name="DS_SYSTEM_ITEM_DISPOSITIONSType">
+                <Key>
+                    <PropertyRef Name="PRC_ID"/>
+                    <PropertyRef Name="REPORT_ID"/>
+                    <PropertyRef Name="ALLOCATION_KEY"/>
+                    <PropertyRef Name="DISPOSITION_ENTITY"/>
+                    <PropertyRef Name="DISPOSITION_REASON"/>
+                </Key>
+                <Property Name="REPORT_ID" Type="Edm.String" MaxLength="64"/>
+                <Property Name="ALLOCATION_KEY" Type="Edm.String" MaxLength="20"/>
+                <Property Name="PRC_ID" Type="Edm.Int64"/>
+                <Property Name="DISPOSITION_REASON" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="DISPOSITION_ENTITY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="TA_COLUMN" Type="Edm.String" MaxLength="100"/>
+                <Property Name="PRIORITY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="CREATED_BY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="LAST_CHANGED_BY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="DISPOSITION_TYPE" Type="Edm.String" MaxLength="30"/>
+            </EntityType>
+            <EntityType Name="DS_MANUAL_DISPOSITIONSType">
+                <Key>
+                    <PropertyRef Name="PRC_ID"/>
+                    <PropertyRef Name="REPORT_ID"/>
+                    <PropertyRef Name="ITEM"/>
+                    <PropertyRef Name="ALLOCATION_KEY"/>
+                </Key>
+                <Property Name="PRC_ID" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="REPORT_ID" Type="Edm.String" Nullable="false" MaxLength="64"/>
+                <Property Name="ITEM" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="ALLOCATION_KEY" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="DISPOSITION_ENTITY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="DISPOSITION_REASON" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="CREATED_BY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="LAST_CHANGED_BY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="SAMPLED_FLAG" Type="Edm.String" MaxLength="10"/>
+                <Property Name="REVIEWER_COMMENTS" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="SCRUBBER_COMMENTS" Type="Edm.String" MaxLength="1000"/>
+            </EntityType>
+            <EntityType Name="DS_SYSTEM_STATUS_DESCType">
+                <Key>
+                    <PropertyRef Name="RANK"/>
+                </Key>
+                <Property Name="STATUS_ID" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="STATUS_TYPE" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="DESC" Type="Edm.String" MaxLength="100"/>
+                <Property Name="RANK" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="DS_MANUAL_STATUS_DESCType">
+                <Key>
+                    <PropertyRef Name="RANK"/>
+                </Key>
+                <Property Name="STATUS_ID" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="STATUS_TYPE" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="DESC" Type="Edm.String" MaxLength="100"/>
+                <Property Name="RANK" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="DS_REPORT_STATUS_DESCType">
+                <Key>
+                    <PropertyRef Name="RANK"/>
+                </Key>
+                <Property Name="STATUS_ID" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="STATUS_TYPE" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="DESC" Type="Edm.String" MaxLength="100"/>
+                <Property Name="RANK" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="DS_STATUS_DESCType">
+                <Key>
+                    <PropertyRef Name="STATUS_ID"/>
+                </Key>
+                <Property Name="STATUS_ID" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="STATUS_TYPE" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DESC" Type="Edm.String" MaxLength="100"/>
+                <Property Name="RANK" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="DS_PRC_STATUS_DESCType">
+                <Key>
+                    <PropertyRef Name="RANK"/>
+                </Key>
+                <Property Name="STATUS_ID" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="STATUS_TYPE" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="DESC" Type="Edm.String" MaxLength="100"/>
+                <Property Name="RANK" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="DS_EXP_STATUSType">
+                <Key>
+                    <PropertyRef Name="PRC_ID"/>
+                    <PropertyRef Name="REPORT_ID"/>
+                </Key>
+                <Property Name="PRC_ID" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="REPORT_ID" Type="Edm.String" Nullable="false" MaxLength="64"/>
+                <Property Name="REPORT_STATUS" Type="Edm.String" MaxLength="30"/>
+                <Property Name="SYSTEM_STATUS" Type="Edm.String" MaxLength="30"/>
+                <Property Name="PRIORITY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="MANUAL_STATUS" Type="Edm.String" MaxLength="30"/>
+                <Property Name="MATCHING_RULES" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="MATCHING_ENTITIES" Type="Edm.String" MaxLength="1000"/>
+            </EntityType>
+            <EntityType Name="DS_EXP_STATUS_ITEMType">
+                <Key>
+                    <PropertyRef Name="PRC_ID"/>
+                    <PropertyRef Name="REPORT_ID"/>
+                    <PropertyRef Name="ALLOCATION_KEY"/>
+                </Key>
+                <Property Name="PRC_ID" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="REPORT_ID" Type="Edm.String" Nullable="false" MaxLength="64"/>
+                <Property Name="ALLOCATION_KEY" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="REPORT_STATUS" Type="Edm.String" MaxLength="30"/>
+                <Property Name="SYSTEM_STATUS" Type="Edm.String" MaxLength="30"/>
+                <Property Name="PRIORITY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="MANUAL_STATUS" Type="Edm.String" MaxLength="30"/>
+            </EntityType>
+            <EntityType Name="DS_DISPOSITION_ENTITYType">
+                <Key>
+                    <PropertyRef Name="PRC_ID"/>
+                    <PropertyRef Name="DISPOSITION_ENTITY"/>
+                    <PropertyRef Name="DISPOSITION_TYPE"/>
+                </Key>
+                <Property Name="PRC_ID" Type="Edm.Int64"/>
+                <Property Name="DISPOSITION_ENTITY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="DISPOSITION_TYPE" Type="Edm.String" MaxLength="30"/>
+            </EntityType>
+            <EntityType Name="DS_COMAPNY_CODESType">
+                <Key>
+                    <PropertyRef Name="COMPANY_KEY"/>
+                </Key>
+                <Property Name="COMPANY_KEY" Type="Edm.String" Nullable="false" MaxLength="10"/>
+            </EntityType>
+            <EntityType Name="DS_CHECKLISTType">
+                <Key>
+                    <PropertyRef Name="ITEM"/>
+                </Key>
+                <Property Name="ITEM" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="DESCRIPTION" Type="Edm.String" MaxLength="200"/>
+            </EntityType>
+            <EntityType Name="DS_CHECKLIST_SET_DETAILSType">
+                <Key>
+                    <PropertyRef Name="ITEM_SET"/>
+                    <PropertyRef Name="ITEM"/>
+                </Key>
+                <Property Name="ITEM_SET" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="ITEM" Type="Edm.String" Nullable="false" MaxLength="100"/>
+            </EntityType>
+            <EntityType Name="DS_CHECKLIST_DETAILSType">
+                <Key>
+                    <PropertyRef Name="ITEM"/>
+                    <PropertyRef Name="ITEM_SET"/>
+                </Key>
+                <Property Name="ITEM" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="DESCRIPTION" Type="Edm.String" MaxLength="200"/>
+                <Property Name="ITEM_SET" Type="Edm.String" MaxLength="100"/>
+            </EntityType>
+            <EntityType Name="DS_CHECKLIST_SETType">
+                <Key>
+                    <PropertyRef Name="ITEM_SET"/>
+                </Key>
+                <Property Name="ITEM_SET" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <NavigationProperty Name="TO_CHECKLISTS" Relationship="default.CHECKLIST_SET_DETAILSType" FromRole="DS_CHECKLIST_SETPrincipal" ToRole="DS_CHECKLIST_SET_DETAILSDependent"/>
+            </EntityType>
+            <EntityType Name="DS_CONFIGURATIONSType">
+                <Key>
+                    <PropertyRef Name="CONFIGURATION_NAME"/>
+                </Key>
+                <Property Name="CONFIGURATION_NAME" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="RULESET_NAME" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="CONF_STATUS" Type="Edm.String" MaxLength="30"/>
+                <Property Name="LAST_DEPLOYED" Type="Edm.DateTime"/>
+                <NavigationProperty Name="TO_CONFIG_DETAILS" Relationship="default.CONFIG_DETAILSType" FromRole="DS_CONFIGURATIONSPrincipal" ToRole="DS_CONFIGURATION_DETAILSDependent"/>
+            </EntityType>
+            <EntityType Name="DS_CONFIGURATION_DETAILSType">
+                <Key>
+                    <PropertyRef Name="CONFIGURATION_NAME"/>
+                    <PropertyRef Name="RULESET_NAME"/>
+                    <PropertyRef Name="ENTITY_GROUP"/>
+                </Key>
+                <Property Name="CONFIGURATION_NAME" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="RULESET_NAME" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="ENTITY_GROUP" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="CONF_STATUS" Type="Edm.String" MaxLength="30"/>
+                <Property Name="LAST_DEPLOYED" Type="Edm.DateTime"/>
+                <NavigationProperty Name="TO_ENTITTY_GROUP" Relationship="default.CONFIG_TO_ENTITIESType" FromRole="DS_CONFIGURATION_DETAILSPrincipal" ToRole="DS_ENTITIESDependent"/>
+                <NavigationProperty Name="TO_RULESET" Relationship="default.CONFIG_TO_RULESETSType" FromRole="DS_CONFIGURATION_DETAILSPrincipal" ToRole="DS_RULESETSDependent"/>
+            </EntityType>
+            <EntityType Name="DS_ENITIESType">
+                <Key>
+                    <PropertyRef Name="ENTITY_GROUP"/>
+                </Key>
+                <Property Name="ENTITY_GROUP" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <NavigationProperty Name="TO_ENTITIES" Relationship="default.ENTITY_DETAILSType" FromRole="DS_ENITIESPrincipal" ToRole="DS_ENTITY_DETAILSDependent"/>
+            </EntityType>
+            <EntityType Name="DS_ENTITY_DETAILSType">
+                <Key>
+                    <PropertyRef Name="ENTITY_GROUP"/>
+                    <PropertyRef Name="ENTITY_NAME"/>
+                </Key>
+                <Property Name="ENTITY_GROUP" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="ENTITY_NAME" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="ENTITY_VARIATION" Type="Edm.String" MaxLength="100"/>
+            </EntityType>
+            <EntityType Name="DS_RULESType">
+                <Key>
+                    <PropertyRef Name="RULE_NAME"/>
+                </Key>
+                <Property Name="RULE_NAME" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="RULE_DESCRIPTION" Type="Edm.String" MaxLength="200"/>
+                <Property Name="RULE_EXPRESSION" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="RULE_PRIORITY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="RULE_EXPRESSION_JSON" Type="Edm.String" MaxLength="2147483647"/>
+            </EntityType>
+            <EntityType Name="DS_RULESETSType">
+                <Key>
+                    <PropertyRef Name="RULESET_NAME"/>
+                </Key>
+                <Property Name="RULESET_NAME" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <NavigationProperty Name="TO_RULESETS" Relationship="default.RULESET_DETAILSType" FromRole="DS_RULESETSPrincipal" ToRole="DS_RULESET_DETAILSDependent"/>
+            </EntityType>
+            <EntityType Name="DS_RULESET_DETAILSType">
+                <Key>
+                    <PropertyRef Name="RULESET_NAME"/>
+                    <PropertyRef Name="RULE_NAME"/>
+                </Key>
+                <Property Name="RULESET_NAME" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="RULE_NAME" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="RULESET_DESCRIPTION" Type="Edm.String" MaxLength="200"/>
+            </EntityType>
+            <EntityType Name="DS_USERGROUPSType">
+                <Key>
+                    <PropertyRef Name="USER_GROUP"/>
+                </Key>
+                <Property Name="USER_GROUP" Type="Edm.String" Nullable="false" MaxLength="80"/>
+                <NavigationProperty Name="TO_USERGROUPS" Relationship="default.USERGROUP_DETAILSType" FromRole="DS_USERGROUPSPrincipal" ToRole="DS_USERGROUP_DETAILSDependent"/>
+            </EntityType>
+            <EntityType Name="DS_USERGROUP_DETAILSType">
+                <Key>
+                    <PropertyRef Name="USER_GROUP"/>
+                    <PropertyRef Name="EMAIL"/>
+                </Key>
+                <Property Name="USER_GROUP" Type="Edm.String" Nullable="false" MaxLength="80"/>
+                <Property Name="EMAIL" Type="Edm.String" Nullable="false" MaxLength="50"/>
+                <Property Name="USER" Type="Edm.String" MaxLength="50"/>
+                <Property Name="DESC" Type="Edm.String" MaxLength="100"/>
+            </EntityType>
+            <EntityType Name="DS_USERSType">
+                <Key>
+                    <PropertyRef Name="EMAIL"/>
+                </Key>
+                <Property Name="EMAIL" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="ROLE" Type="Edm.String" MaxLength="20"/>
+                <Property Name="NAME" Type="Edm.String" MaxLength="100"/>
+            </EntityType>
+            <Association Name="PRC_TO_EXP_HEADERType">
+                <End Type="default.DS_PROCESSType" Role="DS_PROCESSPrincipal" Multiplicity="1"/>
+                <End Type="default.EXP_DISPOSITIONS_HEADERType" Role="EXP_DISPOSITIONS_HEADERDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="PRC_TO_CONFIGURATIONType">
+                <End Type="default.DS_PROCESSType" Role="DS_PROCESSPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_CONFIGURATIONSType" Role="DS_CONFIGURATIONSDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="PRC_TO_DISPOSTION_ENTITYType">
+                <End Type="default.DS_PROCESSType" Role="DS_PROCESSPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_DISPOSITION_ENTITYType" Role="DS_DISPOSITION_ENTITYDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="PROCESS_TO_STATSType">
+                <End Type="default.DS_PROCESSType" Role="DS_PROCESSPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_PROCESS_STATSType" Role="DS_PROCESS_STATSDependent" Multiplicity="1"/>
+            </Association>
+            <Association Name="PROCESS_TO_STATUS_DESCType">
+                <End Type="default.DS_PROCESSType" Role="DS_PROCESSPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_STATUS_DESCType" Role="DS_STATUS_DESCDependent" Multiplicity="1"/>
+            </Association>
+            <Association Name="EXP_HEADER_TO_EXP_ITEMSType">
+                <End Type="default.EXP_DISPOSITIONS_HEADERType" Role="EXP_DISPOSITIONS_HEADERPrincipal" Multiplicity="1"/>
+                <End Type="default.EXP_DISPOSITIONS_ITEMSType" Role="EXP_DISPOSITIONS_ITEMSDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="EXP_DISP_HEADER_TO_DS_STATUSType">
+                <End Type="default.EXP_DISPOSITIONS_HEADERType" Role="EXP_DISPOSITIONS_HEADERPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_EXP_STATUSType" Role="DS_EXP_STATUSDependent" Multiplicity="1"/>
+            </Association>
+            <Association Name="EXP_JOURNAL_ENTRIESType">
+                <End Type="default.EXP_DISPOSITIONS_HEADERType" Role="EXP_DISPOSITIONS_HEADERPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_JOURNALENTRIESType" Role="DS_JOURNALENTRIESDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="EXP_DISP_HEADER_TO_SYSTEM_DISPOSITIONType">
+                <End Type="default.EXP_DISPOSITIONS_HEADERType" Role="EXP_DISPOSITIONS_HEADERPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_SYSTEM_DISPOSITIONSType" Role="DS_SYSTEM_DISPOSITIONSDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="EXP_DISP_HEADER_TO_MANUAL_DISPOSITIONType">
+                <End Type="default.EXP_DISPOSITIONS_HEADERType" Role="EXP_DISPOSITIONS_HEADERPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_MANUAL_DISPOSITIONSType" Role="DS_MANUAL_DISPOSITIONSDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="REPORT_TO_LOGSType">
+                <End Type="default.EXP_DISPOSITIONS_HEADERType" Role="EXP_DISPOSITIONS_HEADERPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_PROCESS_LOGSType" Role="DS_PROCESS_LOGSDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="EXP_DISP_HEADER_TO_EMP_ORDERType">
+                <End Type="default.EXP_DISPOSITIONS_HEADERType" Role="EXP_DISPOSITIONS_HEADERPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_EMPLOYEE_ORDERSType" Role="DS_EMPLOYEE_ORDERSDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="EXP_LINEITEM_TO_EMP_ORDERType">
+                <End Type="default.EXP_DISPOSITIONS_ITEMSType" Role="EXP_DISPOSITIONS_ITEMSPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_EMPLOYEE_ORDERSType" Role="DS_EMPLOYEE_ORDERSDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="DISP_ITEM_TO_LOGType">
+                <End Type="default.EXP_DISPOSITIONS_ITEMSType" Role="EXP_DISPOSITIONS_ITEMSPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_PROCESS_LOGSType" Role="DS_PROCESS_LOGSDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="DISP_ITEM_TO_STATUSType">
+                <End Type="default.EXP_DISPOSITIONS_ITEMSType" Role="EXP_DISPOSITIONS_ITEMSPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_EXP_STATUS_ITEMType" Role="DS_EXP_STATUS_ITEMDependent" Multiplicity="1"/>
+            </Association>
+            <Association Name="DISP_ITEM_TO_SYSTEM_ITEM_DISPOSITIONType">
+                <End Type="default.EXP_DISPOSITIONS_ITEMSType" Role="EXP_DISPOSITIONS_ITEMSPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_SYSTEM_ITEM_DISPOSITIONSType" Role="DS_SYSTEM_ITEM_DISPOSITIONSDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="DISP_ITEM_TO_MANUAL_DISPOSITIONType">
+                <End Type="default.EXP_DISPOSITIONS_ITEMSType" Role="EXP_DISPOSITIONS_ITEMSPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_MANUAL_DISPOSITIONSType" Role="DS_MANUAL_DISPOSITIONSDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="CHECKLIST_SET_DETAILSType">
+                <End Type="default.DS_CHECKLIST_SETType" Role="DS_CHECKLIST_SETPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_CHECKLIST_SET_DETAILSType" Role="DS_CHECKLIST_SET_DETAILSDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="CONFIG_DETAILSType">
+                <End Type="default.DS_CONFIGURATIONSType" Role="DS_CONFIGURATIONSPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_CONFIGURATION_DETAILSType" Role="DS_CONFIGURATION_DETAILSDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="CONFIG_TO_ENTITIESType">
+                <End Type="default.DS_CONFIGURATION_DETAILSType" Role="DS_CONFIGURATION_DETAILSPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_ENTITIESType" Role="DS_ENTITIESDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="CONFIG_TO_RULESETSType">
+                <End Type="default.DS_CONFIGURATION_DETAILSType" Role="DS_CONFIGURATION_DETAILSPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_RULESETSType" Role="DS_RULESETSDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="ENTITY_DETAILSType">
+                <End Type="default.DS_ENITIESType" Role="DS_ENITIESPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_ENTITY_DETAILSType" Role="DS_ENTITY_DETAILSDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="RULESET_DETAILSType">
+                <End Type="default.DS_RULESETSType" Role="DS_RULESETSPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_RULESET_DETAILSType" Role="DS_RULESET_DETAILSDependent" Multiplicity="*"/>
+            </Association>
+            <Association Name="USERGROUP_DETAILSType">
+                <End Type="default.DS_USERGROUPSType" Role="DS_USERGROUPSPrincipal" Multiplicity="1"/>
+                <End Type="default.DS_USERGROUP_DETAILSType" Role="DS_USERGROUP_DETAILSDependent" Multiplicity="*"/>
+            </Association>
+            <EntityContainer Name="v2" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="DS_PROCESS" EntityType="default.DS_PROCESSType"/>
+                <EntitySet Name="DS_PROCESS_STATS" EntityType="default.DS_PROCESS_STATSType"/>
+                <EntitySet Name="EXP_DISPOSITIONS_HEADER" EntityType="default.EXP_DISPOSITIONS_HEADERType"/>
+                <EntitySet Name="DS_EMPLOYEE_ORDERS" EntityType="default.DS_EMPLOYEE_ORDERSType"/>
+                <EntitySet Name="DS_SYSTEM_DISPOSITIONS" EntityType="default.DS_SYSTEM_DISPOSITIONSType"/>
+                <EntitySet Name="EXP_DISPOSITIONS_ITEMS" EntityType="default.EXP_DISPOSITIONS_ITEMSType"/>
+                <EntitySet Name="DS_JOURNALENTRIES" EntityType="default.DS_JOURNALENTRIESType"/>
+                <EntitySet Name="DS_PROCESS_LOGS" EntityType="default.DS_PROCESS_LOGSType"/>
+                <EntitySet Name="DS_SYSTEM_ITEM_DISPOSITIONS" EntityType="default.DS_SYSTEM_ITEM_DISPOSITIONSType"/>
+                <EntitySet Name="DS_MANUAL_DISPOSITIONS" EntityType="default.DS_MANUAL_DISPOSITIONSType"/>
+                <EntitySet Name="DS_SYSTEM_STATUS_DESC" EntityType="default.DS_SYSTEM_STATUS_DESCType"/>
+                <EntitySet Name="DS_MANUAL_STATUS_DESC" EntityType="default.DS_MANUAL_STATUS_DESCType"/>
+                <EntitySet Name="DS_REPORT_STATUS_DESC" EntityType="default.DS_REPORT_STATUS_DESCType"/>
+                <EntitySet Name="DS_STATUS_DESC" EntityType="default.DS_STATUS_DESCType"/>
+                <EntitySet Name="DS_PRC_STATUS_DESC" EntityType="default.DS_PRC_STATUS_DESCType"/>
+                <EntitySet Name="DS_EXP_STATUS" EntityType="default.DS_EXP_STATUSType"/>
+                <EntitySet Name="DS_EXP_STATUS_ITEM" EntityType="default.DS_EXP_STATUS_ITEMType"/>
+                <EntitySet Name="DS_DISPOSITION_ENTITY" EntityType="default.DS_DISPOSITION_ENTITYType"/>
+                <EntitySet Name="DS_COMAPNY_CODES" EntityType="default.DS_COMAPNY_CODESType"/>
+                <EntitySet Name="DS_CHECKLIST" EntityType="default.DS_CHECKLISTType"/>
+                <EntitySet Name="DS_CHECKLIST_SET_DETAILS" EntityType="default.DS_CHECKLIST_SET_DETAILSType"/>
+                <EntitySet Name="DS_CHECKLIST_DETAILS" EntityType="default.DS_CHECKLIST_DETAILSType"/>
+                <EntitySet Name="DS_CHECKLIST_SET" EntityType="default.DS_CHECKLIST_SETType"/>
+                <EntitySet Name="DS_CONFIGURATIONS" EntityType="default.DS_CONFIGURATIONSType"/>
+                <EntitySet Name="DS_CONFIGURATION_DETAILS" EntityType="default.DS_CONFIGURATION_DETAILSType"/>
+                <EntitySet Name="DS_ENITIES" EntityType="default.DS_ENITIESType"/>
+                <EntitySet Name="DS_ENTITY_DETAILS" EntityType="default.DS_ENTITY_DETAILSType"/>
+                <EntitySet Name="DS_RULES" EntityType="default.DS_RULESType"/>
+                <EntitySet Name="DS_RULESETS" EntityType="default.DS_RULESETSType"/>
+                <EntitySet Name="DS_RULESET_DETAILS" EntityType="default.DS_RULESET_DETAILSType"/>
+                <EntitySet Name="DS_USERGROUPS" EntityType="default.DS_USERGROUPSType"/>
+                <EntitySet Name="DS_USERGROUP_DETAILS" EntityType="default.DS_USERGROUP_DETAILSType"/>
+                <EntitySet Name="DS_USERS" EntityType="default.DS_USERSType"/>
+                <AssociationSet Name="PRC_TO_EXP_HEADER" Association="default.PRC_TO_EXP_HEADERType">
+                    <End Role="DS_PROCESSPrincipal" EntitySet="DS_PROCESS"/>
+                    <End Role="EXP_DISPOSITIONS_HEADERDependent" EntitySet="EXP_DISPOSITIONS_HEADER"/>
+                </AssociationSet>
+                <AssociationSet Name="PRC_TO_CONFIGURATION" Association="default.PRC_TO_CONFIGURATIONType">
+                    <End Role="DS_PROCESSPrincipal" EntitySet="DS_PROCESS"/>
+                    <End Role="DS_CONFIGURATIONSDependent" EntitySet="DS_CONFIGURATIONS"/>
+                </AssociationSet>
+                <AssociationSet Name="PRC_TO_DISPOSTION_ENTITY" Association="default.PRC_TO_DISPOSTION_ENTITYType">
+                    <End Role="DS_PROCESSPrincipal" EntitySet="DS_PROCESS"/>
+                    <End Role="DS_DISPOSITION_ENTITYDependent" EntitySet="DS_DISPOSITION_ENTITY"/>
+                </AssociationSet>
+                <AssociationSet Name="PROCESS_TO_STATS" Association="default.PROCESS_TO_STATSType">
+                    <End Role="DS_PROCESSPrincipal" EntitySet="DS_PROCESS"/>
+                    <End Role="DS_PROCESS_STATSDependent" EntitySet="DS_PROCESS_STATS"/>
+                </AssociationSet>
+                <AssociationSet Name="PROCESS_TO_STATUS_DESC" Association="default.PROCESS_TO_STATUS_DESCType">
+                    <End Role="DS_PROCESSPrincipal" EntitySet="DS_PROCESS"/>
+                    <End Role="DS_STATUS_DESCDependent" EntitySet="DS_STATUS_DESC"/>
+                </AssociationSet>
+                <AssociationSet Name="EXP_HEADER_TO_EXP_ITEMS" Association="default.EXP_HEADER_TO_EXP_ITEMSType">
+                    <End Role="EXP_DISPOSITIONS_HEADERPrincipal" EntitySet="EXP_DISPOSITIONS_HEADER"/>
+                    <End Role="EXP_DISPOSITIONS_ITEMSDependent" EntitySet="EXP_DISPOSITIONS_ITEMS"/>
+                </AssociationSet>
+                <AssociationSet Name="EXP_DISP_HEADER_TO_DS_STATUS" Association="default.EXP_DISP_HEADER_TO_DS_STATUSType">
+                    <End Role="EXP_DISPOSITIONS_HEADERPrincipal" EntitySet="EXP_DISPOSITIONS_HEADER"/>
+                    <End Role="DS_EXP_STATUSDependent" EntitySet="DS_EXP_STATUS"/>
+                </AssociationSet>
+                <AssociationSet Name="EXP_JOURNAL_ENTRIES" Association="default.EXP_JOURNAL_ENTRIESType">
+                    <End Role="EXP_DISPOSITIONS_HEADERPrincipal" EntitySet="EXP_DISPOSITIONS_HEADER"/>
+                    <End Role="DS_JOURNALENTRIESDependent" EntitySet="DS_JOURNALENTRIES"/>
+                </AssociationSet>
+                <AssociationSet Name="EXP_DISP_HEADER_TO_SYSTEM_DISPOSITION" Association="default.EXP_DISP_HEADER_TO_SYSTEM_DISPOSITIONType">
+                    <End Role="EXP_DISPOSITIONS_HEADERPrincipal" EntitySet="EXP_DISPOSITIONS_HEADER"/>
+                    <End Role="DS_SYSTEM_DISPOSITIONSDependent" EntitySet="DS_SYSTEM_DISPOSITIONS"/>
+                </AssociationSet>
+                <AssociationSet Name="EXP_DISP_HEADER_TO_MANUAL_DISPOSITION" Association="default.EXP_DISP_HEADER_TO_MANUAL_DISPOSITIONType">
+                    <End Role="EXP_DISPOSITIONS_HEADERPrincipal" EntitySet="EXP_DISPOSITIONS_HEADER"/>
+                    <End Role="DS_MANUAL_DISPOSITIONSDependent" EntitySet="DS_MANUAL_DISPOSITIONS"/>
+                </AssociationSet>
+                <AssociationSet Name="REPORT_TO_LOGS" Association="default.REPORT_TO_LOGSType">
+                    <End Role="EXP_DISPOSITIONS_HEADERPrincipal" EntitySet="EXP_DISPOSITIONS_HEADER"/>
+                    <End Role="DS_PROCESS_LOGSDependent" EntitySet="DS_PROCESS_LOGS"/>
+                </AssociationSet>
+                <AssociationSet Name="EXP_DISP_HEADER_TO_EMP_ORDER" Association="default.EXP_DISP_HEADER_TO_EMP_ORDERType">
+                    <End Role="EXP_DISPOSITIONS_HEADERPrincipal" EntitySet="EXP_DISPOSITIONS_HEADER"/>
+                    <End Role="DS_EMPLOYEE_ORDERSDependent" EntitySet="DS_EMPLOYEE_ORDERS"/>
+                </AssociationSet>
+                <AssociationSet Name="EXP_LINEITEM_TO_EMP_ORDER" Association="default.EXP_LINEITEM_TO_EMP_ORDERType">
+                    <End Role="EXP_DISPOSITIONS_ITEMSPrincipal" EntitySet="EXP_DISPOSITIONS_ITEMS"/>
+                    <End Role="DS_EMPLOYEE_ORDERSDependent" EntitySet="DS_EMPLOYEE_ORDERS"/>
+                </AssociationSet>
+                <AssociationSet Name="DISP_ITEM_TO_LOG" Association="default.DISP_ITEM_TO_LOGType">
+                    <End Role="EXP_DISPOSITIONS_ITEMSPrincipal" EntitySet="EXP_DISPOSITIONS_ITEMS"/>
+                    <End Role="DS_PROCESS_LOGSDependent" EntitySet="DS_PROCESS_LOGS"/>
+                </AssociationSet>
+                <AssociationSet Name="DISP_ITEM_TO_STATUS" Association="default.DISP_ITEM_TO_STATUSType">
+                    <End Role="EXP_DISPOSITIONS_ITEMSPrincipal" EntitySet="EXP_DISPOSITIONS_ITEMS"/>
+                    <End Role="DS_EXP_STATUS_ITEMDependent" EntitySet="DS_EXP_STATUS_ITEM"/>
+                </AssociationSet>
+                <AssociationSet Name="DISP_ITEM_TO_SYSTEM_ITEM_DISPOSITION" Association="default.DISP_ITEM_TO_SYSTEM_ITEM_DISPOSITIONType">
+                    <End Role="EXP_DISPOSITIONS_ITEMSPrincipal" EntitySet="EXP_DISPOSITIONS_ITEMS"/>
+                    <End Role="DS_SYSTEM_ITEM_DISPOSITIONSDependent" EntitySet="DS_SYSTEM_ITEM_DISPOSITIONS"/>
+                </AssociationSet>
+                <AssociationSet Name="DISP_ITEM_TO_MANUAL_DISPOSITION" Association="default.DISP_ITEM_TO_MANUAL_DISPOSITIONType">
+                    <End Role="EXP_DISPOSITIONS_ITEMSPrincipal" EntitySet="EXP_DISPOSITIONS_ITEMS"/>
+                    <End Role="DS_MANUAL_DISPOSITIONSDependent" EntitySet="DS_MANUAL_DISPOSITIONS"/>
+                </AssociationSet>
+                <AssociationSet Name="CHECKLIST_SET_DETAILS" Association="default.CHECKLIST_SET_DETAILSType">
+                    <End Role="DS_CHECKLIST_SETPrincipal" EntitySet="DS_CHECKLIST_SET"/>
+                    <End Role="DS_CHECKLIST_SET_DETAILSDependent" EntitySet="DS_CHECKLIST_SET_DETAILS"/>
+                </AssociationSet>
+                <AssociationSet Name="CONFIG_DETAILS" Association="default.CONFIG_DETAILSType">
+                    <End Role="DS_CONFIGURATIONSPrincipal" EntitySet="DS_CONFIGURATIONS"/>
+                    <End Role="DS_CONFIGURATION_DETAILSDependent" EntitySet="DS_CONFIGURATION_DETAILS"/>
+                </AssociationSet>
+                <AssociationSet Name="CONFIG_TO_ENTITIES" Association="default.CONFIG_TO_ENTITIESType">
+                    <End Role="DS_CONFIGURATION_DETAILSPrincipal" EntitySet="DS_CONFIGURATION_DETAILS"/>
+                    <End Role="DS_ENTITIESDependent" EntitySet="DS_ENTITIES"/>
+                </AssociationSet>
+                <AssociationSet Name="CONFIG_TO_RULESETS" Association="default.CONFIG_TO_RULESETSType">
+                    <End Role="DS_CONFIGURATION_DETAILSPrincipal" EntitySet="DS_CONFIGURATION_DETAILS"/>
+                    <End Role="DS_RULESETSDependent" EntitySet="DS_RULESETS"/>
+                </AssociationSet>
+                <AssociationSet Name="ENTITY_DETAILS" Association="default.ENTITY_DETAILSType">
+                    <End Role="DS_ENITIESPrincipal" EntitySet="DS_ENITIES"/>
+                    <End Role="DS_ENTITY_DETAILSDependent" EntitySet="DS_ENTITY_DETAILS"/>
+                </AssociationSet>
+                <AssociationSet Name="RULESET_DETAILS" Association="default.RULESET_DETAILSType">
+                    <End Role="DS_RULESETSPrincipal" EntitySet="DS_RULESETS"/>
+                    <End Role="DS_RULESET_DETAILSDependent" EntitySet="DS_RULESET_DETAILS"/>
+                </AssociationSet>
+                <AssociationSet Name="USERGROUP_DETAILS" Association="default.USERGROUP_DETAILSType">
+                    <End Role="DS_USERGROUPSPrincipal" EntitySet="DS_USERGROUPS"/>
+                    <End Role="DS_USERGROUP_DETAILSDependent" EntitySet="DS_USERGROUP_DETAILS"/>
+                </AssociationSet>
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

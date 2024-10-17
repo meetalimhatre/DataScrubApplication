@@ -1,0 +1,30 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog title="{i18n>ADD_CHECKLIST_GROUP}" id="ChecklistGroupCreateDialog">
+		<customData>
+			<core:CustomData key="entityName" value="DS_CHECKLIST_SET_DETAILS"/>
+			<core:CustomData key="modelName" value="checklistgroup"/>
+		</customData>
+		<content>
+			<VBox class="sapUiSmallMargin" width="30rem">
+				<f:SimpleForm editable="false" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+					adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+					singleContainerFullSize="false">
+					<f:content>
+						<Label text="{i18n>CHECKLIST_GROUP}"></Label>
+						<Input value="{checklistgroup>/ITEM_SET}" enabled = "{= !(${change>/mode} === 'edit')}"/>
+						<Label text="{i18n>CHECKLIST_ITEM}"></Label>
+						<MultiComboBox items="{ path: '/DS_CHECKLIST'}" selectedKeys="{checklistgroup>/ITEMS}">
+							<core:Item key="{ITEM}" text="{ITEM}"/>
+						</MultiComboBox>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+		</content>
+		<beginButton>
+			<Button text="{i18n>SUBMIT}" press="_handleUserDialogSubmit"/>
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>CANCEL}" press="_handleEntryDialogCancel"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

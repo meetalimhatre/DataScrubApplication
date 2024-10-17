@@ -1,0 +1,67 @@
+<!--Not Used-->
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.ng.datascrubautomation.controller.DataScrubConfiguration" xmlns:uxap="sap.uxap" xmlns:core="sap.ui.core"
+	xmlns="sap.m" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns:f="sap.f">
+	<uxap:ObjectPageLayout showTitleInHeaderContent="false" showHeaderContent="true" showEditHeaderButton="false" showFooter="false"
+		class="sapUiSizeCompact">
+		<uxap:headerTitle>
+			<uxap:ObjectPageHeader objectTitle="{DataScrubName}" objectSubtitle="{ID}" isObjectIconAlwaysVisible="false"
+				isObjectTitleAlwaysVisible="true" isObjectSubtitleAlwaysVisible="true" showPlaceholder="false">
+				<uxap:actions>
+					<Button text="" icon="sap-icon://action" iconFirst="true" type="Transparent" enabled="true">
+						<layoutData>
+							<OverflowToolbarLayoutData/>
+						</layoutData>
+					</Button>
+				</uxap:actions>
+			</uxap:ObjectPageHeader>
+		</uxap:headerTitle>
+		<uxap:headerContent>
+			<VBox>
+				<items>
+					<Title text="{DATA_SCRUB_NAME} - {DATA_SCRUB_DESC}"/>
+					<ObjectStatus title="{i18n>START_DATE}"
+						text="{path: 'START_DATE', type: 'sap.ui.model.type.DateTime', formatOptions: { UTC: true, style: 'short' }}"/>
+					<ObjectStatus title="{i18n>END_DATE}" text="{path: 'END_DATE', type: 'sap.ui.model.type.DateTime', formatOptions: { UTC: true, style: 'short' }}"/>
+					<ObjectStatus title="{i18n>RECEIVING_COMPANY_CODE}" text="{path: 'COMPANY_CODE'}"/>
+					<ObjectStatus title="{i18n>CONFIGURATION_NAME}" text="{path: 'CONFIGURATION_NAME'}"/>
+				</items>
+			</VBox>
+		</uxap:headerContent>
+		<uxap:sections>
+			<uxap:ObjectPageSection title="Keywords">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection title="Keywords">
+						<uxap:blocks>
+							<core:Fragment fragmentName="com.ng.datascrubautomation.fragments.Keywords" type="XML"/>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+			<uxap:ObjectPageSection title="Rules">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection title="Rules">
+						<uxap:blocks>
+							<core:Fragment fragmentName="com.ng.datascrubautomation.fragments.Rules" type="XML"/>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+			<uxap:ObjectPageSection title="Default Scrubber and Reviewers">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection title="Default Scrubber and Reviewers">
+						<uxap:blocks>
+							<core:Fragment fragmentName="com.ng.datascrubautomation.fragments.Usergroups" type="XML"/>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+		</uxap:sections>
+		<uxap:footer>
+			<OverflowToolbar>
+				<content>
+					<ToolbarSpacer/>
+				</content>
+			</OverflowToolbar>
+		</uxap:footer>
+	</uxap:ObjectPageLayout>
+</mvc:View>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--(c) Copyright 2015 SAP AG. All rights reserved.
+
+SAP and the SAP logo are registered trademarks of SAP AG in Germany and other countries. Business Objects and the Business Objects logo are registered trademarks of Business Objects S.A., which is an SAP company.
+-->
+<dictionary xmlns="http://www.sap.com/ta/4.0">
+
+  <entity_category name="Arrangements">
+    <entity_name standard_form="Flower">
+    </entity_name>
+    <entity_name standard_form="Funeral">
+    </entity_name>
+    <entity_name standard_form="travel">
+    </entity_name>
+     <entity_name standard_form="trip">
+    </entity_name>
+  </entity_category>
+</dictionary>

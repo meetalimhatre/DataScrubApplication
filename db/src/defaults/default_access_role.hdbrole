@@ -1,0 +1,17 @@
+{
+	"role": {
+		"name": "default_access_role",
+		"schema_privileges": [{
+			"privileges": [
+				"CREATE ANY",
+				"SELECT",
+				"INSERT",
+				"UPDATE",
+				"DELETE",
+				"ALTER",
+				"EXECUTE",
+				"DEBUG"
+			]
+		}]
+	}
+}

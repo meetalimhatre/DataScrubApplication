@@ -1,0 +1,5 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Popover class="sapUiContentPadding" placement="Bottom" initialFocus="email" showHeader="false">
+		<Button text="Log Out" press="handleLogoutPress"/>
+	</Popover>
+</core:FragmentDefinition>

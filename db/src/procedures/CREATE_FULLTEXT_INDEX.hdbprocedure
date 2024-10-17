@@ -1,0 +1,106 @@
+PROCEDURE "CREATE_FULLTEXT_INDEX" ( IN I_CONFIGURATION_NAME NVARCHAR(100) )
+   LANGUAGE SQLSCRIPT
+   SQL SECURITY DEFINER
+   --DEFAULT SCHEMA <default_schema_name>
+   AS
+BEGIN
+DECLARE invalid_input CONDITION FOR SQL_ERROR_CODE 10001;
+
+-- Cannot edit design time table
+-- Keep adjustments away from actual concur table
+-- after intial creation, need to load data
+-- if already created, drop and then add
+
+-- DERIVE THE CONFIGURATION FROM PROCESS 
+declare configurations NVARCHAR(100) array;
+declare column_names nvarchar(100) array;
+DECLARE COLUMN_NAME NVARCHAR(200);
+DECLARE full_text_name NVARCHAR(200);
+declare create_full_text nvarchar(1000);
+declare create_ta_table nvarchar(1000);
+--declare add_primary_key nvarchar(1000);
+declare add_primary_key nvarchar(1000);
+declare add_column nvarchar(1000);
+declare load_data nvarchar(1000);
+declare check_column nvarchar(1000);
+declare drop_column nvarchar(1000);
+declare drop_table nvarchar(1000);
+
+-- -
+declare index_name nvarchar(128);
+declare index_drop nvarchar(1000);
+declare index_count integer;
+-- -
+
+T_CONFIG = SELECT CONFIGURATION_NAME FROM "CDS_DS.T_CONFIGURATIONS"  WHERE CONFIGURATION_NAME = :I_CONFIGURATION_NAME;   
+
+IF  IS_EMPTY(:T_CONFIG) THEN
+	SIGNAL invalid_input;	
+END IF;
+
+configurations = array_agg(:t_config.configuration_name);
+--column_names  =  array_agg(:t_config.ta_column);
+column_name  = 'EXPENSE.REPORT_NAME';
+full_text_name = :I_CONFIGURATION_NAME||'_'||'REPORT_NAME';
+
+
+--Create a table that wll be associated to a configuration 
+create_ta_table = 'CREATE COLUMN TABLE ' || :I_CONFIGURATION_NAME || ' AS (SELECT "EXPENSE_KEY.REPORT_ID","EXPENSE_KEY.ALLOCATION_KEY" , "EXPENSE.REPORT_NAME"||'' ''||"EXPENSE.PURPOSE" AS TA_COLUMN FROM  "CDS_DS.T_CONCUR_EXPENSES" ) WITH NO DATA';
+add_primary_key = 'ALTER TABLE ' || :I_CONFIGURATION_NAME || ' ADD PRIMARY KEY ("EXPENSE_KEY.REPORT_ID","EXPENSE_KEY.ALLOCATION_KEY")';
+load_data = 'INSERT into ' || :I_CONFIGURATION_NAME || ' SELECT "EXPENSE_KEY.REPORT_ID","EXPENSE_KEY.ALLOCATION_KEY" , "EXPENSE.REPORT_NAME"||'' ''||"EXPENSE.PURPOSE" AS TA_COLUMN FROM  "CDS_DS.T_CONCUR_EXPENSES" ';
+TAB_EXIST = SELECT * FROM M_TABLES WHERE TABLE_NAME = :I_CONFIGURATION_NAME AND SCHEMA_NAME = CURRENT_SCHEMA;
+IF(RECORD_COUNT(:TAB_EXIST) > 0) THEN
+
+drop_table = 'Drop table '||:I_CONFIGURATION_NAME||'';
+/*
+	CREATE COLUMN TABLE TA_CONCUR_EXPENSES AS (SELECT "EXPENSE_KEY.REPORT_ID","EXPENSE_KEY.ALLOCATION_KEY" , "EXPENSE.REPORT_NAME"||' '||"EXPENSE.PURPOSE" AS TA_COLUMN FROM  "CDS_DS.T_CONCUR_EXPENSES" );
+	add_primary_key = 'ALTER TABLE TA_CONCUR_EXPENSES ADD PRIMARY KEY ("EXPENSE_KEY.REPORT_ID","EXPENSE_KEY.ALLOCATION_KEY")';
+	EXEC :add_primary_key;
+	--ALTER TABLE TA_CONCUR_EXPENSES ADD PRIMARY KEY ("EXPENSE_KEY.REPORT_ID","EXPENSE_KEY.ALLOCATION_KEY");
+	*/
+	exec :drop_table;
+END IF;	
+
+
+
+add_column = 'ALTER TABLE TA_CONCUR_EXPENSES ADD ( '||:I_CONFIGURATION_NAME||' NVARCHAR(1000))';
+--load_data = 'update TA_CONCUR_EXPENSES set '||:I_CONFIGURATION_NAME||' = TA_COLUMN';
+
+create_full_text = 'CREATE FULLTEXT INDEX '|| :I_CONFIGURATION_NAME|| '_INDEX ON '||:I_CONFIGURATION_NAME||'(TA_COLUMN) FAST PREPROCESS OFF ASYNC FLUSH AFTER 1 DOCUMENTS CONFIGURATION '''||:I_CONFIGURATION_NAME||''' TEXT ANALYSIS ON';  
+--create_full_text = 'CREATE FULLTEXT INDEX '||:I_CONFIGURATION_NAME|| '_INDEX ON TA_CONCUR_EXPENSES('||:I_CONFIGURATION_NAME||') FAST PREPROCESS OFF ASYNC FLUSH EVERY 1 MINUTES CONFIGURATION '''||:I_CONFIGURATION_NAME||''' TEXT ANALYSIS ON';  
+
+-- ta_index_text = 'SELECT * FROM M_TABLES WHERE SCHEMA_NAME = CURRENT_SCHEMA AND TABLE_NAME = $'||:I_CONFIGURATION_NAME||'_INDEX';
+index_name = '$TA_'||:I_CONFIGURATION_NAME||'_INDEX';
+
+-- drop $TA index table if it already exists
+index_drop = 'DROP FULLTEXT INDEX '||:I_CONFIGURATION_NAME|| '_INDEX';
+select count(*) into index_count from M_TABLES where SCHEMA_NAME = CURRENT_SCHEMA AND TABLE_NAME = :index_name;
+IF(:index_count>0) THEN
+	EXEC :index_drop;
+END IF;
+-- IF EXISTS (select TABLE_NAME from M_TABLES where SCHEMA_NAME = CURRENT_SCHEMA AND TABLE_NAME = :index_name) THEN DROP TABLE :index_name;
+
+-- index_drop = 'IF EXISTS (select TABLE_NAME from M_TABLES where SCHEMA_NAME = CURRENT_SCHEMA AND TABLE_NAME '||:index_name||') THEN DROP TABLE '||:index_name;
+-- exec :index_drop;
+
+
+/*
+CREATE FULLTEXT INDEX "TA_REPORT" ON "CDS_DS.T_CONCUR_EXPENSES" ("EXPENSE.REPORT_NAME") FAST PREPROCESS OFF ASYNC FLUSH EVERY 1 MINUTES
+CONFIGURATION 'configuration_1'
+TEXT ANALYSIS ON; */
+-- EXEC :create_ta_table;
+-- check for existing column , if exists delete and recreate
+TAB_COLUMN = select * from TABLE_COLUMNS WHERE SCHEMA_NAME = CURRENT_SCHEMA AND COLUMN_NAME = :I_CONFIGURATION_NAME;
+drop_column := 'ALTER TABLE TA_CONCUR_EXPENSES DROP('||:I_CONFIGURATION_NAME||')'; 
+
+IF ( RECORD_COUNT(:TAB_COLUMN) = 1) THEN
+	EXEC :drop_column;
+END IF;
+
+EXEC :create_ta_table;
+EXEC :add_primary_key;
+EXEC :create_full_text;
+EXEC :load_data;
+
+
+end

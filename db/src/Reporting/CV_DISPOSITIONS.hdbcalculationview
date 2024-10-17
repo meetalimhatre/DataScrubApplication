@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_DISPOSITIONS" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" outputViewType="Projection" cacheInvalidationPeriod="HOURLY" enforceSqlExecution="false">
+<descriptions defaultDescription="CV_DISPOSITIONS"/>
+<localVariables>
+  <variable id="IP_PRC_ID" parameter="true">
+    <descriptions defaultDescription=""/>
+    <variableProperties datatype="BIGINT" mandatory="true">
+      <valueDomain type="empty"/>
+      <selection multiLine="true" type="SingleValue"/>
+    </variableProperties>
+  </variable>
+</localVariables>
+<variableMappings/>
+<dataSources>
+  <DataSource id="CDS_DS.T_DISPOSITIONS">
+    <resourceUri>CDS_DS.T_DISPOSITIONS</resourceUri>
+  </DataSource>
+  <DataSource id="CDS_DS.T_MANUAL_DISPOSITIONS">
+    <resourceUri>CDS_DS.T_MANUAL_DISPOSITIONS</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_1" filterExpressionLanguage="COLUMN_ENGINE">
+    <viewAttributes>
+      <viewAttribute id="EXPENSE_KEY_REPORT_ID"/>
+      <viewAttribute id="EXPENSE_KEY_ALLOCATION_KEY"/>
+      <viewAttribute id="DISPOSITION_ID"/>
+      <viewAttribute id="PRC_ID"/>
+      <viewAttribute id="DISPOSITION_REASON"/>
+      <viewAttribute id="DISPOSITION_ENTITY"/>
+      <viewAttribute id="TA_COLUMN"/>
+      <viewAttribute id="PRIORITY"/>
+      <viewAttribute id="CREATED_BY"/>
+      <viewAttribute id="LAST_CHANGED_BY"/>
+      <viewAttribute id="DISPOSITION_TYPE"/>
+      <viewAttribute id="SAMPLED_FLAG"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CDS_DS.T_DISPOSITIONS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="EXPENSE_KEY_REPORT_ID" source="EXPENSE_KEY.REPORT_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EXPENSE_KEY_ALLOCATION_KEY" source="EXPENSE_KEY.ALLOCATION_KEY"/>
+    </input>
+    <filter>IN (&quot;PRC_ID&quot;,$$IP_PRC_ID$$)</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_2">
+    <viewAttributes>
+      <viewAttribute id="PRC_ID"/>
+      <viewAttribute id="REPORT_ID"/>
+      <viewAttribute id="DISPOSITION_ENTITY"/>
+      <viewAttribute id="DISPOSITION_REASON"/>
+      <viewAttribute id="CREATED_BY"/>
+      <viewAttribute id="LAST_CHANGED_BY"/>
+      <viewAttribute id="SAMPLED_FLAG"/>
+      <viewAttribute id="ALLOCATION_KEY"/>
+      <viewAttribute id="ITEM"/>
+      <viewAttribute id="REVIEWER_COMMENTS"/>
+      <viewAttribute id="SCRUBBER_COMMENTS"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CDS_DS.T_MANUAL_DISPOSITIONS"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:UnionView" id="Union_1">
+    <viewAttributes>
+      <viewAttribute id="EXPENSE_KEY_REPORT_ID"/>
+      <viewAttribute id="EXPENSE_KEY_ALLOCATION_KEY"/>
+      <viewAttribute id="DISPOSITION_ID"/>
+      <viewAttribute id="PRC_ID"/>
+      <viewAttribute id="DISPOSITION_REASON"/>
+      <viewAttribute id="DISPOSITION_ENTITY"/>
+      <viewAttribute id="TA_COLUMN"/>
+      <viewAttribute id="PRIORITY"/>
+      <viewAttribute id="CREATED_BY"/>
+      <viewAttribute id="LAST_CHANGED_BY"/>
+      <viewAttribute id="DISPOSITION_TYPE"/>
+      <viewAttribute id="SAMPLED_FLAG"/>
+      <viewAttribute datatype="NVARCHAR" length="64" id="REPORT_ID"/>
+      <viewAttribute id="ALLOCATION_KEY"/>
+      <viewAttribute id="ITEM"/>
+      <viewAttribute id="REVIEWER_COMMENTS"/>
+      <viewAttribute id="SCRUBBER_COMMENTS"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Projection_1">
+      <mapping xsi:type="Calculation:AttributeMapping" target="EXPENSE_KEY_REPORT_ID" source="EXPENSE_KEY_REPORT_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EXPENSE_KEY_ALLOCATION_KEY" source="EXPENSE_KEY_ALLOCATION_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DISPOSITION_ID" source="DISPOSITION_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRC_ID" source="PRC_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DISPOSITION_REASON" source="DISPOSITION_REASON"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DISPOSITION_ENTITY" source="DISPOSITION_ENTITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TA_COLUMN" source="TA_COLUMN"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRIORITY" source="PRIORITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CREATED_BY" source="CREATED_BY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LAST_CHANGED_BY" source="LAST_CHANGED_BY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DISPOSITION_TYPE" source="DISPOSITION_TYPE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SAMPLED_FLAG" source="SAMPLED_FLAG"/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="REPORT_ID" null="true" value=""/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="ALLOCATION_KEY" null="true" value=""/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="ITEM" null="true" value=""/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="REVIEWER_COMMENTS" null="true" value=""/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="SCRUBBER_COMMENTS" null="true" value=""/>
+    </input>
+    <input node="Projection_2">
+      <mapping xsi:type="Calculation:AttributeMapping" target="EXPENSE_KEY_REPORT_ID" source="REPORT_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EXPENSE_KEY_ALLOCATION_KEY" source="ALLOCATION_KEY"/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="DISPOSITION_ID" null="true" value=""/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PRC_ID" source="PRC_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DISPOSITION_REASON" source="DISPOSITION_REASON"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DISPOSITION_ENTITY" source="DISPOSITION_ENTITY"/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="TA_COLUMN" null="true" value=""/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="PRIORITY" null="true" value=""/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CREATED_BY" source="CREATED_BY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LAST_CHANGED_BY" source="LAST_CHANGED_BY"/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="DISPOSITION_TYPE" null="true" value=""/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SAMPLED_FLAG" source="SAMPLED_FLAG"/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="REPORT_ID" null="true"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ALLOCATION_KEY" source="ALLOCATION_KEY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ITEM" source="ITEM"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="REVIEWER_COMMENTS" source="REVIEWER_COMMENTS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SCRUBBER_COMMENTS" source="SCRUBBER_COMMENTS"/>
+    </input>
+  </calculationView>
+</calculationViews>
+<logicalModel id="Union_1">
+  <attributes>
+    <attribute id="EXPENSE_KEY_REPORT_ID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="EXPENSE_KEY_REPORT_ID"/>
+      <keyMapping columnObjectName="Union_1" columnName="EXPENSE_KEY_REPORT_ID"/>
+    </attribute>
+    <attribute id="EXPENSE_KEY_ALLOCATION_KEY" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="EXPENSE_KEY_ALLOCATION_KEY"/>
+      <keyMapping columnObjectName="Union_1" columnName="EXPENSE_KEY_ALLOCATION_KEY"/>
+    </attribute>
+    <attribute id="DISPOSITION_ID" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DISPOSITION_ID"/>
+      <keyMapping columnObjectName="Union_1" columnName="DISPOSITION_ID"/>
+    </attribute>
+    <attribute id="PRC_ID" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PRC_ID"/>
+      <keyMapping columnObjectName="Union_1" columnName="PRC_ID"/>
+    </attribute>
+    <attribute id="DISPOSITION_REASON" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DISPOSITION_REASON"/>
+      <keyMapping columnObjectName="Union_1" columnName="DISPOSITION_REASON"/>
+    </attribute>
+    <attribute id="DISPOSITION_ENTITY" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DISPOSITION_ENTITY"/>
+      <keyMapping columnObjectName="Union_1" columnName="DISPOSITION_ENTITY"/>
+    </attribute>
+    <attribute id="TA_COLUMN" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TA_COLUMN"/>
+      <keyMapping columnObjectName="Union_1" columnName="TA_COLUMN"/>
+    </attribute>
+    <attribute id="PRIORITY" order="8" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="PRIORITY"/>
+      <keyMapping columnObjectName="Union_1" columnName="PRIORITY"/>
+    </attribute>
+    <attribute id="CREATED_BY" order="9" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CREATED_BY"/>
+      <keyMapping columnObjectName="Union_1" columnName="CREATED_BY"/>
+    </attribute>
+    <attribute id="LAST_CHANGED_BY" order="10" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="LAST_CHANGED_BY"/>
+      <keyMapping columnObjectName="Union_1" columnName="LAST_CHANGED_BY"/>
+    </attribute>
+    <attribute id="DISPOSITION_TYPE" order="11" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DISPOSITION_TYPE"/>
+      <keyMapping columnObjectName="Union_1" columnName="DISPOSITION_TYPE"/>
+    </attribute>
+    <attribute id="SAMPLED_FLAG" order="12" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SAMPLED_FLAG"/>
+      <keyMapping columnObjectName="Union_1" columnName="SAMPLED_FLAG"/>
+    </attribute>
+    <attribute id="REPORT_ID" order="13" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="REPORT_ID"/>
+      <keyMapping columnObjectName="Union_1" columnName="REPORT_ID"/>
+    </attribute>
+    <attribute id="ALLOCATION_KEY" order="14" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ALLOCATION_KEY"/>
+      <keyMapping columnObjectName="Union_1" columnName="ALLOCATION_KEY"/>
+    </attribute>
+    <attribute id="ITEM" order="15" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ITEM"/>
+      <keyMapping columnObjectName="Union_1" columnName="ITEM"/>
+    </attribute>
+    <attribute id="REVIEWER_COMMENTS" order="16" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="REVIEWER_COMMENTS"/>
+      <keyMapping columnObjectName="Union_1" columnName="REVIEWER_COMMENTS"/>
+    </attribute>
+    <attribute id="SCRUBBER_COMMENTS" order="17" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SCRUBBER_COMMENTS"/>
+      <keyMapping columnObjectName="Union_1" columnName="SCRUBBER_COMMENTS"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="221.11302679000914" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Projection_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="356.9999988079071"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Projection_2" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="302.00000000000006" y="356.9999988079071"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Union_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="221.11302679000914" y="217"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

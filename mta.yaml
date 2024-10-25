@@ -9,17 +9,22 @@ modules:
       - name: datascrub_db
         properties:
           TARGET_CONTAINER: '~{hdi-container-name}'
-  # - name: ui
-  #   type: html5
-  #   path: ui
-  #   parameters:
-  #     disk-quota: 512M
-  #     memory: 512M
-  #   build-parameters:
-  #     builder: grunt
-  #   requires:
-  #     - name: uaa_DataScrubApplication
-  #     - name: dest_DataScrubApplication
+  - name: ui
+    type: html5
+    path: ui
+    parameters:
+      disk-quota: 512M
+      memory: 512M
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build
+      supported-platforms: []
+      build-result: dist
+    requires:
+      - name: uaa_DataScrubApplication
+      - name: dest_DataScrubApplication
   #     - name: odata_api
   #       group: destinations
   #       properties:
@@ -41,16 +46,21 @@ modules:
   #     - name: uaa_DataScrubApplication
   #     - name: db
   #     - name: datascrub_auditlog
-  # - name: adminui
-  #   type: html5
-  #   path: adminui
-  #   parameters:
-  #     disk-quota: 512M
-  #     memory: 512M
-  #   build-parameters:
-  #     builder: grunt
-  #   requires:
-  #     - name: uaa_DataScrubApplication
+  - name: adminui
+    type: html5
+    path: adminui
+    parameters:
+      disk-quota: 512M
+      memory: 512M
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build
+      supported-platforms: []
+      build-result: dist
+    requires:
+      - name: uaa_DataScrubApplication
   #     - name: odata_api
   #       group: destinations
   #       properties:
@@ -77,17 +87,22 @@ modules:
   #     - name: datascrub_db
   #     - name: uaa_DataScrubApplication
   #     - name: db
-  # - name: securityui
-  #   type: html5
-  #   path: securityui
-  #   parameters:
-  #     disk-quota: 512M
-  #     memory: 512M
-  #   build-parameters:
-  #     builder: grunt
-  #   requires:
-  #     - name: uaa_DataScrubApplication
-  #     - name: dest_DataScrubApplication
+  - name: securityui
+    type: html5
+    path: securityui
+    parameters:
+      disk-quota: 512M
+      memory: 512M
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build
+      supported-platforms: []
+      build-result: dist
+    requires:
+      - name: uaa_DataScrubApplication
+      - name: dest_DataScrubApplication
   #     - name: odata_api
   #       group: destinations
   #       properties:
@@ -95,28 +110,27 @@ modules:
   #         url: '~{url}'
   #         forwardAuthToken: true
 resources:
-  # - name: uaa_DataScrubApplication
-  #   parameters:
-  #     path: ./xs-security.json
-  #     service-plan: application
-  #     service: xsuaa
-  #   type: com.sap.xs.uaa-space
-  # - name: dest_DataScrubApplication
-  #   parameters:
-  #     service-plan: lite
-  #     service: destination
-  #   type: org.cloudfoundry.managed-service
+  - name: uaa_DataScrubApplication
+    parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa
+    type: com.sap.xs.uaa-space
+  - name: dest_DataScrubApplication
+    parameters:
+      service-plan: lite
+      service: destination
+    type: org.cloudfoundry.managed-service
   - name: datascrub_db
     parameters:
       config:
         schema: SCH_DS
-        database_id: 666538ad-193e-414b-89d8-2d36f1e0549b
     properties:
       hdi-container-name: '${service-name}'
     type: org.cloudfoundry.existing-service
-  # - name: datascrub_auditlog
-  #   parameters:
-  #     service-name: datascrub_auditlog
-  #     service: auditlog-management
-  #     service-plan: default
-  #   type: org.cloudfoundry.managed-service
+  - name: datascrub_auditlog
+    parameters:
+      service-name: datascrub_auditlog
+      service: auditlog-management
+      service-plan: default
+    type: org.cloudfoundry.managed-service

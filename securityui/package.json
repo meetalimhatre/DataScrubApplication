@@ -3,12 +3,15 @@
   "version": "0.0.1",
   "description": "",
   "devDependencies": {
-    "@sap/grunt-sapui5-bestpractice-build": "1.4.1"
+    "@ui5/cli": "^3.0.6",
+    "@sap/ui5-builder-webide-extension": "1.0.x"
   },
-  "dependencies": {
-    "@sap/approuter": "6.0.1"
+  "ui5": {
+    "dependencies": [
+      "@sap/ui5-builder-webide-extension"
+    ]
   },
   "scripts": {
-    "start": "node node_modules/@sap/approuter/approuter.js"
+    "build": "ui5 build --clean-dest --include-task= generateCachebusterInfo"
   }
 }
